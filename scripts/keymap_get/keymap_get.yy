@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"keymap_get",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"keymap_get",
+  "parent":{
+    "name":"main",
+    "path":"folders/Scripts/main.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

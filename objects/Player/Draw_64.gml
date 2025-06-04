@@ -1,0 +1,6 @@
+
+drawGUI();
+
+drawSecretGUI();
+
+drawInventorySlotsGUI();

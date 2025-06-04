@@ -1,0 +1,12 @@
+{
+  "$GMShader":"",
+  "%Name":"shd_dithering",
+  "name":"shd_dithering",
+  "parent":{
+    "name":"dithering",
+    "path":"folders/Shaders/dithering.yy",
+  },
+  "resourceType":"GMShader",
+  "resourceVersion":"2.0",
+  "type":1,
+}

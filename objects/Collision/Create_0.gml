@@ -1,0 +1,3 @@
+
+blockRaycast = true;
+isSolid = true;

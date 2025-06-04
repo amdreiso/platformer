@@ -1,0 +1,4 @@
+
+movement();
+collisions();
+handleHealth();
