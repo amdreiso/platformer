@@ -55,6 +55,4 @@ function level_init(){
 	
 	#endregion
 	
-	
-	
 }

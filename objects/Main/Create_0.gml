@@ -234,7 +234,7 @@ drawConsole = function() {
 	}
 	
 	// Draw the actual console
-	var xx = window_get_width() * (0.65 * window_get_fullscreen());
+	var xx = window_get_width();
 	var yy = display_get_height();
 	var width = 700;
 	var height = 400;

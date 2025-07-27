@@ -5,8 +5,8 @@
   "isDnD":false,
   "name":"room_transition",
   "parent":{
-    "name":"main",
-    "path":"folders/Scripts/main.yy",
+    "name":"room",
+    "path":"folders/Scripts/room.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

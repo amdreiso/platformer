@@ -5,3 +5,7 @@ darkness = 0.94;
 
 isSolid = false;
 newRoom = true;
+
+
+// Music
+backgroundSong = undefined;

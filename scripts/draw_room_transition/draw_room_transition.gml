@@ -11,9 +11,13 @@ function draw_room_transition(){
 			transitionAlpha += transitionTime;
 		} else {
 			
-			room_goto(transitionOutput);
 			player_set_position(transitionPlayerPosition);
 			transitionOnEnter();
+			room_goto(transitionOutput);
+			
+			transition = false;
+			
+			audio_stop_sound(Level.backgroundSong);
 			
 		}
 		
@@ -24,7 +28,5 @@ function draw_room_transition(){
 		} else {}
 		
 	}
-	
-	
 	
 }

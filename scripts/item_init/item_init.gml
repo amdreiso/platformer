@@ -25,6 +25,6 @@ function item_init(){
 		
 	};
 	
-	ITEM.register(ITEM_ID.ScrapElectronics, ITEM_TYPE.Blank, "scrap electronics", -1);
+	ITEM.register(ITEM_ID.ScrapElectronics, ITEM_TYPE.Blank, "scrap electronics", sScrapElectronics_Item);
 	
 }

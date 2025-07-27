@@ -191,8 +191,8 @@ attack = function() {
 	// handle weapons
 	var hand = inventory.getCurrentSlot().itemID;
 	
-	if (Keymap.player.attack && ITEM.getType(hand) == ITEM_TYPE.Weapon) {
-	}
+	//if (Keymap.player.attack && ITEM.getType(hand) == ITEM_TYPE.Weapon) {
+	//}
 }
 
 
@@ -355,7 +355,10 @@ draw = function() {
 	}
 	
 	surface_set_target(SurfaceHandler.surface);
+	
+	// Draw player with an outline
 	draw_outline(1, angle, Style.outlineColor);
+	
 	surface_reset_target();
 }
 
@@ -417,7 +420,9 @@ drawSecretGUI = function() {
     
 	  dx += random_range(-tc.shake, tc.shake);
 	  dy += random_range(-tc.shake, tc.shake);
-  
+		
+		draw_set_font(fnt_main);
+		
 	  draw_text_transformed_color(dx, dy, tc.char, tc.scale, tc.scale, tc.angle, tc.color, tc.color, tc.color, tc.color, secretAlpha);
 	  xoffset += string_width(tc.char);
 	}

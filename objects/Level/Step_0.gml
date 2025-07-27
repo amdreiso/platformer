@@ -5,16 +5,19 @@ if (level == -1) return;
 
 if (newRoom) {
 	
+	audio_stop_all();
+	
 	// Background Song
 	var song = level.components.backgroundSong;
 	if (song != -1) {
-		audio_play_sound(song, 0, true);
+		backgroundSong = audio_play_sound(song, 0, true);
 	}
 	
 	// Room Light Level
 	darkness = level.components.darkness;
 	
 	newRoom = false;
+	
 }
 
 

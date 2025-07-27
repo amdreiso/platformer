@@ -18,9 +18,9 @@ CutsceneStep = function(event) {
 	cs.dialogue = [];
 	cs.offset = vec2();
 	
-	cs.onStart = function(){ print("start of cutscene step") };
-	cs.onUpdate = function(){};
-	cs.onEnd = function(){ print("end of cutscene step") };
+	cs.onStart = function(){ };
+	cs.onUpdate = function(){ };
+	cs.onEnd = function(){ };
 	
 	
 	// Functions
@@ -147,7 +147,6 @@ cutscene = [
 		.setObject(NPC_Robot1)
 		.setMovePosition(750, undefined)
 		.finalize(),
-	
 ];
 
 step = 0;
@@ -182,8 +181,9 @@ play = function() {
 				var hsp = sign(c.moveX - c.object.x);
 				
 				c.object.hsp = hsp * c.object.spd;
-			
-				if (position_tolerance(c.object.x, 0, c.moveX, 0, c.object.spd)) {
+				
+				var tolerance = c.object.spd;
+				if (c.object.x > c.moveX - tolerance && c.object.x < c.moveX + tolerance) {
 					c.object.hsp = 0;
 					next(c.onEnd());
 				}

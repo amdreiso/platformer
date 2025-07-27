@@ -1,10 +1,16 @@
-function draw_key(sprite){
-	if (Settings.graphics.showKey) {
-		var size = 3;
-		var offset = sin(current_time * 0.005) * (sprite_get_height(sprite) * size) / 5;
-		draw_sprite_ext(
-			sprite, 0, WIDTH-50, HEIGHT-50 + offset, 
-			size, size, 0, c_white, 1
-		);
-	}
+/// @desc Draws a key on the screen as a hint
+/// @param {string} keyboard Description
+/// @param {string} [gamepad]=keyboard Description
+function draw_key(keyboard, gamepad = keyboard){
+	
+	var spr = keyboard;
+	if (CurrentController == CONTROLLER_INPUT.Gamepad) spr = gamepad;
+	
+	var margin = 100;
+	var xx = WIDTH - margin;
+	var yy = HEIGHT - margin;
+	var scale = 2;
+	
+	draw_sprite_ext(spr, 0, xx, yy, scale, scale, 0, c_white, 1);
+	
 }
