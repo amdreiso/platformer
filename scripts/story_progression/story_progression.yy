@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"story_progression",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"story_progression",
+  "parent":{
+    "name":"story",
+    "path":"folders/Scripts/story.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

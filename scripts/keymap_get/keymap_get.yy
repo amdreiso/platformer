@@ -5,8 +5,8 @@
   "isDnD":false,
   "name":"keymap_get",
   "parent":{
-    "name":"main",
-    "path":"folders/Scripts/main.yy",
+    "name":"keymap",
+    "path":"folders/Scripts/keymap.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

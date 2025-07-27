@@ -34,5 +34,5 @@
     "path":"sprites/sDefault/sDefault.yy",
   },
   "spriteMaskId":null,
-  "visible":false,
+  "visible":true,
 }

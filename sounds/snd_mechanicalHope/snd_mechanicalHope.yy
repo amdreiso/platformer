@@ -1,0 +1,25 @@
+{
+  "$GMSound":"",
+  "%Name":"snd_mechanicalHope",
+  "audioGroupId":{
+    "name":"audiogroup_songs",
+    "path":"audiogroups/audiogroup_songs",
+  },
+  "bitDepth":1,
+  "bitRate":128,
+  "compression":0,
+  "conversionMode":0,
+  "duration":51.0,
+  "name":"snd_mechanicalHope",
+  "parent":{
+    "name":"songs",
+    "path":"folders/Sounds/songs.yy",
+  },
+  "preload":false,
+  "resourceType":"GMSound",
+  "resourceVersion":"2.0",
+  "sampleRate":44100,
+  "soundFile":"snd_mechanicalHope.wav",
+  "type":0,
+  "volume":1.0,
+}

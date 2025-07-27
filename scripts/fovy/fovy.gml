@@ -10,8 +10,98 @@ function fovy(){
 	show_debug_message("Loaded fovy!");
 }
 
+function angle_lerp(a, b, t) {
+    var diff = angle_difference(b, a);
+    return a + diff * t;
+}
+
+function Stat(maxvalue) constructor {
+	self.value = maxvalue;
+	self.maxvalue = maxvalue;
+	
+	static set = function(value) {
+		self.value = value;
+	}
+	
+	static sub = function(value) {
+		self.value -= value;
+	}
+	
+	static add = function(value) {
+		self.value += value;
+	}
+	
+	static getPercentage = function() {
+		return (self.value / self.maxvalue) * 100;
+	}
+}
+
+function file_load(filename) {
+	var file = filename;
+	var buffer = buffer_load(file);
+	var con = buffer_read(buffer, buffer_string);
+	buffer_delete(buffer);
+	return con;
+}
+
+function draw_billboard(str, x, y, width, spd) {
+	
+	var xx = x + sin(current_time * spd) * string_width(str);
+	var yy = y;
+	
+	draw_text_transformed(xx, yy, str, 1, 1, 0);
+	
+}
+
+function string_pad(str, val) {
+	while (string_length(str) < val) str+=" ";
+	return str;
+}
+
+function format_number(n) {
+	if (n >= 1_000_000_000) return string_format(n / 1_000_000_000, 0, 1) + "B";
+	if (n >= 1_000_000) return string_format(n / 1_000_000, 0, 1) + "M";
+	if (n >= 1_000) return string_format(n / 1_000, 0, 1) + "K";
+	return string(n);
+}
+
+function merge_struct_into_instance(target, struct) {
+  var keys = variable_struct_get_names(struct);
+	
+  for (var i = 0; i < array_length(keys); i++) {
+		var index = struct_get(struct, keys[i]);
+		
+		if (is_method(index)) {
+			var value = index();
+			struct_set(struct, keys[i], value);
+		}
+		
+    variable_instance_set(target, keys[i], index);
+	}
+	
+}
+
+function color_invert(color) {
+  var r = 255 - color_get_red(color);
+  var g = 255 - color_get_green(color);
+  var b = 255 - color_get_blue(color);
+  return make_color_rgb(r, g, b);
+}
+
+function color_darkness(color, value) {
+	var hue = color_get_hue(color);
+	var sat = color_get_saturation(color);
+	var val = color_get_value(color) - value;
+	return make_color_hsv(hue, sat, val);
+}
+
+function position_tolerance(xx, yy, tolerance) {
+	var t = tolerance;
+	return (x > xx - t && x < yy + t && y > yy - t && y < yy + t);
+}
+
 function on_last_frame(fn) {
-	if (round(image_index) == sprite_get_number(sprite_index)) {
+	if (ceil(image_index) == sprite_get_number(sprite_index)) {
 		fn();
 	}
 }
@@ -39,7 +129,7 @@ function collision_set(obj) {
 		return false;
 	}
 	
-	var subPixel = 1;
+	var subPixel = 1 + (abs(ceil(force.x)) * 2);
 	
 	if (place_meeting(x + hsp + force.x, y, obj)) {
 		
@@ -190,6 +280,22 @@ function button(
 	}
 }
 
+function button_clear(
+	x, y, width, height, fn = function(){}
+) {
+	var range = (mouse_x > x && mouse_x < x + width && mouse_y > y && mouse_y < y + height);
+	if (range) fn();
+}
+
+function button_clear_gui(
+	x, y, width, height, fn = function(){}
+) {
+	var mx = window_mouse_get_x();
+	var my = window_mouse_get_y();
+	var range = (mx > x && mx < x + width && my > y && my < y + height);
+	if (range) fn();
+}
+
 function button_gui(
 	x, y, width, height, label = "", gamepadID = -1,
 	hasOutline = true, outlineColor = c_white, hoverColor = c_white, hoverAlpha = 0.25, alpha = 1, hoverFunction = function(){},
@@ -229,6 +335,7 @@ function button_gui(
 				draw_set_alpha(1);
 				
 				if (cursor) {
+					window_set_cursor(cr_handpoint);
 				}
 				
 				hoverFunction();
@@ -352,7 +459,7 @@ function get_perlin_noise_1D(xx, range){
 
 // Code from Arend Peter Teaches
 function get_perlin_noise_2D(xx, yy, range, r = false){
-	var chunkSize = 32 * 1;
+	var chunkSize = 64 * 1;
 	var noise = 0;
 
 	range = range div 2;
@@ -467,6 +574,7 @@ function mkdir(path) {
 		show_debug_message("./" + path + " already exists");
 		return;
 	}
+	directory_create(path);
 }
 
 function struct_merge(dest, src) {
@@ -523,22 +631,22 @@ function rope_apply_constraint(p1, p2, length) {
 
 
 function raycast_to_collisions(x1, y1, x2, y2) {
-    var nearest = noone;
-    var nearest_dist = -1;
+  var nearest = noone;
+  var nearest_dist = -1;
 
-    var inst;
-    with (Collision) {
-        if (collision_line(x1, y1, x2, y2, id, false, true)) {
-            var px = collision_line(x1, y1, x2, y2, id, false, true);
-            var dist = point_distance(x1, y1, x, y);
-            if (nearest == noone || dist < nearest_dist) {
-                nearest = id;
-                nearest_dist = dist;
-            }
-        }
+  var inst;
+  with (Collision) {
+    if (collision_line(x1, y1, x2, y2, id, false, true)) {
+      var px = collision_line(x1, y1, x2, y2, id, false, true);
+      var dist = point_distance(x1, y1, x, y);
+      if (nearest == noone || dist < nearest_dist) {
+        nearest = id;
+        nearest_dist = dist;
+      }
     }
+  }
 
-    return nearest;
+  return nearest;
 }
 
 function line_intersects_line(x1, y1, x2, y2, x3, y3, x4, y4) {

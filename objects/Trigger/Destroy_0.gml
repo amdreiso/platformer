@@ -1,2 +1,2 @@
 
-onDestroy();
+trigger();

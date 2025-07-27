@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"gamepad_menu",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"gamepad_menu",
+  "parent":{
+    "name":"gamepad",
+    "path":"folders/Scripts/gamepad.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

@@ -1,5 +1,6 @@
 
 dialogue = [];
+dialogueEnd = function(npc){}
 
 textTimer = 0;
 textSpeed = 10;
@@ -12,3 +13,5 @@ charCount = 0;
 isSolid = false;
 
 npc = noone;
+
+scale = 0;

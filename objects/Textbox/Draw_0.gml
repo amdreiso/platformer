@@ -1,8 +1,61 @@
 
 depth = -99999999999;
 
+var totalWidth = 0;
 textTimer += delta_time / 1000000;
 
+if (text == 0) {
+	text = parse_rich_text(dialogue[0]);
+}
+
+
+var spacebarScale = .5;
+var spacebarColor = c_white;
+
+
+for (var i = 0; i < charCount; i++) {
+	var tc = text[i];
+	totalWidth += string_width(tc.char) * tc.scale;
+}
+
+var xoffset = -totalWidth / 2;
+
+for (var i = 0; i < charCount; i++) {
+  var tc = text[i];
+  
+  var dx = x + xoffset;
+  var dy = y - (string_height(tc.char) / 2 * tc.scale);
+  
+	var waveStep = i * tc.scale;
+	var waveTime = (current_time + i * 100);
+	
+  dx += random_range(-tc.shake, tc.shake) + sin(waveTime * tc.waveTime) * tc.waveAmp;
+  dy += random_range(-tc.shake, tc.shake) + sin(waveTime * tc.waveTime) * tc.waveAmp;
+  
+	textSpeed = tc.spd;
+	
+	var shadowOffset = tc.scale;
+	var shadowColor = c_black;
+	
+	draw_set_halign(fa_left);
+	draw_set_valign(fa_top);
+	
+	draw_set_font(tc.font);
+	
+	draw_rectangle_color(dx, dy, dx + string_width(tc.char) * tc.scale, dy + string_height(tc.char) * tc.scale, c_black, c_black, c_black, c_black, false);
+	
+  draw_text_transformed_color(dx + shadowOffset, dy + shadowOffset, tc.char, tc.scale, tc.scale, tc.angle, shadowColor, shadowColor, shadowColor, shadowColor, 1);
+  draw_text_transformed_color(dx, dy, tc.char, tc.scale, tc.scale, tc.angle, tc.color, tc.color, tc.color, tc.color, 1);
+	
+	draw_set_font(tc.font);
+	
+  xoffset += string_width(tc.char) * tc.scale;
+	
+	spacebarColor = tc.color;
+}
+
+
+var advance = Keymap.player.jump;
 
 if (charCount < array_length(text)) {
   
@@ -11,13 +64,13 @@ if (charCount < array_length(text)) {
     charCount ++;
   }
 	
-	if (keyboard_check_pressed(vk_space)) {
+	if (advance) {
 		charCount = array_length(text);
 	}
 	
 } else {
 	
-	if (keyboard_check_pressed(vk_space)) {
+	if (advance) {
 		if (index < array_length(dialogue)-1) {
 			index ++;
 			text = parse_rich_text(dialogue[index]);
@@ -27,37 +80,12 @@ if (charCount < array_length(text)) {
 		}
 	}
 	
+	var spr = sButton_Spacebar;
+	if (CurrentController == CONTROLLER_INPUT.Gamepad) spr = sButton_Cross;
+	
+	draw_sprite_ext(spr, current_time * 0.005, x + xoffset + 4, y + 4, spacebarScale, spacebarScale, sin(current_time * 0.01) * 4, spacebarColor, 1);
+	
 }
 
-var totalWidth = 0;
 
-for (var i = 0; i < charCount; i++) {
-	var tc = text[i];
-  totalWidth += string_width(tc.char) / tc.scale * tc.scale;
-}
 
-var xOffset = -totalWidth / 2;
-
-for (var i = 0; i < charCount; i++) {
-  var tc = text[i];
-  
-  var dx = x + xOffset * tc.scale;
-  var dy = y;
-  
-  dx += random_range(-tc.shake, tc.shake);
-  dy += random_range(-tc.shake, tc.shake);
-  
-	textSpeed = tc.spd;
-	
-	var shadowOffset = tc.scale;
-	var shadowColor = c_black;
-	
-	draw_set_font(tc.font);
-	
-  draw_text_transformed_color(dx+shadowOffset, dy+shadowOffset, tc.char, tc.scale, tc.scale, tc.angle, shadowColor, shadowColor, shadowColor, shadowColor, 1);
-  draw_text_transformed_color(dx, dy, tc.char, tc.scale, tc.scale, tc.angle, tc.color, tc.color, tc.color, tc.color, 1);
-	
-	draw_set_font(tc.font);
-	
-  xOffset += string_width(tc.char);
-}

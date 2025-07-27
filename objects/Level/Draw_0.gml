@@ -18,7 +18,7 @@ gpu_set_blendmode(bm_subtract);
 
 
 with (Light) {
-	if (distance_to_object(Player) < 200) {
+	if (distance_to_object(Player) < Camera.size.width) {
 		//draw_raycast(x, y, 100, intensity, lightWidth);
 		
 		if (is_array(intensity)) {
@@ -31,7 +31,9 @@ with (Light) {
 }
 
 with (Player) {
-	draw_raycast(x, y, raycastCount, viewDistance, 2);
+	//draw_raycast(x, y, raycastCount, viewDistance, 5);
+	
+	draw_circle(x, y, viewDistance, false);
 }
 
 

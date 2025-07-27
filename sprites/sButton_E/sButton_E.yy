@@ -25,8 +25,8 @@
   "nineSlice":null,
   "origin":4,
   "parent":{
-    "name":"Buttons",
-    "path":"folders/Sprites/Buttons.yy",
+    "name":"Keyboard",
+    "path":"folders/Sprites/Buttons/Keyboard.yy",
   },
   "preMultiplyAlpha":false,
   "resourceType":"GMSprite",

@@ -34,5 +34,5 @@
     "path":"sprites/sDefaultJumpThrough/sDefaultJumpThrough.yy",
   },
   "spriteMaskId":null,
-  "visible":false,
+  "visible":true,
 }

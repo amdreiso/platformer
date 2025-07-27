@@ -9,14 +9,14 @@ if (talking) {
 
 draw_self();
 
-if (place_meeting(x, y, Player)) {
+if (place_meeting(x, y, Player) && array_length(dialogue) > 0 && !Player.busy && !OnCutscene) {
 	
-	if !talking draw_key(sButton_E);
+	//if !(talking) draw_key(sButton_E);
 	
-	if (keyboard_check_pressed(ord("E")) && !instance_exists(Textbox)) {
+	if (Keymap.player.interact && !instance_exists(Textbox)) {
 		var txt = instance_create_depth(x + offset.x, y + offset.y, depth, Textbox);
 		txt.dialogue = dialogue;
-		txt.text = parse_rich_text(txt.dialogue[0]);
+		txt.dialogueEnd = dialogueEnd;
 		txt.npc = self;
 		
 		talking = true;

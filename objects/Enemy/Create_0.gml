@@ -12,6 +12,7 @@ spd = defaultSpd;
 hsp = 0;
 vsp = 0;
 force = vec2();
+applyGravity = true;
 
 knockbackResistence = 1.5;
 
@@ -22,7 +23,7 @@ movement = function() {
 	x += hsp + force.x;
 	y += vsp + force.y;
 	
-	vsp += Gravity;
+	if (applyGravity) vsp += Gravity;
 	
 }
 
@@ -78,6 +79,8 @@ hit = function(damage) {
 
 
 // Draw
+weaponSprite = sClone1_weapon;
+
 spriteStates = {
 	idle: sClone1,
 	move: sClone1,
@@ -99,13 +102,16 @@ draw = function() {
 	
 	gpu_set_fog(false, c_white, 0, 1);
 	
+	
+	if (weaponSprite == -1) return;
+	
 	var weaponYscale = 1;
 	var weaponAngle = point_direction(x, y, target.x, target.y);
 	
 	if (target.x < x) weaponYscale = -1;
 	
 	surface_set_target(SurfaceHandler.surface);
-	draw_sprite_ext(sClone1_weapon, 0, x, y, 1, weaponYscale, weaponAngle, c_white, 1);
+	draw_sprite_ext(weaponSprite, 0, x, y, 1, weaponYscale, weaponAngle, c_white, 1);
 	surface_reset_target();
 }
 

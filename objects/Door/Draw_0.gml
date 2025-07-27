@@ -24,13 +24,12 @@ draw_self();
 
 if (!active) {
 	if (place_meeting(x, y, Player)) {
-		draw_key(sButton_W);
 		
-		if (keyboard_check_pressed(ord("W"))) {
+		if (Keymap.player.interact) {
 			room_transition(
 				output.roomID, 
 				output.playerPosition,
-				output.onEnter()
+				output.onEnter
 			);
 		}
 	}

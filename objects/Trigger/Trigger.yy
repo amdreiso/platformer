@@ -35,5 +35,5 @@
     "path":"sprites/sDefaultTrigger/sDefaultTrigger.yy",
   },
   "spriteMaskId":null,
-  "visible":false,
+  "visible":true,
 }

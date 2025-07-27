@@ -1,0 +1,25 @@
+{
+  "$GMSound":"",
+  "%Name":"snd_forgottenSpace",
+  "audioGroupId":{
+    "name":"audiogroup_default",
+    "path":"audiogroups/audiogroup_default",
+  },
+  "bitDepth":1,
+  "bitRate":128,
+  "compression":0,
+  "conversionMode":0,
+  "duration":168.0,
+  "name":"snd_forgottenSpace",
+  "parent":{
+    "name":"songs",
+    "path":"folders/Sounds/songs.yy",
+  },
+  "preload":false,
+  "resourceType":"GMSound",
+  "resourceVersion":"2.0",
+  "sampleRate":44100,
+  "soundFile":"snd_forgottenSpace.wav",
+  "type":0,
+  "volume":0.84,
+}

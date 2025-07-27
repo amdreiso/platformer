@@ -1,2 +1,2 @@
 
-onDestroy = function(){}
+trigger = function(){}

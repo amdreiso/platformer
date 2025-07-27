@@ -1,7 +1,7 @@
 
 busy = (Paused 
 				|| instance_exists(Textbox) 
-				|| Console
+				|| Debug.console
 );
 
 movement();
@@ -12,6 +12,17 @@ attack();
 handleHealth();
 handleBackflip();
 
+
+// Lighting
+viewDistance = viewDistanceDefault * LevelData[? room].components.playerVision;
+
+var amp = 1;
+var time = 0.001;
+
+var left = sin(current_time * time) * amp;
+var right = cos(current_time * time) * amp;
+
+gamepad_set_vibration(Gamepad.ID, 1, 1);
 
 // Audio
 audio_listener_position(x, y, 0);
@@ -27,12 +38,6 @@ if (!instance_exists(Camera)) {
 if (!Debug) return;
 
 if (keyboard_check(vk_control)) {
-	if (mouse_check_button(mb_left)) {
-		x = mouse_x;
-		y = mouse_y;
-	}
+	noclip = (mouse_check_button(mb_left));
 }
-
-
-
 

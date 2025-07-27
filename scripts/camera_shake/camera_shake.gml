@@ -1,5 +1,5 @@
-function camera_shake(value, pwr = 1){
+function camera_shake(shake, pow=1){
 	if (!instance_exists(Camera)) return;
-	Camera.shakeValue = value;
-	Camera.shakePower = pwr;
+	Camera.shakeValue = shake;
+	Camera.shakePower = pow;
 }
