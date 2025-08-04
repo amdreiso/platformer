@@ -1,7 +1,6 @@
 
-if (ChangeLanguage) {
+if (LanguageReset) {
 	dialogue = [
 		TRANSLATION.get("cave_entrance_flowerstatue_0"),
-		TRANSLATION.get("cave_entrance_flowerstatue_1"),
 	];
 }

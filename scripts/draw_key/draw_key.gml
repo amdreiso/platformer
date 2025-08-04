@@ -6,10 +6,10 @@ function draw_key(keyboard, gamepad = keyboard){
 	var spr = keyboard;
 	if (CurrentController == CONTROLLER_INPUT.Gamepad) spr = gamepad;
 	
-	var margin = 100;
+	var margin = 75;
 	var xx = WIDTH - margin;
 	var yy = HEIGHT - margin;
-	var scale = 2;
+	var scale = 4;
 	
 	draw_sprite_ext(spr, 0, xx, yy, scale, scale, 0, c_white, 1);
 	

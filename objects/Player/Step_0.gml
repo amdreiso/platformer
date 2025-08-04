@@ -1,6 +1,7 @@
 
 busy = (Paused 
 				|| instance_exists(Textbox) 
+				|| instance_exists(PauseMenu) 
 				|| Debug.console
 );
 

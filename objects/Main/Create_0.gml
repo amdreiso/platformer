@@ -15,10 +15,10 @@ macros_load();
 textbox_load();
 fovy();
 
+translation_init();
 item_init();
 level_init();
 //directories_init();
-translation_init();
 command_init();
 
 
@@ -69,8 +69,8 @@ globalvar Settings; Settings = {
 };
 
 
-globalvar Language; Language = LANGUAGE_ID.Brazilian;
-globalvar ChangeLanguage; ChangeLanguage = true;
+globalvar Language; Language = LANGUAGE_ID.English;
+globalvar LanguageReset; LanguageReset = true;
 
 globalvar Keymap;
 
@@ -99,8 +99,20 @@ globalvar Style; Style = {
 	palette: -1,
 	reverseColors: false,
 	reverseIntensity: 0,
+	
+	GUI: {
+		dark: {
+			buttonBackground: $FF181818,
+			buttonForeground: c_white,
+		},
+		
+		light: {
+			buttonBackground: c_white,
+			buttonForeground: $FF181818,
+		}
+	},
 };
-draw_set_font(fnt_main);
+draw_set_font(fnt_console);
 
 globalvar Gravity; Gravity = 0.1;
 globalvar Console; Console = false;
@@ -297,6 +309,9 @@ drawConsole = function() {
 	draw_sprite_ext(sKitty2, 0, xx - (sprite_get_width(sKitty3) * scale), yyy + height, scale, scale, 0, c_white, 1);
 }
 
+
+// For testing snippets of code
+instance_create_depth(0, 0, -999999, TEST);
 
 
 //// Mod loader

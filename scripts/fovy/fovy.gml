@@ -15,42 +15,12 @@ function angle_lerp(a, b, t) {
     return a + diff * t;
 }
 
-function Stat(maxvalue) constructor {
-	self.value = maxvalue;
-	self.maxvalue = maxvalue;
-	
-	static set = function(value) {
-		self.value = value;
-	}
-	
-	static sub = function(value) {
-		self.value -= value;
-	}
-	
-	static add = function(value) {
-		self.value += value;
-	}
-	
-	static getPercentage = function() {
-		return (self.value / self.maxvalue) * 100;
-	}
-}
-
 function file_load(filename) {
 	var file = filename;
 	var buffer = buffer_load(file);
 	var con = buffer_read(buffer, buffer_string);
 	buffer_delete(buffer);
 	return con;
-}
-
-function draw_billboard(str, x, y, width, spd) {
-	
-	var xx = x + sin(current_time * spd) * string_width(str);
-	var yy = y;
-	
-	draw_text_transformed(xx, yy, str, 1, 1, 0);
-	
 }
 
 function string_pad(str, val) {

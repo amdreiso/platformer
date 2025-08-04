@@ -27,6 +27,24 @@ function translation_init(){
 		},
 	};
 	
+	#region GUI
+	
+	TRANSLATION.add("gui_quest_find")
+		.set(LANGUAGE_ID.English, "find: ")
+		.set(LANGUAGE_ID.Brazilian, "encontre: ")
+		.finalize();
+	
+	#endregion
+	
+	#region Levels
+	
+	#region Caves
+	
+	TRANSLATION.add("cave_entrance_robot_examine_0")
+		.set(LANGUAGE_ID.English, "it's broken.")
+		.set(LANGUAGE_ID.Brazilian, "tá quebrado.")
+		.finalize();
+	
 	
 	TRANSLATION.add("cave_entrance_robot_fixed_0")
 		.set(LANGUAGE_ID.English, "text here...")
@@ -45,13 +63,12 @@ function translation_init(){
 	
 	
 	TRANSLATION.add("cave_entrance_flowerstatue_0")
-		.set(LANGUAGE_ID.English, "text here...")
-		.set(LANGUAGE_ID.Brazilian, "text here...")
+		.set(LANGUAGE_ID.English, "[italic]the statue holds a [color=#ffff0f]flower[/color][/italic]")
+		.set(LANGUAGE_ID.Brazilian, "[italic]a estátua segura uma [color=#ffff0f]flor[/color][/italic]")
 		.finalize();
 	
-	TRANSLATION.add("cave_entrance_flowerstatue_1")
-		.set(LANGUAGE_ID.English, "text here...")
-		.set(LANGUAGE_ID.Brazilian, "text here...")
-		.finalize();
+	#endregion
+	
+	#endregion
 	
 }

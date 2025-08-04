@@ -5,7 +5,6 @@ globalvar CommandData;
 CommandData = [];
 
 
-
 var add = function(name, argc, fn) {
 	var command = function(name, argc, fn) {
 		return {
@@ -14,7 +13,6 @@ var add = function(name, argc, fn) {
 			fn: fn,
 		}
 	}
-	
 	array_push(CommandData, command(name, argc, fn));
 }
 

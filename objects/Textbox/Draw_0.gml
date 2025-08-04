@@ -62,6 +62,11 @@ if (charCount < array_length(text)) {
 	if (textTimer >= 1 / textSpeed) {
     textTimer = 0;
     charCount ++;
+		
+		if (sound != -1) {
+			var p = random_array_argument(pitch);
+			audio_play_sound(snd_textbox1, 0, false, 1, 0, p);
+		}
   }
 	
 	if (advance) {

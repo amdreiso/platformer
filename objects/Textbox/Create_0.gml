@@ -15,3 +15,6 @@ isSolid = false;
 npc = noone;
 
 scale = 0;
+
+sound = -1;
+pitch = 1;

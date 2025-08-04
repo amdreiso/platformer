@@ -12,7 +12,7 @@ if (place_meeting(x, y, Player)) {
 	if (!picked && item.sprite != -1)
 		draw_outline(1, angle, Style.outlineColor, alpha);
 	
-	if (keyboard_check_pressed(ord("E"))) {
+	if (Keymap.player.interact) {
 		picked = true;
 		applyGravity = false;
 		

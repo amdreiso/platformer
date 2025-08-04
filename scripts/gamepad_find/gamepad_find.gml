@@ -1,7 +1,7 @@
 function gamepad_find(){
 	for (var i = 0; i < gamepad_get_device_count(); i++) {
 		if (gamepad_is_connected(i)) {
-			Gamepad = i;
+			Gamepad.ID = i;
 			//GamepadWasFound = "found!";
 			
 			Keymap = keymap_get();

@@ -17,7 +17,7 @@ function TextChar(_char, _color, _shake, _scale = 0.5, _spd = 10, _font = fnt_co
 }
 
 
-function parse_rich_text(input, font=fnt_main, italic=fnt_main_italic) {
+function parse_rich_text(input, font=fnt_console, italic=fnt_console_italic) {
   var result = [];
   var color = c_white;
   var shake = false;
@@ -62,38 +62,68 @@ function parse_rich_text(input, font=fnt_main, italic=fnt_main_italic) {
 	        }
 				}
       } else if (tag == "/color") {
-        color = c_white;
-      } else if (string_starts_with(tag, "shake=")) {
+        
+				color = c_white;
+				
+			} else if (string_starts_with(tag, "shake=")) {
+				
 				var shakeValue = string_delete(tag, 1, 6);
         shake = real(shakeValue);
-      } else if (tag == "/shake") {
-        shake = 0;
-      } else if (string_starts_with(tag, "scale=")) {
+				
+			} else if (tag == "/shake") {
+        
+				shake = 0;
+				
+			} else if (string_starts_with(tag, "scale=")) {
+				
 				var s = string_delete(tag, 1, 6);
 				scale = real(s);
+				
 			} else if (tag == "/scale") {
+				
 				scale = defaultScale;
+				
 			} else if (string_starts_with(tag, "angle=")) {
+				
 				var a = string_delete(tag, 1, 6);
 				angle = real(a);
+				
 			} else if (tag == "/angle") {
+				
 				angle = 0;
+				
 			} else if (string_starts_with(tag, "speed=")) {
+				
 				spd = real(string_delete(tag, 1, 6));
+				
 			} else if (tag == "/speed") {
+				
 				spd = 10;
+				
 			} else if (string_starts_with(tag, "italic")) {
+				
 				font = italic;
+				
 			} else if (tag == "/italic") {
+				
 				font = font;
+				
 			} else if (string_starts_with(tag, "wave_amp=")) {
+				
 				waveamp = real(string_delete(tag, 1, 9));
+				
 			} else if (tag == "/wave_amp") {
+				
 				waveamp = 0;
+				
 			} else if (string_starts_with(tag, "wave_time=")) {
+				
 				wavetime = real(string_delete(tag, 1, 10));
+				
 			} else if (tag == "/wave_time") {
+				
 				wavetime = 0;
+				
 			}
 			
       i = _end + 1;

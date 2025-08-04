@@ -40,7 +40,10 @@
   "resourceType":"GMObject",
   "resourceVersion":"2.0",
   "solid":false,
-  "spriteId":null,
+  "spriteId":{
+    "name":"sDrone",
+    "path":"sprites/sDrone/sDrone.yy",
+  },
   "spriteMaskId":null,
   "visible":true,
 }

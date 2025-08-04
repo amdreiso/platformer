@@ -3,7 +3,11 @@
 behavior = 0;
 isSolid = true;
 target = Player;
+lightLevel = 16;
+lightAlpha = 0.25;
+lightColor = c_white;
 
+meleeDamage = 10;
 
 
 // Movement
@@ -98,7 +102,7 @@ draw = function() {
 	
 	gpu_set_fog((hitFog > 0), c_white, 0, 1);
 	
-	draw_self();
+	draw_outline(1, 0, Style.outlineColor);
 	
 	gpu_set_fog(false, c_white, 0, 1);
 	

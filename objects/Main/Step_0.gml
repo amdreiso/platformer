@@ -114,3 +114,14 @@ if (keyboard_check_pressed(vk_anykey)) {
 
 
 #endregion
+
+
+#region Menus
+
+if (!instance_exists(PauseMenu) && Keymap.pause) {
+	instance_create_depth(0, 0, 0, PauseMenu);
+	show_debug_message("game paused");
+}
+
+#endregion
+

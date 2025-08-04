@@ -1,5 +1,5 @@
 
-if (active && timer != -1) {
+if (active && !is_undefined(timer)) {
   timer -= GameSpeed;
 	
   if (timer <= 0) {

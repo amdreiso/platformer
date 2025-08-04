@@ -164,6 +164,11 @@ applyCollisions = function() {
 		hit(proj.damage);
 		instance_destroy(proj);
 	}
+	
+	if (place_meeting(x, y, Enemy)) {
+		var enemy = instance_nearest(x, y, Enemy);
+		hit(enemy.meleeDamage, (x - enemy.x));
+	}
 }
 
 
@@ -313,15 +318,9 @@ hit = function(damage, xscale=1) {
 	
 	hp -= damage;
 	isHit = true;
-	hitCooldown = 30;
+	hitCooldown = 60;
 	
-	vsp = 0;
-	force.y -= jumpForce;
-	hsp += -2.5 * xscale;
-	
-	flip();
-	
-	camera_shake(3, 1.50);
+	camera_shake(damage / 1.5, 1.50);
 	
 	var hitSound = choose(snd_hit1, snd_hit2);
 	audio_play_sound(hitSound, 0, false, 0.5, 0, random_range(0.80, 1.00));
@@ -335,6 +334,8 @@ spriteStates = {
 	idle: sPlayerOneEye_Idle,
 	move: sPlayerOneEye_Move,
 }
+
+blink = false;
 
 draw = function() {
 	var sprite = spriteStates.idle;
@@ -356,12 +357,18 @@ draw = function() {
 	
 	surface_set_target(SurfaceHandler.surface);
 	
-	// Draw player with an outline
-	draw_outline(1, angle, Style.outlineColor);
+	// Blink sprite when hit
+	if (hitCooldown % 5 == true) {
+		blink = !blink;
+	}
+	
+	// Draw player sprite
+	if (hitCooldown == 0 || !blink) {
+		draw_outline(1, angle, Style.outlineColor);
+	}
 	
 	surface_reset_target();
 }
-
 
 // Draw GUI
 drawGUI = function() {
@@ -421,7 +428,7 @@ drawSecretGUI = function() {
 	  dx += random_range(-tc.shake, tc.shake);
 	  dy += random_range(-tc.shake, tc.shake);
 		
-		draw_set_font(fnt_main);
+		draw_set_font(fnt_console);
 		
 	  draw_text_transformed_color(dx, dy, tc.char, tc.scale, tc.scale, tc.angle, tc.color, tc.color, tc.color, tc.color, secretAlpha);
 	  xoffset += string_width(tc.char);

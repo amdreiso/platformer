@@ -27,4 +27,10 @@ function item_init(){
 	
 	ITEM.register(ITEM_ID.ScrapElectronics, ITEM_TYPE.Blank, "scrap electronics", sScrapElectronics_Item);
 	
+	TRANSLATION.add(ITEM_ID.ScrapElectronics)
+		.set(LANGUAGE_ID.English, "scrap electronics")
+		.set(LANGUAGE_ID.Brazilian, "resto de eletrônicos")
+		.finalize();
+	
 }
+

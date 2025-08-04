@@ -33,7 +33,10 @@
   "resourceType":"GMObject",
   "resourceVersion":"2.0",
   "solid":false,
-  "spriteId":null,
+  "spriteId":{
+    "name":"sClone1",
+    "path":"sprites/sClone1/sClone1.yy",
+  },
   "spriteMaskId":null,
   "visible":true,
 }

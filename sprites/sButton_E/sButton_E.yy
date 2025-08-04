@@ -26,7 +26,7 @@
   "origin":4,
   "parent":{
     "name":"Keyboard",
-    "path":"folders/Sprites/Buttons/Keyboard.yy",
+    "path":"folders/Sprites/GUI/Buttons/Keyboard.yy",
   },
   "preMultiplyAlpha":false,
   "resourceType":"GMSprite",

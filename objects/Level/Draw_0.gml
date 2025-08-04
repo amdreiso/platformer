@@ -2,14 +2,13 @@
 if (!surface_exists(surface)) return;
 
 
-
 surface_set_target(surface);
 
 draw_clear_alpha(c_white, 0);
 
 
 // Draw darknesss uhhh
-draw_set_alpha(darkness);
+draw_set_alpha(darkness * !Debug.debug);
 draw_rectangle_color(0, 0, room_width, room_height, c_black, c_black, c_black, c_black, false);
 draw_set_alpha(1);
 
@@ -34,6 +33,13 @@ with (Player) {
 	//draw_raycast(x, y, raycastCount, viewDistance, 5);
 	
 	draw_circle(x, y, viewDistance, false);
+}
+
+
+with (Enemy) {
+	//draw_raycast(x, y, raycastCount, viewDistance, 5);
+	
+	draw_circle(x, y, lightLevel, false);
 }
 
 

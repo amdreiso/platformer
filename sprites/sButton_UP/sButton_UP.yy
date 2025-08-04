@@ -27,7 +27,7 @@
   "origin":4,
   "parent":{
     "name":"playstation",
-    "path":"folders/Sprites/Buttons/Controller/playstation.yy",
+    "path":"folders/Sprites/GUI/Buttons/Controller/playstation.yy",
   },
   "preMultiplyAlpha":false,
   "resourceType":"GMSprite",

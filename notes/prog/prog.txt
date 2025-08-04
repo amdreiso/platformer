@@ -6,6 +6,14 @@ maybe divide the story by chapters??
 who knows
 
 
+BEGGINING CUTSCENE
+
+the beggining cutscene is plain text saying:
+
+
+
+
+
 the game starts with a cutscene of HH looking through trash to find scrap electronics, he doesn't find it
 a new quest is given "find scrap electronics"
 after looking around in the cave and getting the item
@@ -22,6 +30,8 @@ she tells you she lives in the small village you find at the beginning of the ga
 "all of you do"
 "even the red ones..."
 
+
+""
 
 
 
