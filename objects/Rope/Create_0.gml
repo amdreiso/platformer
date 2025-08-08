@@ -6,12 +6,14 @@ width = 1.5;
 length = 3;
 colors = [c_olive, c_lime];
 
+descending = 0;
+
 segments = 12;
 
 apply = false;
 sprite = sChain;
 
-append = function(index, obj) {
+ropeAppend = function(index, obj) {
 	array_push(rope[index].children, obj);
 }
 
@@ -23,7 +25,7 @@ createSegments = function() {
   rope = [];
 	for (var i = 0; i < segments; i++) {
 		var color = colors[irandom(array_length(colors)-1)];
-		var p = rope_create_point(x, y + i * length, random_range(1.00, 3.50), color);
+		var p = rope_create_point(x, y + i * length, random_array_argument(width) + (i * descending), color);
 	  if (i == 0) p.pinned = true;
 	  array_push(rope, p);
 	}

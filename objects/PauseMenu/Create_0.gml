@@ -100,19 +100,19 @@ optionAudioButtons = [
 		PauseMenu.page = MENU_PAGE.Options;
 	}),
 	
-	ButtonSlider("volume", $FFCBA646, c_black, 
+	ButtonSlider("volume", $FFCBA646, Style.sliderBackground, 
 							function(){ return Settings.audio.volume; },
-							function(v){ Settings.audio.volume = clamp(v, 0, 1); save_settings(); },
+							function(v){ Settings.audio.volume = clamp(v, 0, 1); settings_save(); },
 							1.00, 0.005),
 	
-	ButtonSlider("music", make_color_rgb(200, 200, 80), c_black, 
+	ButtonSlider("music", make_color_rgb(200, 200, 80), Style.sliderBackground, 
 							function(){ return Settings.audio.music; },
-							function(v){ Settings.audio.music = clamp(v, 0, 1); save_settings(); },
+							function(v){ Settings.audio.music = clamp(v, 0, 1); settings_save(); },
 							1.00, 0.005),
 	
-	ButtonSlider("sfx", make_color_rgb(170, 130, 220), c_black, 
+	ButtonSlider("sfx", make_color_rgb(170, 130, 220), Style.sliderBackground, 
 							function(){ return Settings.audio.sfx; },
-							function(v){ Settings.audio.sfx = clamp(v, 0, 1); save_settings(); },
+							function(v){ Settings.audio.sfx = clamp(v, 0, 1); settings_save(); },
 							1.00, 0.005),
 ];
 
@@ -141,12 +141,23 @@ devButtons = [
 buttonIndex = 0;
 
 drawButtons = function(arr) {
-	var click = (Keymap.select);
-	var up		= (Keymap.selectUp);
-	var down  = (Keymap.selectDown);
-	var left  = (Keymap.selectLeft);
-	var right = (Keymap.selectRight);
+	var click				= (Keymap.select);
+	var up					= (Keymap.selectUp);
+	var down				= (Keymap.selectDown);
+	var left				= (Keymap.selectLeft);
+	var right				= (Keymap.selectRight);
+	var lefthold		= (Keymap.selectLeftHold);
+	var righthold		= (Keymap.selectRightHold);
 	
+	var xx = (WIDTH / 2);
+	var menuWidth = 500;
+	var menuHeight = HEIGHT;
+	var c0 = c_black;
+	
+	draw_set_alpha(0.5);
+	draw_rectangle_color(xx - menuWidth / 2, 0, xx + menuWidth / 2, menuHeight, c0, c0, c0, c0, false);
+	draw_set_alpha(1);
+
 	for (var i = 0; i < array_length(arr); i++) {
 		var b = arr[i];
 		var str = b.name;
@@ -163,7 +174,7 @@ drawButtons = function(arr) {
 			case MENU_BUTTON_TYPE.Method:
 			
 				draw_label(
-					margin, (margin) + (i + heightOffset) * height, str, 1, 
+					(WIDTH / 2) - string_width(str) / 2, (margin) + (i + heightOffset) * height, str, 1, 
 					menuButtonBackground, menuButtonForeground, 1
 				);
 				
@@ -176,6 +187,7 @@ drawButtons = function(arr) {
 				var step											= (current / b.variabledefault);
 				var width											= maxwidth * step;
 				var arrowButtonWidth					= 20;
+				var color											= c_black;
 				
 				var leftArrowBackgroundColor	= menuButtonBackground;
 				var leftArrowTextColor				= menuButtonForeground;
@@ -184,14 +196,14 @@ drawButtons = function(arr) {
 				var rightArrowTextColor				= menuButtonForeground;
 				
 				if (buttonIndex == i) {
-					if (left && current > 0) { 
+					if (lefthold && current > 0) { 
 						leftArrowBackgroundColor = menuButtonForeground;
 						leftArrowTextColor = menuButtonBackground;
 						
 						b.set(current - b.slope); 
 					}
 					
-					if (right && current < b.variabledefault) { 
+					if (righthold && current < b.variabledefault) { 
 						rightArrowBackgroundColor = menuButtonForeground;
 						rightArrowTextColor = menuButtonBackground;
 						
@@ -199,23 +211,35 @@ drawButtons = function(arr) {
 					}
 				}
 				
+				if (width < 50) {
+					color = c_white;
+				}
+				
+				var x0 = WIDTH / 2;
+				
+				// Left button
 				draw_label_width(
-					margin, margin + (i + heightOffset) * height,
+					x0 - maxwidth / 2 - arrowButtonWidth, margin + (i + heightOffset) * height,
 					"<", arrowButtonWidth, arrowButtonWidth, 1, leftArrowBackgroundColor, leftArrowTextColor, 1
 				);
 				
+				// Labels
 				draw_label_width(
-					margin + arrowButtonWidth, margin + (i + heightOffset) * height, str, width, maxwidth, 1, 
+					(x0 - maxwidth / 2), margin + (i + heightOffset) * height, " ", maxwidth, maxwidth, 1, 
 					b.textColor, b.backgroundColor, 1, true, 4, false
 				);
 				
 				draw_label_width(
-					margin + arrowButtonWidth, margin + (i + heightOffset) * height, str, width, maxwidth, 1, 
+					(x0 - width / 2), margin + (i + heightOffset) * height, " ", width, maxwidth, 1, 
 					b.backgroundColor, b.textColor, 1, true
 				);
 				
+				draw_set_halign(fa_center);
+				draw_text_color((x0), margin + (i + heightOffset) * height, str, color, color, color, color, 1);
+				
+				// Right button
 				draw_label_width(
-					(margin + arrowButtonWidth) + maxwidth, margin + (i + heightOffset) * height,
+					(x0 + maxwidth / 2), margin + (i + heightOffset) * height,
 					">", arrowButtonWidth, arrowButtonWidth, 1, rightArrowBackgroundColor, rightArrowTextColor, 1
 				);
 				

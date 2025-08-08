@@ -19,10 +19,10 @@ gpu_set_blendmode(blendmode);
 draw_set_alpha(lightAlpha);
 
 if (is_array(intensity)) {
-	draw_circle_color(x, y, intensity[intensityIndex], lightColor, lightColor, false);
+	draw_circle_color(x, y, intensity[intensityIndex], lightColor, c_black, false);
 	
 } else if (!is_array(intensity)) {
-	draw_circle_color(x, y, intensity, lightColor, lightColor, false);
+	draw_circle_color(x, y, intensity, lightColor, c_black, false);
 }
 
 

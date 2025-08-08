@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"interactable_find_link",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"interactable_find_link",
+  "parent":{
+    "name":"interactables",
+    "path":"folders/Scripts/interactables.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

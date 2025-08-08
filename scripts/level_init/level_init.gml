@@ -11,6 +11,8 @@ function level_init(){
 				backgroundSong: -1,
 				darkness: 0,
 				playerVision: 1,
+				isCutscene: false,
+				roomCode: function(){},
 			};
 		},
 		
@@ -32,6 +34,13 @@ function level_init(){
 	
 	
 	// Initializing 
+	LEVEL.register(rmBegginingCutscene, "beggining cutscene", {
+		darkness: 0,
+		isCutscene: true,
+		
+		backgroundSong: snd_mechanicalHope,
+	});
+	
 	#region Caves
 	
 	LEVEL.register(rmLevel_Cave_Entrance, "cave entrance", {
@@ -47,10 +56,15 @@ function level_init(){
 	});
 	
 	LEVEL.register(rmLevel_Cave_DumpYard, "dump yard", {
-		darkness: 1.00,
+		darkness: 0.00,
 		playerVision: 0.33,
 		
 		backgroundSong: snd_forgottenSpace,
+		
+		roomCode: function() {
+			parallax_set("Parallax_1", 3.00);
+			parallax_set("Parallax_2", 0.50);
+		}
 	});
 	
 	#endregion

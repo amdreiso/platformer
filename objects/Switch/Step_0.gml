@@ -1,4 +1,6 @@
 
+
+
 if (active && !is_undefined(timer)) {
   timer -= GameSpeed;
 	
@@ -6,11 +8,10 @@ if (active && !is_undefined(timer)) {
     active = false;
 		timer = defaultTimer;
 		
-    with (par_interactive) {
-      if (ID == other.ID && object_index != Switch) {
-        active = !active;
-				animation = true;
-      }
-    }
+		interactable_find_link(Switch, function(obj) {
+		  obj.active = !obj.active;
+			obj.animation = true;
+		});
   }
 }
+

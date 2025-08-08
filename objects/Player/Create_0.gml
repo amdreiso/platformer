@@ -14,6 +14,38 @@ emitter = audio_emitter_create();
 soul = SOUL_TYPE.Castoff;
 
 
+
+// Health
+defaultHp = 20;
+hp = defaultHp;
+isHit = false;
+hitCooldown = 0;
+isDead = false;
+
+handleHealth = function() {
+	hitCooldown = max(0, hitCooldown - GameSpeed);
+	if (hitCooldown == 0) isHit = false;
+	isDead = (hp <= 0);
+}
+
+hit = function(damage, xscale=1) {
+	if (isHit) return;
+	
+	hp -= damage;
+	isHit = true;
+	hitCooldown = 60;
+	
+	vsp -= jumpForce;
+	
+	screen_flash(0.3, 0.06, c_red);
+	camera_shake(damage / 0.5);
+	
+	var hitSound = choose(snd_hit1, snd_hit2);
+	audio_play_sound(hitSound, 0, false, 0.5, 0, random_range(0.80, 1.00));
+}
+
+
+
 // Movement
 allowMovement = true;
 defaultSpd = 1.3;
@@ -98,7 +130,6 @@ movement = function() {
 	if (!isHit) {
 		hsp = lengthdir_x(spd * len, dir) * GameSpeed;
 	}
-	
 	
 	// Jump
 	if (map.jump && jumpCount > 0) {
@@ -235,23 +266,27 @@ inventory.hasItem = function(itemID) {
 	return false;
 };
 
-inventory.add = function(itemID, amount = 1) {
+inventory.add = function(itemID, quantity = 1) {
 	var found = false;
 	for (var i = 0; i < array_length(inventory.content); i++) {
 		var c = inventory.content[i];
 		
+		// found existing item on inventory
 		if (c.itemID == itemID) {
-			if (c.amount < ITEM_STACK - amount) {
-				c.amount += amount;
+			
+			if (c.quantity < ITEM_STACK - quantity) {
+				c.quantity += quantity;
+			
 			} else {
-				array_push(inventory.content, inventory.getItemSlot(itemID, amount));
+				array_push(inventory.content, inventory.getItemSlot(itemID, quantity));
+				
 			}
 			
 			found = true;
 		}
 	}
 	
-	if (!found) array_push(inventory.content, inventory.getItemSlot(itemID, amount));
+	if (!found) array_push(inventory.content, inventory.getItemSlot(itemID, quantity));
 };
 
 inventory.removeItem = function() {
@@ -302,29 +337,7 @@ drawInventorySlotsGUI = function() {
 }
 
 
-// Health
-defaultHp = 20;
-hp = defaultHp;
-isHit = false;
-hitCooldown = 0;
 
-handleHealth = function() {
-	hitCooldown = max(0, hitCooldown - GameSpeed);
-	if (hitCooldown == 0) isHit = false;
-}
-
-hit = function(damage, xscale=1) {
-	if (isHit) return;
-	
-	hp -= damage;
-	isHit = true;
-	hitCooldown = 60;
-	
-	camera_shake(damage / 1.5, 1.50);
-	
-	var hitSound = choose(snd_hit1, snd_hit2);
-	audio_play_sound(hitSound, 0, false, 0.5, 0, random_range(0.80, 1.00));
-}
 
 
 // Draw
@@ -448,5 +461,37 @@ drawSecretGUI = function() {
 		secretTime = 0;
 	}
 }
+
+// Death screen
+deathScreenAlpha = 0;
+
+drawDeathScreen = function() {
+	
+	deathScreenAlpha = lerp(deathScreenAlpha, isDead, 0.025);
+	
+	
+	var a = deathScreenAlpha;
+	var c0 = c_black;
+	
+	draw_set_alpha(a / 2);
+	draw_rectangle_color(0, 0, WIDTH, HEIGHT, c0, c0, c0, c0, false);
+	
+	draw_set_halign(fa_center);
+	draw_set_valign(fa_middle);
+	
+	var messageScale = 2;
+	
+	draw_text_transformed(WIDTH / 2, HEIGHT / 2, TRANSLATION.get("gui_death_screen_message"), messageScale, messageScale, 0);
+	
+	draw_set_alpha(1);
+	
+	
+}
+
+
+
+
+
+
 
 

@@ -65,24 +65,16 @@ globalvar Settings; Settings = {
 	
 	controls: {
 		gamepadDeadzone: 0.25,
-	}
+	},
 };
-
+settings_load();
 
 globalvar Language; Language = LANGUAGE_ID.English;
 globalvar LanguageReset; LanguageReset = true;
 
 globalvar Keymap;
 
-globalvar ScreenFlash; ScreenFlash = {
-	alpha: 0,
-	color: c_white,
-	time: 0.1,
-	
-	flash: function() {
-		print("flashing screen");
-	},
-};
+
 
 globalvar OnCutscene; OnCutscene = false;
 
@@ -99,6 +91,8 @@ globalvar Style; Style = {
 	palette: -1,
 	reverseColors: false,
 	reverseIntensity: 0,
+	
+	sliderBackground: $FF080808,
 	
 	GUI: {
 		dark: {
@@ -152,6 +146,7 @@ rainbowValue = 220;
 
 if (!instance_exists(Player)) {
 	instance_create_layer(190, 500, "Init", Player);
+	//instance_create_layer(600, 300, "Init", Player);
 }
 
 if (!instance_exists(QuestHandler)) {
@@ -159,7 +154,13 @@ if (!instance_exists(QuestHandler)) {
 }
 
 
-room_goto(rmLevel_Cave_Entrance);
+
+if (CurrentChapter.beggining_cutscene.played) {
+	room_goto(rmLevel_Cave_Entrance);
+	//room_goto(rmLevel_Cave_DumpYard);
+} else {
+	room_goto(rmBegginingCutscene);
+}
 
 
 

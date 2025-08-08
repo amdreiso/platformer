@@ -1,2 +1,6 @@
 
+if (LanguageReset) {
+	onLanguageReset();
+}
+
 play();

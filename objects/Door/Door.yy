@@ -14,8 +14,8 @@
     "path":"folders/Objects/Interactive.yy",
   },
   "parentObjectId":{
-    "name":"par_interactive",
-    "path":"objects/par_interactive/par_interactive.yy",
+    "name":"Interactable",
+    "path":"objects/Interactable/Interactable.yy",
   },
   "persistent":false,
   "physicsAngularDamping":0.1,

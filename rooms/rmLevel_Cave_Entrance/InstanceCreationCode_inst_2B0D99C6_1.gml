@@ -6,4 +6,4 @@ var light = instance_create_depth(x, y, depth, Light);
 light.intensity = 64;
 light.sprite = sChainLamp;
 light.lightWidth = 3;
-append(segments-1, light);
+ropeAppend(segments-1, light);

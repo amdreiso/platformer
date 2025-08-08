@@ -1,15 +1,15 @@
 {
   "$GMObject":"",
-  "%Name":"par_interactive",
+  "%Name":"Boss",
   "eventList":[
     {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
   ],
   "managed":true,
-  "name":"par_interactive",
+  "name":"Boss",
   "overriddenProperties":[],
   "parent":{
-    "name":"Interactive",
-    "path":"folders/Objects/Interactive.yy",
+    "name":"Objects",
+    "path":"folders/Objects.yy",
   },
   "parentObjectId":null,
   "persistent":false,

@@ -13,6 +13,7 @@ Brilliantine is a cool word, could be plants, could be a company
 
 
 	Puzzles:
+something something
 
 
 
@@ -25,5 +26,32 @@ an elderly robot who refuses to collaborate with the player and the girl
 
 	Mechanics:
 you can 'download' files in game, to make them appear in your save folder, such as maps, decoders, etc
+
+
+
+
+	Bosses:
+
+JUNKEEPER
+found in the dump yard
+
+dumpyard is very dark, so you'll only be able to see junkkeeper hands, if the player hits one of the hands, the boss fight will start
+
+the boss fight will start with some flickering red lights, then junkkeeper will rise from the ground, he will hit the ground with both hands, talk a little, then the fight happens
+
+mechanics:
+
+- every once in a while the closest hand to the player is going to rise and try to smash him
+- attack while junkkeepers hand while its on the ground cooling down after smash
+- junkkeeper will have a laser attack
+
+
+	
+
+
+
+
+
+
 
 

@@ -1,7 +1,7 @@
 {
   "$GMNotes":"",
-  "%Name":"prog",
-  "name":"prog",
+  "%Name":"progression",
+  "name":"progression",
   "parent":{
     "name":"platformer",
     "path":"platformer.yyp",

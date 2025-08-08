@@ -9,7 +9,7 @@ function draw_key(keyboard, gamepad = keyboard){
 	var margin = 75;
 	var xx = WIDTH - margin;
 	var yy = HEIGHT - margin;
-	var scale = 4;
+	var scale = 3;
 	
 	draw_sprite_ext(spr, 0, xx, yy, scale, scale, 0, c_white, 1);
 	

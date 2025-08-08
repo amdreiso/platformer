@@ -79,6 +79,40 @@ add("clear", 0, function(args) {
 	Main.clearConsole();
 });
 
+add("spawn", 3, function(args) {
+	var enemy = args[0];
+	var x0 = real(args[1]);
+	var y0 = real(args[2]);
+	
+	var obj = asset_get_index(enemy);
+	
+	if (!object_exists(obj)) {
+		err("Object doesn't exist");
+		return;
+	};
+	
+	instance_create_depth(Player.x + x0, Player.y + y0, Player.depth, obj);
+});
+
+add("goto", 1, function(args) {
+	var rm = args[0];
+	
+	var asset = asset_get_index(rm);
+	
+	if (!room_exists(asset)) {
+		err("Room doesn't exist");
+		return;
+	};
+	
+	room_goto(asset);
+});
+
+add("zoom", 1, function(args) {
+	camera_set_zoom(real(args[0]));
+});
+
+
+
 
 }
 

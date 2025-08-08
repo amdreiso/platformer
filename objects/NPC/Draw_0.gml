@@ -21,7 +21,8 @@ if (place_meeting(x, y, Player) && array_length(dialogue) > 0 && !Player.busy &&
 		
 		talking = true;
 		
-		camera_focus(self, 0.8);
+		camera_focus(self);
+		camera_set_zoom(0.8);
 	}
 	
 	draw_outline(1, 0, Style.outlineColor);

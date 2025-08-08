@@ -10,6 +10,20 @@ BEGGINING CUTSCENE
 
 the beggining cutscene is plain text saying:
 
+TODO: write some cryptic shit here
+
+"I know you are not cognitive"
+"but I know that... deep inside..."
+"you still have a soul"
+"a soul that can understand"
+"I'm no engineer"
+"I'm no electrician"
+"...I just want a better future for ourselves..."
+
+
+the meaning: a little human girl is 'putting you back together' (crazy fnaf reference), fixing your hardware, in the hopes of you helping her or whatever
+then:
+a slow fade
 
 
 
@@ -32,6 +46,5 @@ she tells you she lives in the small village you find at the beginning of the ga
 
 
 ""
-
 
 

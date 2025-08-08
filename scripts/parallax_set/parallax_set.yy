@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"parallax_set",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"parallax_set",
+  "parent":{
+    "name":"parallax",
+    "path":"folders/Scripts/parallax.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

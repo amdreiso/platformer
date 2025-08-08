@@ -5,7 +5,6 @@ function story_progression(){
 	
 	STORY = {
 		save: function() {
-			
 		},
 		
 		load: function() {
@@ -16,6 +15,10 @@ function story_progression(){
 	};
 	
 	var chapter0 = {
+		beggining_cutscene: {
+			played: true,
+		},
+		
 		cave_entrance: {
 			robot_0: {
 				isFixed: false,

@@ -5,7 +5,7 @@
 Keymap = keymap_get();
 OnCutscene = instance_exists(Cutscene);
 
-if (Gamepad.ID == -1 && current_time < 5000) gamepad_find();
+if (Gamepad.ID == -1 && current_time < 1000) gamepad_find();
 
 #endregion
 
@@ -67,6 +67,19 @@ if (gp_anykey() && CurrentController != CONTROLLER_INPUT.Gamepad) {
 #endregion
 
 
+#region Menus
+
+	
+if (keyboard_check_pressed(vk_anykey)) {
+	if (keyboard_lastkey == 27) {
+		if (!instance_exists(PauseMenu)) instance_create_depth(0, 0, 0, PauseMenu); else instance_destroy(PauseMenu);
+	}
+}
+
+
+#endregion
+
+
 #region Hotkeys
 
 if (keyboard_check(vk_alt)) {
@@ -115,13 +128,4 @@ if (keyboard_check_pressed(vk_anykey)) {
 
 #endregion
 
-
-#region Menus
-
-if (!instance_exists(PauseMenu) && Keymap.pause) {
-	instance_create_depth(0, 0, 0, PauseMenu);
-	show_debug_message("game paused");
-}
-
-#endregion
 

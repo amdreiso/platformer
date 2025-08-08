@@ -3,6 +3,8 @@
 var level = LEVEL.get(room);
 if (level == -1) return;
 
+hasBoss = (instance_exists(Boss));
+
 if (newRoom) {
 	
 	audio_stop_all();
@@ -15,10 +17,15 @@ if (newRoom) {
 	
 	// Room Light Level
 	darkness = level.components.darkness;
+	isCutscene = level.components.isCutscene;
+	
+	roomCode = level.components.roomCode;
 	
 	newRoom = false;
 	
 }
+
+roomCode();
 
 
 /*
@@ -41,7 +48,7 @@ switch (room) {
 		darkness = 0.80;
 		
 		if (instance_exists(Camera)) {
-			layer_x(layer_get_id("Parallax_1"), lerp(0, Camera.x * 0.62, 0.1));
+			
 			layer_x(layer_get_id("Parallax_2"), lerp(0, Camera.x * 0.44, 0.1));
 			layer_x(layer_get_id("Parallax_3"), lerp(0, Camera.x * 0.38, 0.1));
 			layer_x(layer_get_id("Parallax_4"), lerp(0, Camera.x * 0.90, 0.1));

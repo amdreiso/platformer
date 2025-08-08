@@ -1,7 +1,6 @@
 
 
-
-
+onLanguageReset = function(){};
 
 cutscene = [
 	
@@ -131,7 +130,7 @@ play = function() {
 			}
 			
 			if (!instance_exists(Textbox)) {
-				var tb = instance_create_depth(c.object.x + c.offset.x, c.object.y + c.offset.y, -99999, Textbox);
+				var tb = instance_create_depth(c.pos.x + c.offset.x, c.pos.y + c.offset.y, -99999, Textbox);
 				
 				_onEnd = c.onEnd;
 				

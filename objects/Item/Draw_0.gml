@@ -9,16 +9,11 @@ if (item.sprite != -1) {
 }
 
 if (place_meeting(x, y, Player)) {
-	if (!picked && item.sprite != -1)
-		draw_outline(1, angle, Style.outlineColor, alpha);
+	picked = true;
+	applyGravity = false;
 	
-	if (Keymap.player.interact) {
-		picked = true;
-		applyGravity = false;
-		
-		// Add item to player's inventory
-		Player.inventory.add( itemID );
-	}
+	// Add item to player's inventory
+	Player.inventory.add( itemID );
 }
 
 // Animation when picked
@@ -30,5 +25,7 @@ alpha = lerp(alpha, 0, 0.1);
 if (alpha < 0.05) {
 	instance_destroy();
 }
+
+
 
 

@@ -46,6 +46,11 @@ function CutsceneStep(event) {
 		return methods;
 	}
 	
+	methods.setPosition = function(x, y) {
+		cs.pos = vec2(x, y);
+		return methods;
+	}
+	
 	methods.setDialoguePitch = function(pitch) {
 		cs.dialoguePitch = pitch;
 		return methods;

@@ -72,6 +72,7 @@
     {"name":"inst_F7B52FB","path":"rooms/rmLevel_Cave_Entrance/rmLevel_Cave_Entrance.yy",},
     {"name":"inst_5A2A2F68","path":"rooms/rmLevel_Cave_Entrance/rmLevel_Cave_Entrance.yy",},
     {"name":"inst_527EBC86","path":"rooms/rmLevel_Cave_Entrance/rmLevel_Cave_Entrance.yy",},
+    {"name":"inst_3B5DB745","path":"rooms/rmLevel_Cave_Entrance/rmLevel_Cave_Entrance.yy",},
   ],
   "isDnd":false,
   "layers":[
@@ -195,6 +196,7 @@
         {"$GMRInstance":"v2","%Name":"inst_C4155E3_1","colour":4294967295,"frozen":false,"hasCreationCode":true,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_C4155E3_1","objectId":{"name":"Switch","path":"objects/Switch/Switch.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":632.0,"y":536.0,},
         {"$GMRInstance":"v2","%Name":"inst_40FCFCCE_1","colour":4294967295,"frozen":false,"hasCreationCode":true,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_40FCFCCE_1","objectId":{"name":"Door","path":"objects/Door/Door.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":672.0,"y":528.0,},
         {"$GMRInstance":"v2","%Name":"inst_847E215","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_847E215","objectId":{"name":"DoorSoul","path":"objects/DoorSoul/DoorSoul.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":888.0,"y":552.0,},
+        {"$GMRInstance":"v2","%Name":"inst_3B5DB745","colour":4294967295,"frozen":false,"hasCreationCode":true,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_3B5DB745","objectId":{"name":"Door","path":"objects/Door/Door.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":712.0,"y":528.0,},
       ],"layers":[],"name":"Instances_2","properties":[],"resourceType":"GMRInstanceLayer","resourceVersion":"2.0","userdefinedDepth":false,"visible":true,},
     {"$GMRTileLayer":"","%Name":"TileSet_Cables","depth":800,"effectEnabled":true,"effectType":null,"gridX":32,"gridY":32,"hierarchyFrozen":false,"inheritLayerDepth":false,"inheritLayerSettings":false,"inheritSubLayers":true,"inheritVisibility":true,"layers":[],"name":"TileSet_Cables","properties":[],"resourceType":"GMRTileLayer","resourceVersion":"2.0","tiles":{"SerialiseHeight":48,"SerialiseWidth":86,"TileCompressedData":[
           -100,-2147483648,-2,0,-1450,-2147483648,1,1073741861,-85,-2147483648,2,1879048229,1073741861,-83,-2147483648,

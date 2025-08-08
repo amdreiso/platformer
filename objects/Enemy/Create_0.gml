@@ -102,7 +102,8 @@ draw = function() {
 	
 	gpu_set_fog((hitFog > 0), c_white, 0, 1);
 	
-	draw_outline(1, 0, Style.outlineColor);
+	draw_self();
+	//draw_outline(1, 0, Style.outlineColor);
 	
 	gpu_set_fog(false, c_white, 0, 1);
 	

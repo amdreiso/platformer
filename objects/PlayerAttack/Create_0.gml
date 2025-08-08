@@ -24,7 +24,7 @@ collisions = function() {
 			if (!active) {
 				active = false;
 				
-				with (par_interactive) {
+				with (Interactable) {
 					if (ID == other.ID) {
 						active = !active;
 						animation = true;

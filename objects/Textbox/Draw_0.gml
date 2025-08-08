@@ -1,5 +1,5 @@
 
-depth = -99999999999;
+depth = -99999;
 
 var totalWidth = 0;
 textTimer += delta_time / 1000000;
@@ -8,10 +8,8 @@ if (text == 0) {
 	text = parse_rich_text(dialogue[0]);
 }
 
-
-var spacebarScale = .5;
+var spacebarScale = 1;
 var spacebarColor = c_white;
-
 
 for (var i = 0; i < charCount; i++) {
 	var tc = text[i];
@@ -51,6 +49,7 @@ for (var i = 0; i < charCount; i++) {
 	
   xoffset += string_width(tc.char) * tc.scale;
 	
+	spacebarScale = tc.scale / 1;
 	spacebarColor = tc.color;
 }
 
@@ -88,7 +87,8 @@ if (charCount < array_length(text)) {
 	var spr = sButton_Spacebar;
 	if (CurrentController == CONTROLLER_INPUT.Gamepad) spr = sButton_Cross;
 	
-	draw_sprite_ext(spr, current_time * 0.005, x + xoffset + 4, y + 4, spacebarScale, spacebarScale, sin(current_time * 0.01) * 4, spacebarColor, 1);
+	var magicnumber0 = 10 * spacebarScale;
+	draw_sprite_ext(spr, current_time * 0.005, x + xoffset + magicnumber0, y + magicnumber0, spacebarScale, spacebarScale, sin(current_time * 0.01) * 4, spacebarColor, 1);
 	
 }
 
