@@ -9,6 +9,10 @@ function macros_load(){
 	#macro CAMERA_ZOOM_DEFAULT 1
 	
 	
+	// Player
+	#macro PLAYER_COMMAND_INPUT_TIMER 15
+	
+	
 	// save files
 	#macro SAVEFILE_SETTINGS "settings.json"
 	

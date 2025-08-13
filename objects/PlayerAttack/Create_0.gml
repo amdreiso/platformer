@@ -3,22 +3,15 @@ isSolid = true;
 
 dir = vec2();
 used = false;
-attacking = false;
+attacking = true;
 
+initialDirection = 1;
 
 collisions = function() {
 	var frame = attacking;
 	
-	if (image_index == 6) {
-		sound3D(-1, x, y, snd_electricity1, false, 0.3, [0.95, 1.00]);
-	}
-	
-	if (place_meeting(x, y, Switch) && frame) {
+	if (place_meeting(x, y, Switch)) {
 		var inst = instance_nearest(x, y, Switch);
-		if (!inst.active) {
-			camera_shake(2);
-			sound3D(-1, x, y, snd_hit2, false, 0.25, [0.95, 1.00]);
-		}
 		
 		with (inst) {
 			if (!active) {

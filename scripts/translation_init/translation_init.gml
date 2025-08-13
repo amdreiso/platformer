@@ -23,7 +23,8 @@ function translation_init(){
 		},
 		
 		get: function(key) {
-			return TranslationData[? key][? Language];
+			// tries to get translation, if undefined, returns english
+			return TranslationData[? key][? Language] ?? TranslationData[? key][? LANGUAGE_ID.English];
 		},
 	};
 	
@@ -41,9 +42,10 @@ function translation_init(){
 	
 	// TODO: Poem
 	TRANSLATION.add("gui_death_screen_poem")
-		.set(LANGUAGE_ID.English, "")
+		.set(LANGUAGE_ID.English, "cringe")
 		.set(LANGUAGE_ID.Brazilian, "")
 		.finalize();
+	
 	
 	#endregion
 	

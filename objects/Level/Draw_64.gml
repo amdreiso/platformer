@@ -1,5 +1,3 @@
 
 drawBossbar();
-
 drawScreenFlash();
-

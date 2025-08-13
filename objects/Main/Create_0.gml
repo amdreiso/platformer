@@ -310,6 +310,8 @@ drawConsole = function() {
 	draw_sprite_ext(sKitty2, 0, xx - (sprite_get_width(sKitty3) * scale), yyy + height, scale, scale, 0, c_white, 1);
 }
 
+runCommand("start");
+
 
 // For testing snippets of code
 instance_create_depth(0, 0, -999999, TEST);

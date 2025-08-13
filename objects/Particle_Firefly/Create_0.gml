@@ -1,7 +1,7 @@
 
 event_inherited();
 
-sprite = sParticle_Firefly;
+sprite = sParticle_Pixel;
 
 gravityApply = false;
 lifetime = irandom_range(5, 30) * 60;

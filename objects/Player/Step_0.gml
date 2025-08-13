@@ -1,4 +1,5 @@
 
+
 busy = (Paused 
 				|| isDead
 				|| instance_exists(Textbox) 
@@ -17,15 +18,6 @@ handleBackflip();
 
 // Lighting
 viewDistance = viewDistanceDefault * LevelData[? room].components.playerVision;
-
-var amp = 1;
-var time = 0.001;
-
-var left = sin(current_time * time) * amp;
-var right = cos(current_time * time) * amp;
-
-gamepad_set_vibration(Gamepad.ID, 1, 1);
-
 
 
 // Audio

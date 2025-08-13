@@ -45,7 +45,7 @@ collisions = function() {
 		a.used = true;
 		
 		var knockback = 2.84 / knockbackResistence;
-		force.x = a.dir.x * (knockback);
+		force.x = a.initialDirection * (knockback);
 		
 		vsp = 0;
 		vsp -= a.dir.y * knockback;

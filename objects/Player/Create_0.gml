@@ -14,7 +14,6 @@ emitter = audio_emitter_create();
 soul = SOUL_TYPE.Castoff;
 
 
-
 // Health
 defaultHp = 20;
 hp = defaultHp;
@@ -57,6 +56,7 @@ jumpForce = 1.85;
 jumpCountDefault = 1;
 jumpCount = jumpCountDefault;
 onGround = false;
+onAir = false;
 onSlope = false;
 isMoving = false;
 isFlipping = false;
@@ -91,6 +91,8 @@ movement = function() {
 		place_meeting(x, y + 1, Collision_JumpThrough) || 
 		place_meeting(x, y + 1, Collision_Rayblock)
 	);
+	
+	onAir = !onGround;
 	
 	if (onGround) {
 		onSlope = false;
@@ -204,14 +206,63 @@ applyCollisions = function() {
 
 
 // Attack
+attackCommandInput = "";
+attackCommandTimer = 0;
+
+attackCommands = ds_map_create();
+attackCommandCreate = function(key, name="", fn=function(){}) {
+	var command = {};
+	command.run = fn;
+	command.name = name;
+	attackCommands[? key] = command;
+}
+
+attackCommandGet = function(key) {
+	return attackCommands[? key];
+}
+
+#region All attack commands
+
+// 37 left
+// 38 up
+// 39 right
+// 40 down
+// 90 z
+
+// Big Jump
+attackCommandCreate("down+up+jump", "big jump!", function(){
+	if (!onGround) return;
+	vsp = 0;
+	vsp -= 3;
+});
+
+attackCommandCreate("jump+down+right", "cringeee", function(){
+	if (!onAir) return;
+	force.x += 2;
+});
+
+attackCommandCreate("jump+down+left", "cringeee", function(){
+	if (!onAir) return;
+	force.x -= 2;
+});
+
+attackCommandCreate("left+down+right+up+down+jump", "", function(){
+	if (!onGround) return;
+	print("thinking you're really smart huh");
+});
+
+#endregion
+
+analogPressed = false;
+
 attack = function() {
 	if (busy || instance_exists(PlayerAttack)) return;
 	
-	if (Keymap.player.specialAttack) {
+	if (Keymap.player.attack) {
 		var atk = instance_create_depth(floor(x), floor(y), depth, PlayerAttack);
-		atk.sprite_index = sAttack1;
+		atk.sprite_index = sPlayer_Attack1;
 		atk.image_xscale = image_xscale;
-		atk.image_angle = image_angle;
+		atk.initialDirection = image_xscale;
 		
 		var hdir = image_xscale;
 		var vdir = Keymap.player.jumpHold && onGround;
@@ -223,6 +274,106 @@ attack = function() {
 			vdir
 		);
 	}
+	
+	var map			= Keymap.player;
+	var keycode = "";
+	var lastkey = "";
+	
+	var clicky = false;
+	
+	// Controller Analog
+	if (gamepad_axis_value(Gamepad.ID, gp_axislh) == -1 && !analogPressed) {
+		keycode = "left";
+		clicky = true;
+		analogPressed = true;
+		
+	} else if (gamepad_axis_value(Gamepad.ID, gp_axislh) == 1 && !analogPressed) {
+		keycode = "right";
+		clicky = true;
+		analogPressed = true;
+		
+	} else if (gamepad_axis_value(Gamepad.ID, gp_axislv) == -1 && !analogPressed) {
+		keycode = "up";
+		clicky = true;
+		analogPressed = true;
+		
+	} else if (gamepad_axis_value(Gamepad.ID, gp_axislv) == 1 && !analogPressed) {
+		keycode = "down";
+		clicky = true;
+		analogPressed = true;
+		
+	}
+	
+	if (
+		gamepad_axis_value(Gamepad.ID, gp_axislh) > -1 &&
+		gamepad_axis_value(Gamepad.ID, gp_axislh) < 1 &&
+		gamepad_axis_value(Gamepad.ID, gp_axislv) > -1 &&
+		gamepad_axis_value(Gamepad.ID, gp_axislv) < 1
+	) {
+		analogPressed = false;
+	}
+	
+	
+	// Buttons
+	if (map.upPressed) {
+		keycode = "up";
+		clicky = true;
+		
+	} else if (map.downPressed) {
+		keycode = "down";
+		clicky = true;
+		
+	} else if (map.leftPressed) {
+		keycode = "left";
+		clicky = true;
+		
+	} else if (map.rightPressed) {
+		keycode = "right";
+		clicky = true;
+		
+	} else if (map.attack) {
+		keycode = "attack";
+		clicky = true;
+		
+	} else if (map.jump) {
+		keycode = "jump";
+		clicky = true;
+	}
+	
+	
+	// run combo mechanic
+	if (clicky) {
+		var prefix = "";
+		
+		if (keycode == 32) keycode = 90;
+		
+		// If there is content in the command input
+		if (attackCommandInput != "") {
+			prefix = "+"; 
+			var slices = string_split(attackCommandInput, "+");
+			lastkey = slices[array_length(slices) - 1];
+			
+		} else {
+			prefix = "";
+			
+		}
+		
+		attackCommandInput += prefix + keycode;
+		
+		print(attackCommandInput);
+		
+		var command = attackCommandGet(attackCommandInput);
+		if (!is_undefined(command)) {
+			if (command.run()) print(command.name);
+		}
+		
+		attackCommandTimer = 0;
+	}
+	
+	// Reset combo thingy	
+	attackCommandTimer += GameSpeed;
+	if (attackCommandTimer > PLAYER_COMMAND_INPUT_TIMER) attackCommandInput = "";
+	
 	
 	// handle weapons
 	var hand = inventory.getCurrentSlot().itemID;

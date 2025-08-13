@@ -2,7 +2,7 @@
 if (!keyboard_check_pressed(vk_f1)) return;
 
 
-language_set(LANGUAGE_ID.English);
+language_set(LANGUAGE_ID.Brazilian);
 
 Debug.debug = true;
 
