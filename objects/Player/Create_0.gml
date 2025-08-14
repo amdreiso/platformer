@@ -138,7 +138,7 @@ movement = function() {
 		vsp = 0;
 		vsp -= jumpForce;
 		
-		if (!onGround) flip();
+		//if (!onGround) flip();
 		
 		jumpCount --;
 	}
@@ -248,8 +248,19 @@ attackCommandCreate("jump+down+left", "cringeee", function(){
 
 attackCommandCreate("left+down+right+up+down+jump", "", function(){
 	if (!onGround) return;
-	print("thinking you're really smart huh");
 });
+
+attackCommandCreate("jump+up+jump", "front-flip", function(){
+	if (onGround) return;
+	flip();
+});
+
+attackCommandCreate("up+jump", "front-flip", function(){
+	if (onGround) return;
+	flip();
+});
+
+
 
 #endregion
 
@@ -365,6 +376,7 @@ attack = function() {
 		var command = attackCommandGet(attackCommandInput);
 		if (!is_undefined(command)) {
 			if (command.run()) print(command.name);
+			attackCommandInput = "";
 		}
 		
 		attackCommandTimer = 0;

@@ -95,7 +95,9 @@ function apply_force() {
 function collision_set(obj) {
 	if (!instance_exists(obj)) return;
 	
-	if (instance_nearest(x, y, obj).image_yscale == -1) {
+	var near = instance_nearest(x, y, obj);
+	
+	if (near.image_yscale == -1) {
 		return false;
 	}
 	

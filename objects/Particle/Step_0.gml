@@ -31,3 +31,8 @@ if (destroy) {
 		instance_destroy();
 	}
 }
+
+x = round(x);
+y = round(y);
+
+

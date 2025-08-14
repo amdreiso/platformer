@@ -3,7 +3,7 @@
   "%Name":"sTileSet1",
   "bboxMode":0,
   "bbox_bottom":239,
-  "bbox_left":16,
+  "bbox_left":0,
   "bbox_right":255,
   "bbox_top":0,
   "collisionKind":1,

@@ -53,6 +53,10 @@ function level_init(){
 		darkness: 0.90,
 		
 		backgroundSong: snd_dreamsOfAnElectricMind,
+		
+		roomCode: function() {
+			parallax_set("Parallax_1", 0.60, -1);
+		}
 	});
 	
 	LEVEL.register(rmLevel_Cave_DumpYard, "dump yard", {
@@ -61,10 +65,6 @@ function level_init(){
 		
 		backgroundSong: snd_forgottenSpace,
 		
-		roomCode: function() {
-			parallax_set("Parallax_1", 3.00);
-			parallax_set("Parallax_2", 0.50);
-		}
 	});
 	
 	#endregion
