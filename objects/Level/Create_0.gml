@@ -27,14 +27,35 @@ drawScreenFlash = function() {
 
 
 // Music
-backgroundSong = undefined;
+backgroundSong						= undefined;
+backgroundSongGain				= 1;
+backgroundSongGainTime		= 1;
+setBackgroundSong					= function(snd, loop=false, gain=1, gaintime=1) {
+	
+	
+	// Stop current song if playing
+	if (!is_undefined(backgroundSong)) {
+		audio_stop_sound(backgroundSong);
+	}
+	
+	// Play new song 
+	backgroundSong = audio_play_sound(snd, 0, loop);
+	backgroundSongGain = gain;
+	backgroundSongGainTime = gaintime;
+}
+
+setBackgroundSongGain = function(gain, gaintime) {
+	// Stop current song if playing
+	backgroundSongGain = gain;
+	backgroundSongGainTime = gaintime;
+}
 
 
 drawBossbar = function() {
 	
 	if (!hasBoss) return;
 	
-	var nameScale = 2;
+	var nameScale = 1.5;
 	var nameColor = Boss.nameColor;
 	var nameHeight = 100;
 	

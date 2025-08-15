@@ -184,9 +184,17 @@ applyCollisions = function() {
 		}
 	}
 	
+	var doorside = instance_nearest(x, y, DoorSideways);
+	
 	collision_set(Collision);
 	collision_set(Collision_Slope);
 	collision_set(Collision_Rayblock);
+	
+	if (instance_exists(doorside)) {
+		if (!doorside.open) {
+			collision_set(doorside);
+		}
+	}
 	
 	if (place_meeting(x, y, Trigger)) {
 		instance_destroy(instance_nearest(x, y, Trigger));

@@ -25,7 +25,10 @@ if (newRoom) {
 	
 }
 
+audio_sound_gain(backgroundSong, backgroundSongGain, backgroundSongGainTime);
+
 roomCode();
+
 
 
 /*

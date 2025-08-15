@@ -1,5 +1,5 @@
 
-if (!keyboard_check_pressed(vk_f1)) return;
+if (!keyboard_check_pressed(vk_f3)) return;
 
 
 language_set(LANGUAGE_ID.Brazilian);

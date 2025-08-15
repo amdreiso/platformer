@@ -9,7 +9,7 @@
   "bitRate":128,
   "compression":0,
   "conversionMode":0,
-  "duration":124.24141,
+  "duration":143.98492,
   "name":"snd_boss1",
   "parent":{
     "name":"boss battles",

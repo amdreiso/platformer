@@ -73,7 +73,9 @@ function position_tolerance(xx, yy, tolerance) {
 function on_last_frame(fn) {
 	if (ceil(image_index) == sprite_get_number(sprite_index)) {
 		fn();
+		return true;
 	}
+	return false;
 }
 
 function apply_force() {
@@ -94,12 +96,6 @@ function apply_force() {
 
 function collision_set(obj) {
 	if (!instance_exists(obj)) return;
-	
-	var near = instance_nearest(x, y, obj);
-	
-	if (near.image_yscale == -1) {
-		return false;
-	}
 	
 	var subPixel = 1 + (abs(ceil(force.x)) * 2);
 	

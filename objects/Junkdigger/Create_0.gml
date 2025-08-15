@@ -1,7 +1,7 @@
 
 event_inherited();
 
-name = "Junkdigger";
+name = "Junkeeper";
 
 hsp = 0;
 vsp = 0;
@@ -21,6 +21,10 @@ rightHand.image_xscale = -1;
 
 
 face = sBoss_Junkdigger_Cringe_FE;
+
+
+door = instance_create_layer(256, 496, "Instances", DoorSideways);
+door.openable = false;
 
 
 
