@@ -1,6 +1,8 @@
 
 event_inherited();
 
+setHp(15);
+
 meleeDamage = 5;
 
 lightAlpha = 0.25;

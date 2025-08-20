@@ -14,12 +14,19 @@ emitter = audio_emitter_create();
 soul = SOUL_TYPE.Castoff;
 
 
+
 // Health
-defaultHp = 20;
+defaultHp = 100;
+hpDisplay = defaultHp;
 hp = defaultHp;
 isHit = false;
 hitCooldown = 0;
 isDead = false;
+
+setHp = function(value) {
+	defaultHp = value;
+	hp = value;
+}
 
 handleHealth = function() {
 	hitCooldown = max(0, hitCooldown - GameSpeed);
@@ -36,8 +43,10 @@ hit = function(damage, xscale=1) {
 	
 	vsp -= jumpForce;
 	
+	var shake = clamp(damage / 0.5, 0, 20);
+	
 	screen_flash(0.3, 0.06, c_red);
-	camera_shake(damage / 0.5);
+	camera_shake(shake);
 	
 	var hitSound = choose(snd_hit1, snd_hit2);
 	audio_play_sound(hitSound, 0, false, 0.5, 0, random_range(0.80, 1.00));
@@ -106,8 +115,15 @@ movement = function() {
 		onSlope = true;
 	}
 	
-	x += hsp + force.x;
+	var hspMultiplier = 1;
+	
+	if (isAttacking && onGround) {
+		hspMultiplier = 0;
+	}
+	
+	x += (hsp + force.x) * hspMultiplier;
 	y += vsp + force.y;
+	
 	
 	// Gravity
 	vsp = (vsp + Gravity) * GameSpeed;
@@ -189,6 +205,7 @@ applyCollisions = function() {
 	collision_set(Collision);
 	collision_set(Collision_Slope);
 	collision_set(Collision_Rayblock);
+	collision_set(FakeWall);
 	
 	if (instance_exists(doorside)) {
 		if (!doorside.open) {
@@ -208,12 +225,14 @@ applyCollisions = function() {
 	
 	if (place_meeting(x, y, Enemy)) {
 		var enemy = instance_nearest(x, y, Enemy);
-		hit(enemy.meleeDamage, (x - enemy.x));
+		hit(enemy.damage, (x - enemy.x));
 	}
 }
 
 
 // Attack
+isAttacking = false;
+
 attackCommandInput = "";
 attackCommandTimer = 0;
 
@@ -258,6 +277,16 @@ attackCommandCreate("left+down+right+up+down+jump", "", function(){
 	if (!onGround) return;
 });
 
+attackCommandCreate("left+jump+up+jump", "front-flip", function(){
+	if (onGround) return;
+	flip();
+});
+
+attackCommandCreate("right+jump+up+jump", "front-flip", function(){
+	if (onGround) return;
+	flip();
+});
+
 attackCommandCreate("jump+up+jump", "front-flip", function(){
 	if (onGround) return;
 	flip();
@@ -275,13 +304,16 @@ attackCommandCreate("up+jump", "front-flip", function(){
 analogPressed = false;
 
 attack = function() {
-	if (busy || instance_exists(PlayerAttack)) return;
+	if (busy || isAttacking) return;
 	
 	if (Keymap.player.attack) {
+		
 		var atk = instance_create_depth(floor(x), floor(y), depth, PlayerAttack);
 		atk.sprite_index = sPlayer_Attack1;
 		atk.image_xscale = image_xscale;
 		atk.initialDirection = image_xscale;
+		
+		atk.damage = 10;
 		
 		var hdir = image_xscale;
 		var vdir = Keymap.player.jumpHold && onGround;
@@ -292,6 +324,8 @@ attack = function() {
 			hdir,
 			vdir
 		);
+		
+		isAttacking = true;
 	}
 	
 	var map			= Keymap.player;
@@ -517,6 +551,7 @@ angle = 0;
 spriteStates = {
 	idle: sPlayerOneEye_Idle,
 	move: sPlayerOneEye_Move,
+	attack: sPlayerOneEye_Attack,
 }
 
 blink = false;
@@ -524,13 +559,27 @@ blink = false;
 draw = function() {
 	var sprite = spriteStates.idle;
 	
-	if (hsp != 0) {
+	
+	// move when walking horizontally
+	if (hsp != 0 && !isAttacking) {
 		sprite = spriteStates.move;
 		image_xscale = sign(hsp);
 	}
 	
+	// if player is busy idle
 	if (busy) {
 		sprite = spriteStates.idle;
+	}
+	
+	// Attack sprite
+	if (isAttacking) {
+		sprite = spriteStates.attack;
+		
+		on_last_frame(function(){
+			if (sprite_index != spriteStates.attack) return;
+			isAttacking = false;
+			print("attack on last frame");
+		});
 	}
 	
 	sprite_index = sprite;
@@ -561,6 +610,10 @@ drawGUI = function() {
 	
 	draw_sprite_ext(sItemDisplay, 0, margin, margin, guiScale, guiScale, 0, c_white, 1);
 	
+	if (hpDisplay > hp) {
+		hpDisplay = lerp(hpDisplay, hp, 0.25);
+	}
+	
 	for (var i = 0; i < defaultHp; i++) {
 		var xoffset = (sprite_get_width(sItemDisplay) * guiScale) / 2 + margin;
 		var width = (sprite_get_width(sHealthbar) * guiScale);
@@ -570,7 +623,7 @@ drawGUI = function() {
 		var sprite = sHealthbar;
 		if (i == defaultHp-1) sprite = sHealthbar_end;
 		
-		if (i > hp) color = c_dkgray;
+		if (i > floor(hpDisplay)) color = c_dkgray;
 		
 		draw_sprite_ext(sprite, 0, xoffset + i * width, margin, guiScale, guiScale, 0, color, 1);
 	}
@@ -588,7 +641,7 @@ drawSecretGUI = function() {
 	
 	if (!secret) return;
 	
-	rect(WIDTH/2, HEIGHT/2, labelBackgroundX, 80, c_black, false, 0.35);
+	rect(WIDTH / 2, HEIGHT / 2, labelBackgroundX, 80, c_black, false, 0.35);
 	
 	var str = "[scale=3]you've found a [color=#ff5555]secret![/color][/scale]";
 	var text = parse_rich_text(str);
@@ -614,17 +667,22 @@ drawSecretGUI = function() {
 		
 		draw_set_font(fnt_console);
 		
+		draw_set_halign(fa_center);
+		draw_set_valign(fa_middle);
+		
 	  draw_text_transformed_color(dx, dy, tc.char, tc.scale, tc.scale, tc.angle, tc.color, tc.color, tc.color, tc.color, secretAlpha);
 	  xoffset += string_width(tc.char);
 	}
-		
+	
 	secretTime += GameSpeed;
 	if (floor(secretTime) > 4 * 60) {
 		secretAlpha = lerp(secretAlpha, 0, lerpTime);
 		labelBackgroundX = lerp(labelBackgroundX, 0, 0.1);
+		
 	} else {
 		secretAlpha = lerp(secretAlpha, 1, lerpTime);
 		labelBackgroundX = lerp(labelBackgroundX, WIDTH, 0.1);
+		
 	}
 	
 	if (secretAlpha < 0.01) {
@@ -639,7 +697,6 @@ deathScreenAlpha = 0;
 drawDeathScreen = function() {
 	
 	deathScreenAlpha = lerp(deathScreenAlpha, isDead, 0.025);
-	
 	
 	var a = deathScreenAlpha;
 	var c0 = c_black;
@@ -656,13 +713,7 @@ drawDeathScreen = function() {
 	
 	draw_set_alpha(1);
 	
-	
 }
-
-
-
-
-
 
 
 

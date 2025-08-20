@@ -5,6 +5,9 @@ enum ITEM_TYPE {
 	Blank,
 	Key,
 	Weapon,
+	Armor,
+	Ring,
+	
 }
 
 enum ITEM_ID {

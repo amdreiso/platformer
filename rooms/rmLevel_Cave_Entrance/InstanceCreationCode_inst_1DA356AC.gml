@@ -1,0 +1,2 @@
+
+sprite = sFakewall1;

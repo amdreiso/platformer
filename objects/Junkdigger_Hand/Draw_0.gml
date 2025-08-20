@@ -1,4 +1,4 @@
 
-draw_self();
+draw();
 
 draw_text(x, y, state);

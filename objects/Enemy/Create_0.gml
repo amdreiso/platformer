@@ -7,7 +7,7 @@ lightLevel = 16;
 lightAlpha = 0.25;
 lightColor = c_white;
 
-meleeDamage = 10;
+damage = 10;
 
 
 // Movement
@@ -50,17 +50,22 @@ collisions = function() {
 		vsp = 0;
 		vsp -= a.dir.y * knockback;
 		
-		hit(1);
+		hit(a.damage);
 	}
 }
 
 
 // Health
-defaultHp = 5;
+defaultHp = 100;
 hp = defaultHp;
 isHit = false;
 hitCooldown = 0;
 hitFog = 0;
+
+setHp = function(value) {
+	defaultHp = value;
+	hp = value;
+}
 
 handleHealth = function() {
 	
@@ -68,6 +73,10 @@ handleHealth = function() {
 	hitFog = max(0, hitFog - GameSpeed);
 	
 	if (hitCooldown == 0) isHit = false;
+	
+	if (hp <= 0) {
+		instance_destroy();
+	}
 	
 }
 

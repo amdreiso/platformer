@@ -20,13 +20,13 @@ function item_init(){
 		},
 		
 		getType: function(itemID) {
-			return (ItemData[? itemID].type);
+			return (ItemData[? itemID].type ?? undefined);
 		},
 		
 	};
 	
-	ITEM.register(ITEM_ID.ScrapElectronics, ITEM_TYPE.Blank, "scrap electronics", sScrapElectronics_Item);
 	
+	ITEM.register(ITEM_ID.ScrapElectronics, ITEM_TYPE.Blank, "scrap electronics", sScrapElectronics_Item);
 	TRANSLATION.add(ITEM_ID.ScrapElectronics)
 		.set(LANGUAGE_ID.English, "scrap electronics")
 		.set(LANGUAGE_ID.Brazilian, "resto de eletrônicos")

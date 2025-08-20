@@ -35,7 +35,7 @@ function level_init(){
 	
 	// Initializing 
 	LEVEL.register(rmBegginingCutscene, "beggining cutscene", {
-		darkness: 0,
+		darkness: 1,
 		isCutscene: true,
 		
 		backgroundSong: snd_mechanicalHope,

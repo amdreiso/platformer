@@ -2,8 +2,8 @@
   "$GMSound":"",
   "%Name":"snd_boss1",
   "audioGroupId":{
-    "name":"audiogroup_default",
-    "path":"audiogroups/audiogroup_default",
+    "name":"audiogroup_songs",
+    "path":"audiogroups/audiogroup_songs",
   },
   "bitDepth":1,
   "bitRate":128,
@@ -20,6 +20,6 @@
   "resourceVersion":"2.0",
   "sampleRate":44100,
   "soundFile":"snd_boss1.wav",
-  "type":0,
-  "volume":1.0,
+  "type":1,
+  "volume":0.5,
 }

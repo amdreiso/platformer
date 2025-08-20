@@ -22,10 +22,10 @@ camera_set_view_size(cam, defaultSize.width * zoomLerp, defaultSize.height * zoo
 var view_w = defaultSize.width * zoomLerp;
 var view_h = defaultSize.height * zoomLerp;
 
-var camx = clamp(x - view_w / 2, 0, room_width - view_w);
-var camy = clamp(y - view_h / 2, 0, room_height - view_h);
+pos.x = clamp(x - view_w / 2, 0, room_width - view_w);
+pos.y = clamp(y - view_h / 2, 0, room_height - view_h);
 
-camera_set_view_pos(cam, camx, camy);
+camera_set_view_pos(cam, pos.x, pos.y);
 
 zoomLerp = lerp(zoomLerp, zoom, zoomSpd);
 
