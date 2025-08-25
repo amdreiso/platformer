@@ -55,8 +55,6 @@
     {"name":"inst_52404C18","path":"rooms/rmLevel_Cave_Village/rmLevel_Cave_Village.yy",},
     {"name":"inst_68BB2AE8","path":"rooms/rmLevel_Cave_Village/rmLevel_Cave_Village.yy",},
     {"name":"inst_2535C430","path":"rooms/rmLevel_Cave_Village/rmLevel_Cave_Village.yy",},
-    {"name":"inst_1F900665","path":"rooms/rmLevel_Cave_Village/rmLevel_Cave_Village.yy",},
-    {"name":"inst_335449B6","path":"rooms/rmLevel_Cave_Village/rmLevel_Cave_Village.yy",},
   ],
   "isDnd":false,
   "layers":[
@@ -144,8 +142,6 @@
       ],"layers":[],"name":"Lighting","properties":[],"resourceType":"GMRInstanceLayer","resourceVersion":"2.0","userdefinedDepth":false,"visible":true,},
     {"$GMRInstanceLayer":"","%Name":"Instances","depth":500,"effectEnabled":true,"effectType":null,"gridX":8,"gridY":8,"hierarchyFrozen":false,"inheritLayerDepth":false,"inheritLayerSettings":false,"inheritSubLayers":true,"inheritVisibility":true,"instances":[
         {"$GMRInstance":"v2","%Name":"inst_1EA1F4CA","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_1EA1F4CA","objectId":{"name":"ParticleGenerator_Waterfall","path":"objects/ParticleGenerator_Waterfall/ParticleGenerator_Waterfall.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":1056.0,"y":576.0,},
-        {"$GMRInstance":"v2","%Name":"inst_1F900665","colour":4294967295,"frozen":false,"hasCreationCode":true,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_1F900665","objectId":{"name":"Rope","path":"objects/Rope/Rope.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":425.0,"y":381.0,},
-        {"$GMRInstance":"v2","%Name":"inst_335449B6","colour":4294967295,"frozen":false,"hasCreationCode":true,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_335449B6","objectId":{"name":"Rope","path":"objects/Rope/Rope.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":331.0,"y":380.0,},
       ],"layers":[],"name":"Instances","properties":[],"resourceType":"GMRInstanceLayer","resourceVersion":"2.0","userdefinedDepth":false,"visible":true,},
     {"$GMRInstanceLayer":"","%Name":"Controller","depth":600,"effectEnabled":true,"effectType":null,"gridX":8,"gridY":8,"hierarchyFrozen":false,"inheritLayerDepth":false,"inheritLayerSettings":false,"inheritSubLayers":true,"inheritVisibility":true,"instances":[
         {"$GMRInstance":"v2","%Name":"inst_F5FF676_1_1","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_F5FF676_1_1","objectId":{"name":"Controller","path":"objects/Controller/Controller.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":0.0,"y":0.0,},

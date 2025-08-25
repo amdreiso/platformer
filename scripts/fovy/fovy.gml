@@ -94,18 +94,16 @@ function apply_force() {
   }
 }
 
-function collision_set(obj) {
+function collision_set(obj, subpixel = 1) {
 	if (!instance_exists(obj)) return;
-	
-	var subPixel = 1 + (abs(ceil(force.x)) * 2);
 	
 	if (place_meeting(x + hsp + force.x, y, obj)) {
 		
 		// Slope up
-		if (!place_meeting(x + hsp, y - abs(hsp) - 1, obj)) {
+		if (!place_meeting(round(x + hsp), y - abs(hsp) - 1, obj)) {
 			
-			while (place_meeting(x + hsp, y, obj)) {
-				y -= subPixel;
+			while (place_meeting(round(x + hsp), ceil(y), obj)) {
+				y -= subpixel;
 			}
 			
 		} else {
@@ -128,7 +126,13 @@ function collision_set(obj) {
 		vsp = 0;
 		force.y = 0;
 	}
+	
+	
 }
+
+
+
+
 
 function vec2(x=0, y=0) {
 	return {

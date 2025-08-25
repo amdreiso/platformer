@@ -16,7 +16,7 @@ soul = SOUL_TYPE.Castoff;
 
 
 // Health
-defaultHp = 100;
+defaultHp = 25;
 hpDisplay = defaultHp;
 hp = defaultHp;
 isHit = false;
@@ -55,23 +55,25 @@ hit = function(damage, xscale=1) {
 
 
 // Movement
-allowMovement = true;
-defaultSpd = 1.3;
-spd = defaultSpd;
-hsp = 0;
-vsp = 0;
-force = vec2();
-jumpForce = 1.85;
-jumpCountDefault = 1;
-jumpCount = jumpCountDefault;
-onGround = false;
-onAir = false;
-onSlope = false;
-isMoving = false;
-isFlipping = false;
-noclip = false;
-
-lastPlaceStanding = -1;
+allowMovement						= true;
+defaultSpd							= 1.25;
+spd											= defaultSpd;
+hsp											= 0;
+vsp											= 0;
+hspFrac									= 0;
+vspFrac									= 0;
+force										= vec2();
+jumpForce								= 2;
+jumpCountDefault				= 1;
+jumpCount								= jumpCountDefault;
+isJumping								= false;
+onGround								= false;
+onAir										= false;
+onSlope									= false;
+isMoving								= false;
+isFlipping							= false;
+noclip									= false;
+lastPlaceStanding				= -1;
 
 
 flip = function() {
@@ -85,7 +87,10 @@ handleBackflip = function() {
 	var time = 360 / 45;
 	angle = angle + (time) * -image_xscale;
 	
-	if (abs(angle) >= 355) { angle = 0; isFlipping = false; }
+	if (abs(angle) >= 355) { 
+		angle = 0; 
+		isFlipping = false; 
+	}
 }
 
 movement = function() {
@@ -94,6 +99,8 @@ movement = function() {
 	isMoving = (hsp != 0 || vsp != 0);
 	
 	spd = defaultSpd;
+	
+	var wasOnGround = onGround;
 	onGround = (
 		place_meeting(x, y + 1, Collision) ||
 		place_meeting(x, y + 1, Collision_Slope) || 
@@ -103,13 +110,21 @@ movement = function() {
 	
 	onAir = !onGround;
 	
+	if (onGround && !wasOnGround) {
+		createDustParticles(10, 5, 0.20);
+	}
+	
 	if (onGround) {
 		onSlope = false;
 		jumpCount = jumpCountDefault;
 		isFlipping = false;
 		
+		isJumping = false;
+		
 		lastPlaceStanding = vec2(x, y);
 	}
+	
+	
 	
 	if (place_meeting(x, y + 1, Collision_Slope)) {
 		onSlope = true;
@@ -125,7 +140,7 @@ movement = function() {
 	y += vsp + force.y;
 	
 	
-	// Gravity
+	// gravity
 	vsp = (vsp + Gravity) * GameSpeed;
 	
 	apply_force();
@@ -135,7 +150,8 @@ movement = function() {
 	vsp = clamp(vsp, -MAX_FALLING_SPEED, MAX_FALLING_SPEED);
 	
 	// if on cutscene disable movement
-	if (OnCutscene) return;
+	var skipMovement = (OnCutscene);
+	if (skipMovement) return;
 	
 	var map = Keymap.player;
 	var left = map.left;
@@ -154,11 +170,15 @@ movement = function() {
 		vsp = 0;
 		vsp -= jumpForce;
 		
-		//if (!onGround) flip();
+		if (onGround) {
+			createDustParticles(10, 5);
+		}
 		
 		jumpCount --;
+		isJumping = true;
 	}
 	
+	// Relative jump
 	if (vsp < 0 && !map.jumpHold) {
 		vsp = max(vsp, -0.25);
 	}
@@ -181,7 +201,45 @@ dash = function() {
 }
 
 
+
+// Particles
+createDustParticles = function(val, range, spd = 0.15) {
+	
+	repeat (val) {
+		var pos = randvec2(x, y + sprite_height / 2, range);
+		
+		var part = instance_create_depth(pos.x, pos.y, depth, Particle);
+		with (part) {
+			
+			gravityApply = false;
+			
+			var dir = spd;
+			hsp = random_range(-dir, dir);
+			vsp = random_range(-dir, dir);
+			
+			sprite = sParticle_Dust;
+			getRandomSprite = true;
+			
+			scale = random_range(1.00, 1.50);
+			
+			image_angle = irandom(360);
+			image_xscale = choose(-1, 1);
+			image_yscale = choose(-1, 1);
+			
+			fadeout = true;
+			fadeoutSpeed = random_range(0.05, 0.15) / 5;
+			
+		}
+	}
+	
+}
+
+
+
 // Collisions
+//collisionTilemap = layer_tilemap_get_id("Collision_Map");
+
+
 collisions = {
 	solid: [Collision, Collision_JumpThrough, Collision_Rayblock, Collision_Slope],
 };
@@ -190,23 +248,71 @@ collisions = {
 applyCollisions = function() {
 	if (noclip) return;
 	
-	var jumpThrough = instance_place(x, y + max(1, vsp), Collision_JumpThrough);
-	if (jumpThrough && floor(bbox_bottom) <= jumpThrough.bbox_top) {
-		if (vsp > 0) {
-			while (!place_meeting(x, y + sign(vsp), Collision_JumpThrough)) {
-				y += sign(vsp);
-			}
-			vsp = 0;
-		}
+	//var jumpThrough = instance_place(x, y + max(1, vsp), Collision_JumpThrough);
+	//if (jumpThrough && floor(bbox_bottom) <= jumpThrough.bbox_top) {
+	//	if (vsp > 0) {
+	//		while (!place_meeting(x, y + sign(vsp), Collision_JumpThrough)) {
+	//			y += sign(vsp);
+	//		}
+	//		vsp = 0;
+	//	}
+	//}
+	
+	
+	hsp += hspFrac;
+	
+	hspFrac = hsp - (round(abs(hsp)) * sign(hsp));
+	hsp -= hspFrac;
+
+
+	if (!onAir) {
+		vsp += vspFrac;
+
+		vspFrac = vsp - (round(abs(vsp)) * sign(vsp));
+		vsp -= vspFrac;
 	}
 	
+	collision_set(Collision, spd);
+	collision_set(Collision_Slope, spd);
+	collision_set(Collision_Rayblock, spd);
+	collision_set(FakeWall, spd);
+	
+	
+	//// regular collisions
+	//var bbox_side = 1;
+	//var cellsize = 16;
+	
+	//// Horizontal Collision
+	//if (hsp > 0) bbox_side = bbox_right; else bbox_side = bbox_left;
+	//var onSide = tilemap_get_at_pixel(collisionTilemap, bbox_side + hsp, bbox_top) != 0 || tilemap_get_at_pixel(collisionTilemap, bbox_side + hsp, bbox_bottom) != 0;
+	
+	//if (onSide) {
+	//	if (hsp > 0) {
+	//		x = x - (x mod cellsize) + (cellsize - 1) - (bbox_right - x);
+	//	} else {
+	//		x = x - (x mod cellsize) - (bbox_left - x);
+	//	}
+		
+	//	hsp = 0;
+	//}
+	
+	//// Vertical Collision
+	//if (vsp > 0) bbox_side = bbox_bottom; else bbox_side = bbox_top;
+	
+	//if (tilemap_get_at_pixel(collisionTilemap, bbox_left, bbox_side + vsp) || tilemap_get_at_pixel(collisionTilemap, bbox_right, bbox_side + vsp)) {
+	//	if (vsp > 0) {
+	//		y = y - (y mod cellsize) + (cellsize - 1) - (bbox_bottom - y);
+	//		onGround = false;
+	//	} else {
+	//		y = y - (y mod cellsize) - (bbox_top - y);
+	//		onGround = true;
+	//	}
+		
+	//	vsp = 0;
+	//}
+	
+	
 	var doorside = instance_nearest(x, y, DoorSideways);
-	
-	collision_set(Collision);
-	collision_set(Collision_Slope);
-	collision_set(Collision_Rayblock);
-	collision_set(FakeWall);
-	
 	if (instance_exists(doorside)) {
 		if (!doorside.open) {
 			collision_set(doorside);
@@ -231,6 +337,10 @@ applyCollisions = function() {
 
 
 // Attack
+subitem_init();
+subitem = SUBITEM_ID.WaterBucket;
+
+
 isAttacking = false;
 
 attackCommandInput = "";
@@ -250,11 +360,8 @@ attackCommandGet = function(key) {
 
 #region All attack commands
 
-// 37 left
-// 38 up
-// 39 right
-// 40 down
-// 90 z
+// controls:
+// down up right left attack jump
 
 // Big Jump
 attackCommandCreate("down+up+jump", "big jump!", function(){
@@ -263,19 +370,11 @@ attackCommandCreate("down+up+jump", "big jump!", function(){
 	vsp -= 3;
 });
 
-attackCommandCreate("jump+down+right", "cringeee", function(){
-	if (!onAir) return;
-	force.x += 2;
-});
-
-attackCommandCreate("jump+down+left", "cringeee", function(){
-	if (!onAir) return;
-	force.x -= 2;
-});
-
 attackCommandCreate("left+down+right+up+down+jump", "", function(){
 	if (!onGround) return;
 });
+
+#region front-flip
 
 attackCommandCreate("left+jump+up+jump", "front-flip", function(){
 	if (onGround) return;
@@ -297,6 +396,7 @@ attackCommandCreate("up+jump", "front-flip", function(){
 	flip();
 });
 
+#endregion
 
 
 #endregion
@@ -608,7 +708,15 @@ drawGUI = function() {
 	var guiScale = Style.guiScale;
 	var margin = 20 * guiScale;
 	
+	
+	// SubItem display
 	draw_sprite_ext(sItemDisplay, 0, margin, margin, guiScale, guiScale, 0, c_white, 1);
+	
+	if (subitem != undefined) {
+		var si = SUBITEM.get(subitem);
+		draw_sprite_ext(si.sprite, 0, margin, margin, guiScale, guiScale, 0, c_white, 1);
+	}
+	
 	
 	if (hpDisplay > hp) {
 		hpDisplay = lerp(hpDisplay, hp, 0.25);

@@ -11,6 +11,18 @@ if (hp == 1) {
 sprite_index = sprite;
 draw_self();
 
-if (hp != 3) draw_sprite_ext(sBreakingPoint, breakingPointFrame, x, y, xscale, yscale, 0, c_black, 0.5);
-
+if (hp != 3) {
+	
+	for (var i = 0; i < xscale; i++) {
+		for (var j = 0; j < yscale; j++) {
+			
+			var xx = x + i * sprite_get_width(sBreakingPoint);
+			var yy = y + j * sprite_get_height(sBreakingPoint);
+			
+			draw_sprite_ext(sBreakingPoint, breakingPointFrame, xx, yy, 1, 1, 0, c_black, 0.5);
+			
+		}
+	}
+	
+}
 

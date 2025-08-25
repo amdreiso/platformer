@@ -1,12 +1,4 @@
 
-isSolid = false;
-
-// Data
-//item_data();
-//command_data();
-//level_data();
-//translation_data();
-
 
 // Init functions
 randomize();

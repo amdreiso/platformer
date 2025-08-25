@@ -25,7 +25,7 @@ draw_self();
 if (!active) {
 	if (place_meeting(x, y, Player)) {
 		
-		if (Keymap.player.interact) {
+		if (Keymap.player.interactDoor) {
 			room_transition(
 				output.roomID, 
 				output.playerPosition,

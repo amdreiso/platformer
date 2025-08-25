@@ -14,6 +14,10 @@ enum ITEM_ID {
 	ScrapElectronics,
 }
 
+enum SUBITEM_ID {
+	WaterBucket,
+}
+
 enum LANGUAGE_ID {
 	English,
 	Brazilian,
@@ -28,6 +32,7 @@ enum CUTSCENE_EVENT {
 	Textbox,
 	Move,
 	Sleep,
+	WaitFor,
 }
 
 

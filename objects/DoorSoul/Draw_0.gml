@@ -29,9 +29,7 @@ if (output.roomID == -1) return false;
 
 if (!active) {
 	if (place_meeting(x, y, Player)) {
-		draw_key(sButton_W);
-		
-		if (keyboard_check_pressed(ord("W"))) {
+		if (Keymap.player.interactDoor) {
 			output.onEnter();
 			//room_goto(output.roomID);
 			room_transition(output.roomID, output.playerPosition);

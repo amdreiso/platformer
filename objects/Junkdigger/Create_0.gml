@@ -1,12 +1,11 @@
 
 event_inherited();
 
-name = "Junkeeper";
+#macro JUNKKEEPER_HAND_POSITION 535
+
+name = "Junk-keepr";
 
 active = false;
-
-hsp = 0;
-vsp = 0;
 
 head = instance_create_depth(x, y, depth, Junkdigger_Head);
 headOffset = vec2(0, -50);

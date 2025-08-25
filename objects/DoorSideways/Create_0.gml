@@ -7,3 +7,4 @@ tick = 0;
 
 soulType = SOUL_TYPE.Castoff;
 
+dir = 1;

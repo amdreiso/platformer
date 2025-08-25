@@ -1,6 +1,5 @@
 
-x += hsp;
-y += vsp;
+event_inherited();
 
 body.x = x + bodyOffset.x;
 body.y = y + bodyOffset.y;

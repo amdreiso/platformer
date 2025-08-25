@@ -27,7 +27,7 @@ drawScreenFlash = function() {
 
 
 // Music
-backgroundSong						= undefined;
+backgroundSong						= -1;
 backgroundSongGain				= 1;
 backgroundSongGainTime		= 1;
 setBackgroundSong					= function(snd, loop=false, gain=1, gaintime=1) {

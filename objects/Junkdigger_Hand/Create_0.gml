@@ -1,5 +1,5 @@
 
-defaultY = y;
+defaultY = JUNKKEEPER_HAND_POSITION;
 
 hitGround = false;
 hitGroundCharged = false;

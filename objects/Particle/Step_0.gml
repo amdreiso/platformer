@@ -20,19 +20,19 @@ if (fadein && !destroy) {
 	alpha = max(0, alpha + fadeinSpeed);
 }
 
+if (fadeout) {
+	alpha = max(0, alpha - fadeoutSpeed);
+	
+	if (alpha == 0) destroy = true;
+}
+
 
 // Fadeout
 if (destroy) {
-	
-	
 	alpha = max(0, alpha - fadeoutSpeed);
 	
 	if (alpha == 0) {
 		instance_destroy();
 	}
 }
-
-x = round(x);
-y = round(y);
-
 

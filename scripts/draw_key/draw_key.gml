@@ -1,15 +1,35 @@
-/// @desc Draws a key on the screen as a hint
-/// @param {string} keyboard Description
-/// @param {string} [gamepad]=keyboard Description
-function draw_key(keyboard, gamepad = keyboard){
+
+enum KEY_INDICATOR {
+	Interact,
+	InteractDoor,
+}
+
+function draw_key(indicator){
 	
-	var spr = keyboard;
-	if (CurrentController == CONTROLLER_INPUT.Gamepad) spr = gamepad;
+	var kb = sButton_E;					// keyboard
+	var gp = sButton_Circle;		// gamepad
 	
-	var margin = 75;
+	switch (indicator) {
+		case KEY_INDICATOR.Interact:
+			kb = sButton_C;
+			gp = sButton_Circle;
+			break;
+		
+		case KEY_INDICATOR.InteractDoor:
+			kb = sButton_UP_keyboard;
+			gp = sButton_UP;
+			break;
+		
+	}
+	
+	
+	var spr = kb;
+	if (CurrentController == CONTROLLER_INPUT.Gamepad) spr = gp;
+	
+	var scale = 3;
+	var margin = 15 * scale;
 	var xx = WIDTH - margin;
 	var yy = HEIGHT - margin;
-	var scale = 3;
 	
 	draw_sprite_ext(spr, 0, xx, yy, scale, scale, 0, c_white, 1);
 	

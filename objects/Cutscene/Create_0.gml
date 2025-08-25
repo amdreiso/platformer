@@ -106,14 +106,28 @@ play = function() {
 				load = false;
 			}
 			
+			var spd = c.moveSpd;
+			
 			if (c.moveX != undefined) {
 				var hsp = sign(c.moveX - c.object.x);
 				
-				c.object.hsp = hsp * c.object.spd;
+				c.object.hsp = hsp * spd;
 				
-				var tolerance = c.object.spd;
+				var tolerance = spd;
 				if (c.object.x > c.moveX - tolerance && c.object.x < c.moveX + tolerance) {
 					c.object.hsp = 0;
+					next(c.onEnd());
+				}
+			}
+			
+			if (c.moveY != undefined) {
+				var vsp = sign(c.moveY - c.object.y);
+				
+				c.object.vsp = vsp * spd;
+				
+				var tolerance = spd;
+				if (c.object.y > c.moveY - tolerance && c.object.y < c.moveY + tolerance) {
+					c.object.vsp = 0;
 					next(c.onEnd());
 				}
 			}
@@ -163,12 +177,29 @@ play = function() {
 			c.onUpdate();
 			
 			break;
+		
+		case CUTSCENE_EVENT.WaitFor:
+			
+			if (load) {
+				c.onStart();
+				load = true;
+			}
+			
+			if (c.waitFor()) {
+				next(c.onEnd());
+			}
+			
+			c.onUpdate();
+			
+			break;
 	}
 	
 }
 
 add = function(step) {
-	array_push(cutscene, step);
+	for (var i = 0; i < argument_count; i++) {
+		array_push(cutscene, argument[i]);
+	}
 }
 
 

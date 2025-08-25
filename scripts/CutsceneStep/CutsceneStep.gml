@@ -4,6 +4,7 @@ function CutsceneStep(event) {
 	
 	cs.event = event;
 	cs.object = undefined;
+	cs.moveSpd = 1;
 	cs.moveX = undefined;
 	cs.moveY = undefined;
 	cs.time = 0;
@@ -12,22 +13,30 @@ function CutsceneStep(event) {
 	cs.dialoguePitch = 1;
 	cs.offset = vec2(0, -20);
 	
-	cs.onStart = function(){ };
-	cs.onUpdate = function(){ };
-	cs.onEnd = function(){ };
+	cs.onStart			= function(){ };
+	cs.onUpdate			= function(){ };
+	cs.onEnd				= function(){ };
+	cs.waitFor			= function(){ };
 	
 	
 	// Functions
 	methods = {};
+	
+	methods.waitFor = function(fn) {
+		cs.waitFor = fn;
+		return methods;
+	};
+	
 	
 	methods.setObject = function(obj) {
 		cs.object = obj;
 		return methods;
 	};
 	
-	methods.setMovePosition = function(x, y) {
+	methods.setMovePosition = function(x, y, movespd) {
 		cs.moveX = x;
 		cs.moveY = y;
+		cs.moveSpd = movespd;
 		return methods;
 	};
 	

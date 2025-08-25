@@ -15,5 +15,5 @@ if (!open && floor(image_index) == 0) {
 			break;
 	}
 	
-	draw_sprite_ext(sDoorSideway1_aura, 0, x, y, image_xscale, 1, 0, auracolor, auraalpha);
+	draw_sprite_ext(sDoorSideway1_aura, 0, x, y, image_xscale * dir, image_yscale, 0, auracolor, auraalpha);
 }

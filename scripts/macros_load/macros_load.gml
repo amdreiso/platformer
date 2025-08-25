@@ -1,7 +1,7 @@
 function macros_load(){
 	
 	#macro FORCE_DECELERATION 0.1
-	#macro MAX_FALLING_SPEED 3.5
+	#macro MAX_FALLING_SPEED 2.8
 	
 	#macro WIDTH display_get_gui_width()
 	#macro HEIGHT display_get_gui_height()
@@ -15,6 +15,7 @@ function macros_load(){
 	
 	// save files
 	#macro SAVEFILE_SETTINGS "settings.json"
+	#macro SAVEFILE_CHAPTERS "story.json"
 	
 	
 	// existing functions

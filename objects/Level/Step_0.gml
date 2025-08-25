@@ -7,13 +7,32 @@ hasBoss = (instance_exists(Boss));
 
 if (newRoom) {
 	
-	audio_stop_all();
+	STORY.load();
+	
 	
 	// Background Song
 	var song = level.components.backgroundSong;
-	if (song != -1) {
+	
+	//audio_stop_all();
+	//if (!is_undefined(song) && !audio_is_playing(song)) {
+	//	if (!is_undefined(backgroundSong)) audio_stop_sound(backgroundSong);
+	//	backgroundSong = audio_play_sound(song, 0, true);
+	//}
+	
+	// if room has a song
+	if (song != -1 && backgroundSong != song) {
+		// stop existing song
+		audio_stop_all();
+		
+		// play current room's song
 		backgroundSong = audio_play_sound(song, 0, true);
+	} else {
+		
+		
+		
 	}
+	
+	print(backgroundSong);
 	
 	// Room Light Level
 	darkness = level.components.darkness;
@@ -21,11 +40,15 @@ if (newRoom) {
 	
 	roomCode = level.components.roomCode;
 	
+	level.components.create();
+	
 	newRoom = false;
 	
 }
 
-audio_sound_gain(backgroundSong, backgroundSongGain, backgroundSongGainTime);
+if (audio_is_playing(backgroundSong)) {
+	audio_sound_gain(backgroundSong, backgroundSongGain, backgroundSongGainTime);
+}
 
 roomCode();
 

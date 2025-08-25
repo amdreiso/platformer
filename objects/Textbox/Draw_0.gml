@@ -50,7 +50,7 @@ for (var i = 0; i < charCount; i++) {
   xoffset += string_width(tc.char) * tc.scale;
 	
 	spacebarScale = tc.scale / 1;
-	spacebarColor = tc.color;
+	//spacebarColor = tc.color;
 }
 
 

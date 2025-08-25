@@ -21,5 +21,5 @@
   "sampleRate":44100,
   "soundFile":"snd_dreamsOfAnElectricMind.wav",
   "type":0,
-  "volume":0.74,
+  "volume":1.0,
 }

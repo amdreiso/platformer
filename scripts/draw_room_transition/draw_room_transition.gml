@@ -8,7 +8,9 @@ function draw_room_transition(){
 	if (transition) {
 		
 		if (transitionAlpha < 1) {
+			
 			transitionAlpha += transitionTime;
+			
 		} else {
 			
 			player_set_position(transitionPlayerPosition);
@@ -17,7 +19,7 @@ function draw_room_transition(){
 			
 			transition = false;
 			
-			audio_stop_sound(Level.backgroundSong);
+			//audio_stop_sound(Level.backgroundSong);
 			
 		}
 		

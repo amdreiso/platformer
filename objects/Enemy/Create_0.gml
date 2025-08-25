@@ -18,7 +18,7 @@ vsp = 0;
 force = vec2();
 applyGravity = true;
 
-knockbackResistence = 1.5;
+knockbackResistence = 1;
 
 movement = function() {
 	
