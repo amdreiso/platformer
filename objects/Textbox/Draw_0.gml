@@ -1,5 +1,5 @@
 
-depth = -99999;
+depth = layer_get_depth(layer_get_id("Textbox"));
 
 var totalWidth = 0;
 textTimer += delta_time / 1000000;

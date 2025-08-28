@@ -100,7 +100,7 @@ globalvar Style; Style = {
 };
 draw_set_font(fnt_console);
 
-globalvar Gravity; Gravity = 0.1;
+globalvar Gravity; Gravity = 0.07;
 globalvar Console; Console = false;
 
 enum CONTROLLER_INPUT {
@@ -171,6 +171,11 @@ transitionOnEnter = function(){}
 logs = [];
 commands = [];
 logRewind = -1;
+
+// TODO:
+// Fix this
+// instead of using array, use map for CommandData
+// way better to set keys for the commands to not flood the array with the same commands
 
 runCommand = function(input, showHistory = false) {
 	if (input == "") return;

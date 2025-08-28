@@ -9,6 +9,8 @@ lightColor = c_white;
 
 damage = 10;
 
+attackOnContact = true;
+
 
 // Movement
 defaultSpd = 0.5;
@@ -17,6 +19,8 @@ hsp = 0;
 vsp = 0;
 force = vec2();
 applyGravity = true;
+applyGroundCollisions = true;
+drawOnSurface = true;
 
 knockbackResistence = 1;
 
@@ -34,24 +38,39 @@ movement = function() {
 
 // Collisions
 collisions = function() {
-	collision_set(Collision);
-	collision_set(Collision_Slope);
+	if (applyGroundCollisions) {
+		collision_set(Collision);
+		collision_set(Collision_Slope);
+	}
 	
-	if (place_meeting(x, y, PlayerAttack) && PlayerAttack.attacking && !isHit) {
-		var a = PlayerAttack;
+	player_attack_check(function(a){
+		if (isHit) return;
 		
-		if (a.used) return;
-		
-		a.used = true;
-		
-		var knockback = 2.84 / knockbackResistence;
+		var knockback = 2.84 * knockbackResistence;
 		force.x = a.initialDirection * (knockback);
 		
 		vsp = 0;
 		vsp -= a.dir.y * knockback;
 		
 		hit(a.damage);
-	}
+		
+	});
+	
+	//if (place_meeting(x, y, PlayerAttack) && !isHit) {
+	//	var a = PlayerAttack;
+		
+	//	if (a.used) return;
+		
+	//	a.used = true;
+		
+	//	var knockback = 2.84 / knockbackResistence;
+	//	force.x = a.initialDirection * (knockback);
+		
+	//	vsp = 0;
+	//	vsp -= a.dir.y * knockback;
+		
+	//	hit(a.damage);
+	//}
 }
 
 
@@ -61,6 +80,7 @@ hp = defaultHp;
 isHit = false;
 hitCooldown = 0;
 hitFog = 0;
+whenHit = false;
 
 setHp = function(value) {
 	defaultHp = value;
@@ -87,36 +107,30 @@ hit = function(damage) {
 	
 	hitFog = 10;
 	
+	whenHit = true;
+	
 	camera_shake(2);
 }
 
 
 // Draw
-weaponSprite = sClone1_weapon;
+weaponSprite = -1;
 
 spriteStates = {
 	idle: sClone1,
 	move: sClone1,
 }
 
-draw = function() {
-	var sprite = spriteStates.idle;
-	
+setSpriteStates = function() {
 	if (hsp != 0) {
-		sprite = spriteStates.move;
 		image_xscale = sign(hsp);
+		return spriteStates.move;
 	}
 	
-	sprite_index = sprite;
-	
-	gpu_set_fog((hitFog > 0), c_white, 0, 1);
-	
-	draw_self();
-	//draw_outline(1, 0, Style.outlineColor);
-	
-	gpu_set_fog(false, c_white, 0, 1);
-	
-	
+	return spriteStates.idle;
+}
+
+weaponDraw = function() {
 	if (weaponSprite == -1) return;
 	
 	var weaponYscale = 1;
@@ -127,5 +141,23 @@ draw = function() {
 	surface_set_target(SurfaceHandler.surface);
 	draw_sprite_ext(weaponSprite, 0, x, y, 1, weaponYscale, weaponAngle, c_white, 1);
 	surface_reset_target();
+}
+
+draw = function() {
+	var sprite = setSpriteStates();
+	
+	sprite_index = sprite;
+	
+	if (drawOnSurface) surface_set_target(SurfaceHandler.surface);
+	
+	gpu_set_fog((hitFog > 0), c_white, 0, 1);
+	
+	draw_self();
+	
+	gpu_set_fog(false, c_white, 0, 1);
+	
+	if (drawOnSurface) surface_reset_target();
+	
+	weaponDraw();
 }
 

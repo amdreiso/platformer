@@ -1,4 +1,6 @@
 
+shooter = noone;
+
 dir = 0;
 damage = 1;
 

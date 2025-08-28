@@ -8,6 +8,8 @@ if (getRandomSprite) {
 	getRandomSprite = false;
 }
 
+image_blend = color;
+
 image_xscale = xscale * scale;
 image_yscale = yscale * scale;
 

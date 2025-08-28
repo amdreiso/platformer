@@ -1,4 +1,16 @@
 
+event_inherited();
+
+// Enemy parent variable
+applyGravity = false;
+applyGroundCollisions = false;
+drawOnSurface = false;
+attackOnContact = false;
+knockbackResistence = 0;
+
+setHp(200);
+
+
 defaultY = JUNKKEEPER_HAND_POSITION;
 
 hitGround = false;
@@ -97,17 +109,25 @@ smashGround = function() {
 }
 
 
-
-draw = function() {
-	
-	sprite_index = sprite;
-	
-	
-	surface_set_target(SurfaceHandler.surface);
-	
-	draw_self();
-	
-	surface_reset_target();
-	
+// Enemy Parent function
+setSpriteStates = function() {
+	// returns native sprite variable
+	return sprite;
 }
+
+
+
+
+//draw = function() {
+	
+//	sprite_index = sprite;
+	
+	
+//	surface_set_target(SurfaceHandler.surface);
+	
+//	draw_self();
+	
+//	surface_reset_target();
+	
+//}
 

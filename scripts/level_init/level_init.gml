@@ -86,7 +86,7 @@ function level_init(){
 			// Boss code
 			if (!CurrentChapter.dump_yard.boss_0.defeated) {
 				// Create boss entrance cutscene
-				instance_create_depth(0, 0, 0, Cutscene_JunkKeeper);
+				instance_create_depth(0, 0, 0, Cutscene_Junkeeper);
 			}
 		}
 	});

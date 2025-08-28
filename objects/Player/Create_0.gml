@@ -14,9 +14,15 @@ emitter = audio_emitter_create();
 soul = SOUL_TYPE.Castoff;
 
 
+// Stats
+damage = 10;
+defense = 0;
+luck = 0;
+intelligence = 0;
+
 
 // Health
-defaultHp = 25;
+defaultHp = 200;
 hpDisplay = defaultHp;
 hp = defaultHp;
 isHit = false;
@@ -39,9 +45,11 @@ hit = function(damage, xscale=1) {
 	
 	hp -= damage;
 	isHit = true;
-	hitCooldown = 60;
+	hitCooldown = 30;
 	
-	vsp -= jumpForce;
+	vsp = 0;
+	vsp -= (jumpForce * 10) * !onAir;
+	hsp = xscale * 1.5;
 	
 	var shake = clamp(damage / 0.5, 0, 20);
 	
@@ -74,6 +82,8 @@ isMoving								= false;
 isFlipping							= false;
 noclip									= false;
 lastPlaceStanding				= -1;
+applyGravity						= true;
+jumpThroughGracePeriod	= 0;
 
 
 flip = function() {
@@ -97,6 +107,7 @@ movement = function() {
 	if (busy) return;
 	
 	isMoving = (hsp != 0 || vsp != 0);
+	applyGravity = (!place_meeting(x, y + 1, Elevator));
 	
 	spd = defaultSpd;
 	
@@ -141,7 +152,7 @@ movement = function() {
 	
 	
 	// gravity
-	vsp = (vsp + Gravity) * GameSpeed;
+	if (applyGravity) vsp = (vsp + Gravity) * GameSpeed;
 	
 	apply_force();
 	
@@ -166,7 +177,10 @@ movement = function() {
 	}
 	
 	// Jump
-	if (map.jump && jumpCount > 0) {
+	if (map.down && map.jump) {
+		jumpThroughGracePeriod = 5;
+	}
+	else if (map.jump && jumpCount > 0) {
 		vsp = 0;
 		vsp -= jumpForce;
 		
@@ -248,15 +262,18 @@ collisions = {
 applyCollisions = function() {
 	if (noclip) return;
 	
-	//var jumpThrough = instance_place(x, y + max(1, vsp), Collision_JumpThrough);
-	//if (jumpThrough && floor(bbox_bottom) <= jumpThrough.bbox_top) {
-	//	if (vsp > 0) {
-	//		while (!place_meeting(x, y + sign(vsp), Collision_JumpThrough)) {
-	//			y += sign(vsp);
-	//		}
-	//		vsp = 0;
-	//	}
-	//}
+	jumpThroughGracePeriod = max(0, jumpThroughGracePeriod - 1);
+	
+	var jumpThrough = instance_place(x, y + max(1, vsp), Collision_JumpThrough);
+	if (jumpThrough && floor(bbox_bottom) <= jumpThrough.bbox_top && jumpThroughGracePeriod == 0) {
+		if (vsp > 0) {
+			while (!place_meeting(x, y + sign(vsp), Collision_JumpThrough)) {
+				y += sign(vsp);
+			}
+			
+			vsp = 0;
+		}
+	}
 	
 	
 	hsp += hspFrac;
@@ -278,40 +295,6 @@ applyCollisions = function() {
 	collision_set(FakeWall, spd);
 	
 	
-	//// regular collisions
-	//var bbox_side = 1;
-	//var cellsize = 16;
-	
-	//// Horizontal Collision
-	//if (hsp > 0) bbox_side = bbox_right; else bbox_side = bbox_left;
-	//var onSide = tilemap_get_at_pixel(collisionTilemap, bbox_side + hsp, bbox_top) != 0 || tilemap_get_at_pixel(collisionTilemap, bbox_side + hsp, bbox_bottom) != 0;
-	
-	//if (onSide) {
-	//	if (hsp > 0) {
-	//		x = x - (x mod cellsize) + (cellsize - 1) - (bbox_right - x);
-	//	} else {
-	//		x = x - (x mod cellsize) - (bbox_left - x);
-	//	}
-		
-	//	hsp = 0;
-	//}
-	
-	//// Vertical Collision
-	//if (vsp > 0) bbox_side = bbox_bottom; else bbox_side = bbox_top;
-	
-	//if (tilemap_get_at_pixel(collisionTilemap, bbox_left, bbox_side + vsp) || tilemap_get_at_pixel(collisionTilemap, bbox_right, bbox_side + vsp)) {
-	//	if (vsp > 0) {
-	//		y = y - (y mod cellsize) + (cellsize - 1) - (bbox_bottom - y);
-	//		onGround = false;
-	//	} else {
-	//		y = y - (y mod cellsize) - (bbox_top - y);
-	//		onGround = true;
-	//	}
-		
-	//	vsp = 0;
-	//}
-	
-	
 	var doorside = instance_nearest(x, y, DoorSideways);
 	if (instance_exists(doorside)) {
 		if (!doorside.open) {
@@ -325,13 +308,13 @@ applyCollisions = function() {
 	
 	if (place_meeting(x, y, ProjectileEnemy)) {
 		var proj = instance_nearest(x, y, ProjectileEnemy);
-		hit(proj.damage);
+		hit(proj.damage, sign(x - proj.shooter.x));
 		instance_destroy(proj);
 	}
 	
 	if (place_meeting(x, y, Enemy)) {
 		var enemy = instance_nearest(x, y, Enemy);
-		hit(enemy.damage, (x - enemy.x));
+		if (enemy.attackOnContact) hit(enemy.damage, sign(x - enemy.x));
 	}
 }
 
@@ -413,7 +396,7 @@ attack = function() {
 		atk.image_xscale = image_xscale;
 		atk.initialDirection = image_xscale;
 		
-		atk.damage = 10;
+		atk.damage = damage;
 		
 		var hdir = image_xscale;
 		var vdir = Keymap.player.jumpHold && onGround;
@@ -675,10 +658,10 @@ draw = function() {
 	if (isAttacking) {
 		sprite = spriteStates.attack;
 		
+		// Stop attacking sprite when sprite animation ends
 		on_last_frame(function(){
 			if (sprite_index != spriteStates.attack) return;
 			isAttacking = false;
-			print("attack on last frame");
 		});
 	}
 	
@@ -722,16 +705,19 @@ drawGUI = function() {
 		hpDisplay = lerp(hpDisplay, hp, 0.25);
 	}
 	
-	for (var i = 0; i < defaultHp; i++) {
+	var maxHpDisplay = 100;
+	var hpPart = (hpDisplay / defaultHp);
+	
+	for (var i = 0; i < maxHpDisplay; i++) {
 		var xoffset = (sprite_get_width(sItemDisplay) * guiScale) / 2 + margin;
 		var width = (sprite_get_width(sHealthbar) * guiScale);
 		
 		var color = c_white;
 		
 		var sprite = sHealthbar;
-		if (i == defaultHp-1) sprite = sHealthbar_end;
+		if (i == maxHpDisplay - 1) sprite = sHealthbar_end;
 		
-		if (i > floor(hpDisplay)) color = c_dkgray;
+		if (i >= ceil(maxHpDisplay * hpPart)) color = c_dkgray;
 		
 		draw_sprite_ext(sprite, 0, xoffset + i * width, margin, guiScale, guiScale, 0, color, 1);
 	}

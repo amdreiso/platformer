@@ -19,6 +19,7 @@ if (shootTimer == 0) {
 		with (instance_create_depth(x, y, depth, ProjectileEnemy)) {
 			self.direction = point_direction(other.x, other.y, other.target.x, other.target.y);
 			self.speed = 3;
+			self.shooter = other;
 		}
 		
 		sound3D(-1, x, y, snd_gunshot1, false, 0.2, random_range(0.86, 1.00));

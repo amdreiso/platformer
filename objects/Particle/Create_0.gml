@@ -17,6 +17,8 @@ xscale = 1;
 yscale = 1;
 scale = 1;
 
+color = c_white;
+
 image_angle = irandom(360);
 
 sprite = -1;

@@ -4,19 +4,34 @@ function command_init(){
 globalvar CommandData;
 CommandData = [];
 
-
-var add = function(name, argc, fn) {
-	var command = function(name, argc, fn) {
-		return {
-			name: name,
-			argc: argc,
-			fn: fn,
-		}
-	}
-	array_push(CommandData, command(name, argc, fn));
+globalvar COMMAND;
+COMMAND = {
+	register: function(name, argc, fn){
+		var command = {};
+		command.name = name;
+		command.argc = argc;
+		command.fn = fn;
+		array_push(CommandData, command);
+	},
 }
 
-add("start", 0, function(args) {
+//var add = function(name, argc, fn) {
+//	var command = function(name, argc, fn) {
+//		return {
+//			name: name,
+//			argc: argc,
+//			fn: fn,
+//		}
+//	}
+//	array_push(CommandData, command(name, argc, fn));
+//}
+
+COMMAND.register("set_gravity", 1, function(args){
+	var value = real(args[0]);
+	Gravity = value;
+});
+
+COMMAND.register("start", 0, function(args) {
 	log("	     .->    (`-')  _                             <-. (`-')   (`-')  _    (`-')               ", make_color_hsv(0, 255, 255));
 	log(" (`(`-')/`) ( OO).-/  <-.    _             .->      \\(OO )_  ( OO).-/    ( OO).->       .->   ", make_color_hsv(16, 255, 255));
 	log(",-`( OO).',(,------.,--. )   \\-,-----.(`-')----. ,--./  ,-.)(,------.    /    '._  (`-')----. ", make_color_hsv(32, 255, 255));
@@ -40,11 +55,11 @@ add("start", 0, function(args) {
 	log("");
 });
 
-add("exit", 0, function(args) {
+COMMAND.register("exit", 0, function(args) {
 	game_end();
 });
 
-add("credits", 0, function(args) {
+COMMAND.register("credits", 0, function(args) {
 	log("-------------------------------", c_red);
 	log("Programming by Andrei Scatolin", c_aqua);
 	log("Art by Andrei Scatolin", c_aqua);
@@ -52,11 +67,11 @@ add("credits", 0, function(args) {
 	log("-------------------------------", c_red);
 });
 
-add("restart", 0, function(args) {
+COMMAND.register("restart", 0, function(args) {
 	game_restart();
 });
 
-add("help", 0, function(args) {
+COMMAND.register("help", 0, function(args) {
 	var len = array_length(CommandData);
 	var columns = 3;
 	var rows = ceil(len / columns);
@@ -75,11 +90,11 @@ add("help", 0, function(args) {
 	}
 });
 
-add("clear", 0, function(args) {
+COMMAND.register("clear", 0, function(args) {
 	Main.clearConsole();
 });
 
-add("spawn", 3, function(args) {
+COMMAND.register("spawn", 3, function(args) {
 	var enemy = args[0];
 	var x0 = real(args[1]);
 	var y0 = real(args[2]);
@@ -94,7 +109,7 @@ add("spawn", 3, function(args) {
 	instance_create_depth(Player.x + x0, Player.y + y0, Player.depth, obj);
 });
 
-add("goto", 1, function(args) {
+COMMAND.register("goto", 1, function(args) {
 	var rm = args[0];
 	
 	var asset = asset_get_index(rm);
@@ -107,7 +122,7 @@ add("goto", 1, function(args) {
 	room_goto(asset);
 });
 
-add("zoom", 1, function(args) {
+COMMAND.register("zoom", 1, function(args) {
 	camera_set_zoom(real(args[0]));
 });
 

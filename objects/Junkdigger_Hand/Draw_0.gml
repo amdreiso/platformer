@@ -1,4 +1,2 @@
 
-draw();
-
-draw_text(x, y, state);
+event_inherited();

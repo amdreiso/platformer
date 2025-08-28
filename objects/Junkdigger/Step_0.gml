@@ -11,5 +11,7 @@ hsp = (sin(current_time * 0.0005) * 0.25) - hsp / 2;
 vsp = cos(current_time * 0.0011) * 0.1;
 
 
-// head
-head.face = face;
+dead = (hp <= 0);
+door.openable = (dead);
+
+

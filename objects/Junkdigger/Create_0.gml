@@ -1,11 +1,12 @@
 
 event_inherited();
 
-#macro JUNKKEEPER_HAND_POSITION 535
+#macro JUNKKEEPER_HAND_POSITION 533
 
-name = "Junk-keepr";
+name = "JUNK-KEEPER";
 
 active = false;
+dead = false;
 
 head = instance_create_depth(x, y, depth, Junkdigger_Head);
 headOffset = vec2(0, -50);
@@ -21,11 +22,26 @@ rightHand = instance_create_layer(x + 100, yy, "Boss_Hand_Front", Junkdigger_Han
 rightHand.image_xscale = -1;
 
 
-face = sBoss_Junkdigger_Cringe_FE;
-
-
 door = instance_create_layer(256, 496, "Instances", DoorSideways);
 door.openable = false;
+
+
+// Set hp
+defaultHp = leftHand.defaultHp + rightHand.defaultHp;
+
+setHp = function() {
+	var hpl = 0;
+	var hpr = 0;
+	
+	if (instance_exists(leftHand)) hpl = leftHand.hp;
+	if (instance_exists(rightHand)) hpr = rightHand.hp;
+	
+	hp = hpl + hpr;
+}
+
+setHp();
+
+
 
 
 
