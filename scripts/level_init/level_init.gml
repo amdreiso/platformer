@@ -35,6 +35,11 @@ function level_init(){
 	
 	
 	// Initializing 
+	LEVEL.register(rmTEST, "TESTING ROOM", {
+		darkness: 0,
+	});
+	
+	
 	LEVEL.register(rmBegginingCutscene, "beggining cutscene", {
 		darkness: 1,
 		isCutscene: true,
@@ -55,7 +60,7 @@ function level_init(){
 			var broken0 = CurrentChapter.cave_entrance.hidden_wall_0.isBroken;
 			
 			if (!broken0) {
-				var f = instance_create_layer(0, 400, "Instances", FakeWall);
+				var f = instance_create_layer(0, 400, "Fakewalls", FakeWall);
 				f.sprite = sFakewall1;
 				f.onDestroy = function() {
 					CurrentChapter.cave_entrance.hidden_wall_0.isBroken = true;
@@ -72,7 +77,9 @@ function level_init(){
 		backgroundSong: snd_dreamsOfAnElectricMind,
 		
 		roomCode: function() {
-			parallax_set("Parallax_1", 0.60, -1);
+			parallax_set("Parallax_1", 0.20, -1);
+			parallax_set("Parallax_2", 0.50, -1);
+			parallax_set("Parallax_3", 0.80, -1);
 		}
 	});
 	

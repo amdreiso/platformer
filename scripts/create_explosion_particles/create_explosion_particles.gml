@@ -19,8 +19,6 @@ repeat (val) {
 			c_red,
 			c_orange,
 			make_color_rgb(200, 70, 40),
-			c_dkgray,
-			c_gray,
 		);
 		
 		scale = random_range(1.00, 3.00);

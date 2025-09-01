@@ -12,7 +12,7 @@ burstCooldown = max(0, burstCooldown - GameSpeed);
 
 if (shootTimer == 0) {
 	if (burstCooldown == 0 && burstCount <= burstAmount) {
-		burstCooldown = 10;
+		burstCooldown = 30;
 		burstCount ++;
 		
 		// Projectile

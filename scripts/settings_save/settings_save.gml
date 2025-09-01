@@ -12,6 +12,8 @@ function settings_save(){
 
 function settings_load(){
 	
+	print(json_stringify(Settings, true));
+	
 	if (!file_exists(SAVEFILE_SETTINGS)) return;
 	
 	var buffer = buffer_load(SAVEFILE_SETTINGS);
@@ -23,6 +25,7 @@ function settings_load(){
 	for (var i = 0; i < array_length(names); i++) {
 		struct_set(Settings, names[i], struct_get(content, names[i]));
 	}
+	
 	
 	show_debug_message("Settings Loaded!");
 	

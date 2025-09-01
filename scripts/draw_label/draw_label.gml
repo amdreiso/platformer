@@ -1,10 +1,13 @@
 function draw_label(x, y, str, scale, backgroundColor, textColor, alpha=1, offset=4){
+	var sw = string_width(str) * scale;
+	var sh = string_height(str) * scale;
+	
 	draw_set_alpha(0.5);
 	draw_rectangle_color(
 		x + offset, 
 		y + offset, 
-		x + string_width(str) + offset, 
-		y + string_height(str) + offset, 
+		x + sw + offset , 
+		y + sh + offset, 
 		backgroundColor, backgroundColor, backgroundColor, backgroundColor, false
 	);
 	draw_set_alpha(1);
@@ -13,7 +16,7 @@ function draw_label(x, y, str, scale, backgroundColor, textColor, alpha=1, offse
 	draw_set_valign(fa_top);
 		
 	draw_rectangle_color(
-		x, y, x + string_width(str), y + string_height(str), 
+		x, y, x + sw, y + sh, 
 		backgroundColor, backgroundColor, backgroundColor, backgroundColor, false
 	);
 	draw_text_transformed_color(
@@ -23,13 +26,15 @@ function draw_label(x, y, str, scale, backgroundColor, textColor, alpha=1, offse
 }
 
 function draw_label_button(x, y, str, scale, backgroundColor, textColor, fn=function(){}, alpha=1, offset=4){
+	var sw = string_width(str) * scale;
+	var sh = string_height(str) * scale;
 	
 	draw_set_alpha(0.5);
 	draw_rectangle_color(
 		x + offset, 
 		y + offset, 
-		x + string_width(str) + offset, 
-		y + string_height(str) + offset, 
+		x + sw + offset, 
+		y + sh + offset, 
 		backgroundColor, backgroundColor, backgroundColor, backgroundColor, false
 	);
 	draw_set_alpha(1);
@@ -38,7 +43,7 @@ function draw_label_button(x, y, str, scale, backgroundColor, textColor, fn=func
 	draw_set_valign(fa_top);
 	
 	draw_rectangle_color(
-		x, y, x + string_width(str), y + string_height(str), 
+		x, y, x + sw, y + sh, 
 		backgroundColor, backgroundColor, backgroundColor, backgroundColor, false
 	);
 	draw_text_transformed_color(
@@ -48,21 +53,25 @@ function draw_label_button(x, y, str, scale, backgroundColor, textColor, fn=func
 	
 	var mx = window_mouse_get_x();
 	var my = window_mouse_get_y();
-	var hover = (mx > x && mx < x + string_width(str) && my > y && my < y + string_height(str));
+	var hover = (mx > x && mx < x + sw && my > y && my < y + sh);
 	if (hover) fn();
 	
 }
 
 
 function draw_label_width(x, y, str, width, maxWidth, scale, backgroundColor, textColor, alpha=1, center=true, offset=4, drawTextOnHalf=true){
-
+	var sw = string_width(str) * scale;
+	var sh = string_height(str) * scale;
+	
+	var displayWidth = width;
+	
 	if (width > 1) {
 		
 		draw_rectangle_color(
 			x + offset, 
 			y + offset, 
-			x + width + offset, 
-			y + string_height(str) + offset, 
+			x + maxWidth * scale + offset, 
+			y + sh + offset, 
 			c_black, c_black, c_black, c_black, false
 		);
 		
@@ -70,8 +79,8 @@ function draw_label_width(x, y, str, width, maxWidth, scale, backgroundColor, te
 		draw_rectangle_color(
 			x + offset, 
 			y + offset, 
-			x + width + offset, 
-			y + string_height(str) + offset, 
+			x + maxWidth * scale + offset, 
+			y + sh + offset, 
 			backgroundColor, backgroundColor, backgroundColor, backgroundColor, false
 		);
 		draw_set_alpha(1);
@@ -83,7 +92,7 @@ function draw_label_width(x, y, str, width, maxWidth, scale, backgroundColor, te
 		draw_set_valign(fa_top);
 		
 		draw_rectangle_color(
-			x, y, x + width * scale, y + string_height(str) * scale, 
+			x, y, x + displayWidth * scale, y + sh, 
 			backgroundColor, backgroundColor, backgroundColor, backgroundColor, false
 		);
 		
@@ -92,7 +101,7 @@ function draw_label_width(x, y, str, width, maxWidth, scale, backgroundColor, te
 	if (width < maxWidth / 2 && drawTextOnHalf) return;
 
 	draw_text_transformed_color(
-		x + (maxWidth / 2 * center), y, str, scale, scale, 0, 
+		x + ((maxWidth * scale) / 2 * center), y, str, scale, scale, 0, 
 		textColor, textColor, textColor, textColor, alpha
 	);
 

@@ -4,7 +4,7 @@
 busy = (Paused 
 				|| isDead
 				|| instance_exists(Textbox) 
-				|| instance_exists(PauseMenu) 
+				|| Paused
 				|| Debug.console
 );
 
@@ -37,10 +37,5 @@ if (!Debug) return;
 if (keyboard_check(vk_control)) {
 	noclip = (mouse_check_button(mb_left));
 }
-
-
-
-
-
 
 

@@ -48,90 +48,40 @@ function import_obj(filename, vertex_format) {
                 });
                 break;
             case "f":
-                for (var j = 3; j < array_length(tokens); j++) {
-                    var v1 = tokens[1];
-                    var v2 = tokens[j - 1];
-                    var v3 = tokens[j];
-                    
-                    var v1_tokens = string_split(v1, "/");
-                    var v2_tokens = string_split(v2, "/");
-                    var v3_tokens = string_split(v3, "/");
-                    
-                    var v1_position = { x: 0, y: 0, z: 0 };
-                    var v1_texcoord = { x: 0, y: 0 };
-                    var v1_normal =   { x: 0, y: 0, z: 0 };
-                    var v2_position = { x: 0, y: 0, z: 0 };
-                    var v2_texcoord = { x: 0, y: 0 };
-                    var v2_normal =   { x: 0, y: 0, z: 0 };
-                    var v3_position = { x: 0, y: 0, z: 0 };
-                    var v3_texcoord = { x: 0, y: 0 };
-                    var v3_normal =   { x: 0, y: 0, z: 0 };
-                    
-                    switch (array_length(v1_tokens)) {
-                        case 1:
-                            v1_position = positions[real(v1_tokens[0]) - 1];
-                            break;
-                        case 2:
-                            v1_position = positions[real(v1_tokens[0]) - 1];
-                            v1_texcoord = texcoords[real(v1_tokens[1]) - 1];
-                            break;
-                        case 3:
-                            v1_position = positions[real(v1_tokens[0]) - 1];
-                            if (v1_tokens[1] != "") {
-                                v1_texcoord = texcoords[real(v1_tokens[1]) - 1];
-                            }
-                            v1_normal =   normals[real(v1_tokens[2]) - 1];
-                            break;
-                    }
-                    switch (array_length(v2_tokens)) {
-                        case 1:
-                            v2_position = positions[real(v2_tokens[0]) - 1];
-                            break;
-                        case 2:
-                            v2_position = positions[real(v2_tokens[0]) - 1];
-                            v2_texcoord = texcoords[real(v2_tokens[1]) - 1];
-                            break;
-                        case 3:
-                            v2_position = positions[real(v2_tokens[0]) - 1];
-                            if (v2_tokens[1] != "") {
-                                v2_texcoord = texcoords[real(v2_tokens[1]) - 1];
-                            }
-                            v2_normal =   normals[real(v2_tokens[2]) - 1];
-                            break;
-                    }
-                    switch (array_length(v3_tokens)) {
-                        case 1:
-                            v3_position = positions[real(v3_tokens[0]) - 1];
-                            break;
-                        case 2:
-                            v3_position = positions[real(v3_tokens[0]) - 1];
-                            v3_texcoord = texcoords[real(v3_tokens[1]) - 1];
-                            break;
-                        case 3:
-                            v3_position = positions[real(v3_tokens[0]) - 1];
-                            if (v3_tokens[1] != "") {
-                                v3_texcoord = texcoords[real(v3_tokens[1]) - 1];
-                            }
-                            v3_normal =   normals[real(v3_tokens[2]) - 1];
-                            break;
-                    }
-                    
-                    vertex_position_3d(vb, v1_position.x, v1_position.y, v1_position.z);
-                    vertex_normal(vb, v1_normal.x, v1_normal.y, v1_normal.z);
-                    vertex_texcoord(vb, v1_texcoord.x, v1_texcoord.y);
-                    vertex_colour(vb, c_white, 1);
-                    
-                    vertex_position_3d(vb, v2_position.x, v2_position.y, v2_position.z);
-                    vertex_normal(vb, v2_normal.x, v2_normal.y, v2_normal.z);
-                    vertex_texcoord(vb, v2_texcoord.x, v2_texcoord.y);
-                    vertex_colour(vb, c_white, 1);
-                    
-                    vertex_position_3d(vb, v3_position.x, v3_position.y, v3_position.z);
-                    vertex_normal(vb, v3_normal.x, v3_normal.y, v3_normal.z);
-                    vertex_texcoord(vb, v3_texcoord.x, v3_texcoord.y);
-                    vertex_colour(vb, c_white, 1);
-                }
-                break;
+					    for (var j = 3; j < array_length(tokens); j++) {
+					        // Triangulate: (1, j-1, j)
+					        var verts = [tokens[1], tokens[j - 1], tokens[j]];
+        
+					        for (var k = 0; k < 3; k++) {
+					            var idx_tokens = string_split(verts[k], "/");
+            
+					            var pos = {x:0,y:0,z:0};
+					            var tex = {x:0,y:0};
+					            var nor = {x:0,y:0,z:0};
+            
+					            // position (first number, always exists)
+					            if (array_length(idx_tokens) > 0 && idx_tokens[0] != "") {
+					                pos = positions[real(idx_tokens[0]) - 1];
+					            }
+            
+					            // texcoord (second number, optional)
+					            if (array_length(idx_tokens) > 1 && idx_tokens[1] != "") {
+					                tex = texcoords[real(idx_tokens[1]) - 1];
+					            }
+            
+					            // normal (third number, optional)
+					            if (array_length(idx_tokens) > 2 && idx_tokens[2] != "") {
+					                nor = normals[real(idx_tokens[2]) - 1];
+					            }
+            
+					            // push vertex to buffer
+					            vertex_position_3d(vb, pos.x, pos.y, pos.z);
+					            vertex_normal(vb, nor.x, nor.y, nor.z);
+					            vertex_texcoord(vb, tex.x, tex.y);
+					            vertex_colour(vb, c_white, 1);
+					        }
+					    }
+					    break;
         }
     }
     

@@ -37,6 +37,7 @@ globalvar Debug; Debug = {
 	debug: false,
 	tools: false,
 	console: false,
+	specs: false,
 };
 
 
@@ -47,6 +48,12 @@ globalvar Settings; Settings = {
 		guiScale: 2.0,
 		raycastCount: 500,
 		showKey: true,
+		
+		drawScanlines: false,
+		
+		physics: {
+			chains: false,
+		},
 	},
 	
 	audio: {
@@ -145,6 +152,10 @@ if (!instance_exists(QuestHandler)) {
 	instance_create_layer(190, 500, "Init", QuestHandler);
 }
 
+if (!instance_exists(PauseMenu)) {
+	instance_create_layer(0, 0, "Init", PauseMenu);
+}
+
 
 
 if (CurrentChapter.beggining_cutscene.played) {
@@ -181,7 +192,10 @@ runCommand = function(input, showHistory = false) {
 	if (input == "") return;
 	
 	var args = string_split(input, " ", true);
+	var command = args[0];
+	print(command);
 	array_delete(args, 0, 1);
+	
 	
 	var found = false;
 	
@@ -190,7 +204,7 @@ runCommand = function(input, showHistory = false) {
 	
 	// Run Actual Command
 	for (var i = 0; i < array_length(CommandData); i++) {
-		if (string_starts_with(string_lower(input), CommandData[i].name)) {
+		if (string_lower(command) == CommandData[i].name) {
 			var argc = CommandData[i].argc;
 			var argl = array_length(args);
 			

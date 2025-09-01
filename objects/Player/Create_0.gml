@@ -1,7 +1,27 @@
 
 
+#region Console Commands
+
+COMMAND.register("player_set_knockback", 2, function(args) {
+	try {
+		var xx = real(args[0]);
+		var yy = real(args[1]);
+		Player.knockback = vec2(xx, yy);
+	} catch(e) {
+		err(e);
+	}
+});
+
+COMMAND.register("god", 0, function(args) {
+	Player.god = !Player.god;
+});
+
+#endregion
+
+
 // Player
 busy = false;
+god = true;
 children = [];
 lightLevel = 20;
 isSolid = true;
@@ -12,6 +32,8 @@ viewDistance = 50;
 emitter = audio_emitter_create();
 
 soul = SOUL_TYPE.Castoff;
+
+collisionMask = instance_create_depth(x, y, depth, PlayerCollision);
 
 
 // Stats
@@ -41,17 +63,20 @@ handleHealth = function() {
 }
 
 hit = function(damage, xscale=1) {
-	if (isHit) return;
+	if (isHit || god) return;
 	
 	hp -= damage;
 	isHit = true;
-	hitCooldown = 30;
+	hitCooldown = 50;
 	
+	hsp = 0;
 	vsp = 0;
-	vsp -= (jumpForce * 10) * !onAir;
-	hsp = xscale * 1.5;
+	knockback.y -= (jumpForce * 4) * !onAir;
 	
-	var shake = clamp(damage / 0.5, 0, 20);
+	if (xscale == 0) xscale = choose(-1, 1);
+	knockback.x = xscale * 2;
+	
+	var shake = clamp(damage / 0.5, 0, 4);
 	
 	screen_flash(0.3, 0.06, c_red);
 	camera_shake(shake);
@@ -64,14 +89,14 @@ hit = function(damage, xscale=1) {
 
 // Movement
 allowMovement						= true;
-defaultSpd							= 1.25;
+defaultSpd							= 1.33;
 spd											= defaultSpd;
 hsp											= 0;
 vsp											= 0;
 hspFrac									= 0;
 vspFrac									= 0;
 force										= vec2();
-jumpForce								= 2;
+jumpForce								= 1.66;
 jumpCountDefault				= 1;
 jumpCount								= jumpCountDefault;
 isJumping								= false;
@@ -84,7 +109,13 @@ noclip									= false;
 lastPlaceStanding				= -1;
 applyGravity						= true;
 jumpThroughGracePeriod	= 0;
+knockback								= vec2();
+impact									= false;
+impactTimer							= 0;
 
+getPosition = function() {
+	return vec2(x, y);
+}
 
 flip = function() {
 	isFlipping = true;
@@ -106,6 +137,10 @@ handleBackflip = function() {
 movement = function() {
 	if (busy) return;
 	
+	// Knockback
+	if (round(knockback.x) != 0) knockback.x += ( -sign(knockback.x) * GameSpeed ); else knockback.x = 0;
+	if (round(knockback.y) != 0) knockback.y += ( -sign(knockback.y) * GameSpeed ); else knockback.y = 0;
+	
 	isMoving = (hsp != 0 || vsp != 0);
 	applyGravity = (!place_meeting(x, y + 1, Elevator));
 	
@@ -121,8 +156,12 @@ movement = function() {
 	
 	onAir = !onGround;
 	
+	impact = false;
+	
 	if (onGround && !wasOnGround) {
+		jumpThroughGracePeriod = 0;
 		createDustParticles(10, 5, 0.20);
+		impact = true;
 	}
 	
 	if (onGround) {
@@ -136,7 +175,6 @@ movement = function() {
 	}
 	
 	
-	
 	if (place_meeting(x, y + 1, Collision_Slope)) {
 		onSlope = true;
 	}
@@ -147,8 +185,8 @@ movement = function() {
 		hspMultiplier = 0;
 	}
 	
-	x += (hsp + force.x) * hspMultiplier;
-	y += vsp + force.y;
+	x += (hsp + knockback.x) * hspMultiplier;
+	y += (vsp + knockback.y);
 	
 	
 	// gravity
@@ -172,15 +210,24 @@ movement = function() {
 	var dir = point_direction(0, 0, right - left, 0);
 	var len = (right - left != 0);
 	
+	// Walk horizontally only when not hit
 	if (!isHit) {
 		hsp = lengthdir_x(spd * len, dir) * GameSpeed;
+		
+	}
+	else if (isHit) {
+		hsp += knockback.x;
+		
 	}
 	
 	// Jump
-	if (map.down && map.jump) {
-		jumpThroughGracePeriod = 5;
+	if (map.downPressed) {
+		jumpThroughGracePeriod = 15;
 	}
-	else if (map.jump && jumpCount > 0) {
+	
+	var jumpCondition = (jumpCount > 0 /* && impactTimer == 0 */);
+	
+	if (map.jump && jumpCondition) {
 		vsp = 0;
 		vsp -= jumpForce;
 		
@@ -205,6 +252,10 @@ movement = function() {
 		vsp = 0;
 		x = mouse_x;
 		y = mouse_y;
+	}
+	
+	if (onSlope) {
+		hsp = round(hsp);
 	}
 }
 
@@ -262,6 +313,43 @@ collisions = {
 applyCollisions = function() {
 	if (noclip) return;
 	
+	
+	// Player Collision Mask
+	if (!instance_exists(PlayerCollision)) {
+		collisionMask = instance_create_depth(x, y, depth, PlayerCollision);
+	} else {
+	
+		with (collisionMask) {
+			// Make collision object follow the player
+			self.x = other.x;
+			self.y = other.y;
+		
+			if (place_meeting(x, y, Trigger)) {
+				instance_destroy(instance_nearest(x, y, Trigger));
+			}
+	
+			if (place_meeting(x, y, ProjectileEnemy)) {
+				var proj = instance_nearest(x, y, ProjectileEnemy);
+				var xdir = sign(x - proj.shooter.x);
+				if (xdir == 0) xdir = choose(1, -1);
+		
+				other.hit(proj.damage, xdir);
+		
+				instance_destroy(proj);
+			}
+	
+			if (place_meeting(x, y, Enemy)) {
+				var enemy = instance_nearest(x, y, Enemy);
+				var xdir = sign(x - enemy.x);
+				if (xdir == 0) xdir = choose(1, -1);
+		
+				if (enemy.attackOnContact) other.hit(enemy.damage, xdir);
+			}
+		}
+	
+	}
+	
+	
 	jumpThroughGracePeriod = max(0, jumpThroughGracePeriod - 1);
 	
 	var jumpThrough = instance_place(x, y + max(1, vsp), Collision_JumpThrough);
@@ -275,46 +363,17 @@ applyCollisions = function() {
 		}
 	}
 	
-	
-	hsp += hspFrac;
-	
-	hspFrac = hsp - (round(abs(hsp)) * sign(hsp));
-	hsp -= hspFrac;
-
-
-	if (!onAir) {
-		vsp += vspFrac;
-
-		vspFrac = vsp - (round(abs(vsp)) * sign(vsp));
-		vsp -= vspFrac;
-	}
-	
 	collision_set(Collision, spd);
 	collision_set(Collision_Slope, spd);
 	collision_set(Collision_Rayblock, spd);
 	collision_set(FakeWall, spd);
 	
 	
-	var doorside = instance_nearest(x, y, DoorSideways);
-	if (instance_exists(doorside)) {
+	if (instance_exists(DoorSideways)) {
+		var doorside = instance_nearest(x, y, DoorSideways);
 		if (!doorside.open) {
 			collision_set(doorside);
 		}
-	}
-	
-	if (place_meeting(x, y, Trigger)) {
-		instance_destroy(instance_nearest(x, y, Trigger));
-	}
-	
-	if (place_meeting(x, y, ProjectileEnemy)) {
-		var proj = instance_nearest(x, y, ProjectileEnemy);
-		hit(proj.damage, sign(x - proj.shooter.x));
-		instance_destroy(proj);
-	}
-	
-	if (place_meeting(x, y, Enemy)) {
-		var enemy = instance_nearest(x, y, Enemy);
-		if (enemy.attackOnContact) hit(enemy.damage, sign(x - enemy.x));
 	}
 }
 
@@ -496,8 +555,6 @@ attack = function() {
 		
 		attackCommandInput += prefix + keycode;
 		
-		print(attackCommandInput);
-		
 		var command = attackCommandGet(attackCommandInput);
 		if (!is_undefined(command)) {
 			if (command.run()) print(command.name);
@@ -642,14 +699,14 @@ blink = false;
 draw = function() {
 	var sprite = spriteStates.idle;
 	
-	
-	// move when walking horizontally
+	// Move when walking horizontally
 	if (hsp != 0 && !isAttacking) {
 		sprite = spriteStates.move;
-		image_xscale = sign(hsp);
+		
+		if (!isHit) image_xscale = sign(hsp);
 	}
 	
-	// if player is busy idle
+	// If player is busy idle
 	if (busy) {
 		sprite = spriteStates.idle;
 	}
@@ -665,11 +722,29 @@ draw = function() {
 		});
 	}
 	
+	// Angle if hit
+	if (isHit) {
+		angle = 27 * sign(hsp);
+	}
+	
+	// Upon impact
+	if (impact) {
+		impactTimer = 15;
+		isAttacking = false;
+	}
+	
+	if (impactTimer > 0 && !onSlope) {
+		impactTimer = max(0, impactTimer - GameSpeed);
+		sprite = sPlayerOneEye_Impact;
+	}
+	
 	sprite_index = sprite;
 	
 	if (onGround || onSlope) {
 		angle = angle_lerp(angle, 0, 0.25);
 	}
+	
+	
 	
 	surface_set_target(SurfaceHandler.surface);
 	
@@ -688,6 +763,8 @@ draw = function() {
 
 // Draw GUI
 drawGUI = function() {
+	if (Paused) return;
+	
 	var guiScale = Style.guiScale;
 	var margin = 20 * guiScale;
 	
@@ -754,7 +831,7 @@ drawSecretGUI = function() {
 		var tc = text[i];
 	  
 	  var dx = WIDTH / 2 + xoffset * tc.scale;
-	  var dy = HEIGHT / 2 - string_height(tc.char) * tc.scale / 2;
+	  var dy = HEIGHT / 2;
     
 	  dx += random_range(-tc.shake, tc.shake);
 	  dy += random_range(-tc.shake, tc.shake);
@@ -768,7 +845,7 @@ drawSecretGUI = function() {
 	  xoffset += string_width(tc.char);
 	}
 	
-	secretTime += GameSpeed;
+	secretTime += GameSpeed * !Paused;
 	if (floor(secretTime) > 4 * 60) {
 		secretAlpha = lerp(secretAlpha, 0, lerpTime);
 		labelBackgroundX = lerp(labelBackgroundX, 0, 0.1);

@@ -11,6 +11,8 @@ damage = 10;
 
 attackOnContact = true;
 
+deathSound = choose(snd_explosion1, snd_explosion2, snd_explosion3, snd_explosion4);
+
 
 // Movement
 defaultSpd = 0.5;
@@ -110,6 +112,8 @@ hit = function(damage) {
 	whenHit = true;
 	
 	camera_shake(2);
+	
+	create_popup_particle(damage);
 }
 
 

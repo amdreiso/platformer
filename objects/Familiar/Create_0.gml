@@ -1,9 +1,12 @@
 
-drawOnSurface = false;
-scale = 2;
+drawOnSurface = true;
+scale = 1;
 
-angle_x = 0;
-angle_y = 0;
+anglex = 0;
+angley = 0;
+
+playerOffset = vec2();
+alarm[0] = 1;
 
 gpu_set_ztestenable(true);
 gpu_set_zwriteenable(true);
@@ -17,5 +20,7 @@ vformat = vertex_format_end();
 
 vbuffer = vertex_create_buffer();
 
+textureSprite = TextureMap_Skull;
+filename = "actualskull.obj"
 
-vb_minion = import_obj("sword.obj", vformat);
+vb_minion = import_obj(filename, vformat);

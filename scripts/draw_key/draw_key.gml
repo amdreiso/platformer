@@ -16,8 +16,10 @@ function draw_key(indicator){
 			break;
 		
 		case KEY_INDICATOR.InteractDoor:
-			kb = sButton_UP_keyboard;
-			gp = sButton_UP;
+			//kb = sButton_UP_keyboard;
+			//gp = sButton_UP;
+			kb = sButton_C;
+			gp = sButton_Circle;
 			break;
 		
 	}

@@ -8,14 +8,15 @@ function macros_load(){
 	
 	#macro CAMERA_ZOOM_DEFAULT 1
 	
+	#macro DEFAULT_FONT fnt_console
 	
 	// Player
 	#macro PLAYER_COMMAND_INPUT_TIMER 15
 	
 	
 	// save files
-	#macro SAVEFILE_SETTINGS "settings.json"
-	#macro SAVEFILE_CHAPTERS "story.json"
+	#macro SAVEFILE_SETTINGS "settings.hh"
+	#macro SAVEFILE_CHAPTERS "story.hh"
 	
 	
 	// existing functions

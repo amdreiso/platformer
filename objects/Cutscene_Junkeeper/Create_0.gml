@@ -32,7 +32,9 @@ cutscene = [
 			TRANSLATION.get("cutscene_junkeeper_0"),
 			TRANSLATION.get("cutscene_junkeeper_1"),
 			TRANSLATION.get("cutscene_junkeeper_2"),
-			TRANSLATION.get("cutscene_junkeeper_3")
+			TRANSLATION.get("cutscene_junkeeper_3"),
+			TRANSLATION.get("cutscene_junkeeper_4"),
+			TRANSLATION.get("cutscene_junkeeper_5"),
 		])
 		.setObject(Junkdigger_Head)
 		.setPosition(Junkdigger_Head.x, Junkdigger_Head.y)
@@ -51,7 +53,7 @@ cutscene = [
 				
 				Junkdigger_Head.changeFacialExpression(sBoss_Junkdigger_FE_satisfaction);
 				
-			} else if (Textbox.index == 3) {
+			} else if (Textbox.index == 5) {
 				
 				Junkdigger_Head.changeFacialExpression(sBoss_Junkdigger_FE_cringe);
 				

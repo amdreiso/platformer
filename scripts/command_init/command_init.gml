@@ -26,6 +26,10 @@ COMMAND = {
 //	array_push(CommandData, command(name, argc, fn));
 //}
 
+COMMAND.register("save_settings", 0, function(args){
+	settings_save();
+});
+
 COMMAND.register("set_gravity", 1, function(args){
 	var value = real(args[0]);
 	Gravity = value;
@@ -126,6 +130,11 @@ COMMAND.register("zoom", 1, function(args) {
 	camera_set_zoom(real(args[0]));
 });
 
+COMMAND.register("test", 0, function(args) {
+	room_goto(rmTEST);
+	Debug.debug = true;
+	player_set_position(vec2(160, 138));
+});
 
 
 

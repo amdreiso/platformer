@@ -9,7 +9,9 @@ if (talking) {
 
 draw_self();
 
-if (place_meeting(x, y, Player) && array_length(dialogue) > 0 && !Player.busy && !OnCutscene) {
+reach = (point_distance_3d(x, y, 0, Player.x, Player.y, 0) < sprite_width * 1.5);
+
+if (reach && array_length(dialogue) > 0 && !Player.busy && !OnCutscene) {
 	
 	//if !(talking) draw_key(sButton_E);
 	

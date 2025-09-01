@@ -10,6 +10,8 @@ enum MENU_PAGE {
 	OptionsGraphics,
 }
 
+active = false;
+
 page = MENU_PAGE.Home;
 menuBackgroundColor = c_black;
 
@@ -18,11 +20,14 @@ c2 = c_black;
 c3 = c_black;
 c4 = c_black;
 margin = 5;
+alpha = 0;
 
 test = 0;
 
 menuButtonForeground = Style.GUI.light.buttonForeground;
 menuButtonBackground = Style.GUI.light.buttonBackground;
+
+backgroundColor = c_blue;
 
 enum MENU_BUTTON_TYPE {
 	Method,
@@ -93,6 +98,10 @@ optionGraphicButtons = [
 	Button("toggle fullscreen", make_color_rgb(35, 35, 35), c_white, function(){
 		window_set_fullscreen( !window_get_fullscreen() );
 	}),
+	
+	Button("toggle scanlines", make_color_rgb(35, 35, 35), c_white, function(){
+		Settings.graphics.drawScanlines = !Settings.graphics.drawScanlines;
+	}),
 ];
 
 optionAudioButtons = [
@@ -125,20 +134,14 @@ devButtons = [
 		url_open("https://discord.gg/hkfcYf8pDS");
 	}),
 	
-	Button("youtube", make_color_rgb(255, 55, 205), c_black, function(){
-	}),
-	
-	Button("ko-fi", make_color_rgb(100, 10, 155), c_white, function(){
-	}),
-	
-	Button("instagram", make_color_rgb(84, 200, 55), c_black, function(){
-	}),
-	
-	Button("patreon", make_color_rgb(100, 80, 05), c_white, function(){
-	}),
 ];
 
 buttonIndex = 0;
+menuWidth = 100;
+menuHeight = HEIGHT;
+menuPosX = -menuWidth * 3.5;
+menuPosXFinal = menuWidth;
+menuSelectedButtonAngle = 0;
 
 drawButtons = function(arr) {
 	var click				= (Keymap.select);
@@ -149,32 +152,30 @@ drawButtons = function(arr) {
 	var lefthold		= (Keymap.selectLeftHold);
 	var righthold		= (Keymap.selectRightHold);
 	
-	var xx = (WIDTH / 2);
-	var menuWidth = 500;
-	var menuHeight = HEIGHT;
+	var xx = menuPosX;
 	var c0 = c_black;
-	
-	draw_set_alpha(0.5);
-	draw_rectangle_color(xx - menuWidth / 2, 0, xx + menuWidth / 2, menuHeight, c0, c0, c0, c0, false);
-	draw_set_alpha(1);
+	var scale = 2;
 
 	for (var i = 0; i < array_length(arr); i++) {
 		var b = arr[i];
 		var str = b.name;
-		var height = 32;
+		var height = 26 * scale;
 				
 		if (buttonIndex == i) {
 			str = string_insert("[ ", str, 0);
 			str = string_insert(str, " ]", 0);
+		} else {
 		}
 		
 		var heightOffset = 2;
+		
+		var buttonPosX = xx;
 		
 		switch (b.type) {
 			case MENU_BUTTON_TYPE.Method:
 			
 				draw_label(
-					(WIDTH / 2) - string_width(str) / 2, (margin) + (i + heightOffset) * height, str, 1, 
+					(buttonPosX), (margin) + (i + heightOffset) * height, str, scale, 
 					menuButtonBackground, menuButtonForeground, 1
 				);
 				
@@ -188,6 +189,7 @@ drawButtons = function(arr) {
 				var width											= maxwidth * step;
 				var arrowButtonWidth					= 20;
 				var color											= c_black;
+				var alpha											= 1;
 				
 				var leftArrowBackgroundColor	= menuButtonBackground;
 				var leftArrowTextColor				= menuButtonForeground;
@@ -215,33 +217,56 @@ drawButtons = function(arr) {
 					color = c_white;
 				}
 				
-				var x0 = WIDTH / 2;
+				var x0 = buttonPosX;
 				
-				// Left button
+				//// Labels
+				//draw_label_width(
+				//	(x0 - maxwidth / 2), margin + (i + heightOffset) * height, " ", maxwidth, maxwidth, scale, 
+				//	b.textColor, b.backgroundColor, 1, true, 4, false
+				//);
+				
+				//draw_label_width(
+				//	(x0 - width / 2), margin + (i + heightOffset) * height, " ", width, maxwidth, scale, 
+				//	b.backgroundColor, b.textColor, 1, true
+				//);
+				
+				
+				
+				// Left Button
 				draw_label_width(
-					x0 - maxwidth / 2 - arrowButtonWidth, margin + (i + heightOffset) * height,
-					"<", arrowButtonWidth, arrowButtonWidth, 1, leftArrowBackgroundColor, leftArrowTextColor, 1
+					buttonPosX,
+					margin + (i + heightOffset) * height,
+					"<",
+					arrowButtonWidth, arrowButtonWidth, scale, leftArrowBackgroundColor, leftArrowTextColor, alpha
 				);
 				
-				// Labels
+				
+				// Progress bar
+				var pbx = buttonPosX + arrowButtonWidth * scale
 				draw_label_width(
-					(x0 - maxwidth / 2), margin + (i + heightOffset) * height, " ", maxwidth, maxwidth, 1, 
-					b.textColor, b.backgroundColor, 1, true, 4, false
+					pbx,
+					margin + (i + heightOffset) * height,
+					" ", maxwidth, maxwidth, scale, b.textColor, b.backgroundColor, alpha
 				);
 				
 				draw_label_width(
-					(x0 - width / 2), margin + (i + heightOffset) * height, " ", width, maxwidth, 1, 
-					b.backgroundColor, b.textColor, 1, true
+					pbx,
+					margin + (i + heightOffset) * height,
+					" ", width, maxwidth, scale, b.backgroundColor, b.textColor, alpha
 				);
+				
+				// Right Button
+				draw_label_width(
+					buttonPosX + ((arrowButtonWidth + maxwidth) * scale),
+					margin + (i + heightOffset) * height,
+					">",
+					arrowButtonWidth, arrowButtonWidth, scale, rightArrowBackgroundColor, rightArrowTextColor, alpha
+				);
+				
+				draw_set_halign(fa_left);
+				draw_text_transformed_color(pbx, margin + (i + heightOffset) * height, str, scale, scale, 0, color, color, color, color, 1);
 				
 				draw_set_halign(fa_center);
-				draw_text_color((x0), margin + (i + heightOffset) * height, str, color, color, color, color, 1);
-				
-				// Right button
-				draw_label_width(
-					(x0 + maxwidth / 2), margin + (i + heightOffset) * height,
-					">", arrowButtonWidth, arrowButtonWidth, 1, rightArrowBackgroundColor, rightArrowTextColor, 1
-				);
 				
 				break;
 		}
@@ -268,6 +293,26 @@ drawButtons = function(arr) {
 }
 
 drawMenu = function() {
+	
+	var c0 = 0x000;
+	
+	draw_set_alpha(0.5 * (menuPosX / menuPosXFinal));
+	
+	draw_rectangle_color(0, 0, WIDTH, HEIGHT, c_black, c_black, c_black, c_black, false);
+	
+	gpu_set_blendmode(bm_add);
+	
+	var offsetx = 200;
+	draw_rectangle_color(-offsetx, 0, WIDTH - offsetx, HEIGHT, backgroundColor, c_black, c_black, backgroundColor, false);
+	
+	gpu_set_blendmode(bm_normal);
+	
+	draw_set_alpha(1);
+	
+
+	
+	
+	
 	switch(page) {
 		case MENU_PAGE.Home:
 			drawButtons(homeButtons);

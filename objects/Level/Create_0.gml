@@ -3,7 +3,7 @@ surface = surface_create(room_width, room_height);
 
 roomCode = function(){};
 
-darkness = 0.94;
+darkness = 0;
 
 isSolid = false;
 newRoom = true;

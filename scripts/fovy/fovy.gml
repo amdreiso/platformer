@@ -10,6 +10,10 @@ function fovy(){
 	show_debug_message("Loaded fovy!");
 }
 
+function position_get(o) {
+	return vec2(o.x, o.y);
+}
+
 function angle_lerp(a, b, t) {
     var diff = angle_difference(b, a);
     return a + diff * t;
@@ -97,18 +101,25 @@ function apply_force() {
 function collision_set(obj, subpixel = 1) {
 	if (!instance_exists(obj)) return;
 	
-	if (place_meeting(x + hsp + force.x, y, obj)) {
+	var sp = 1;
+	
+	var fx = force.x;
+	var fy = force.y;
+	
+	fx = 0; fy = 0;
+	
+	if (place_meeting(x + hsp + fx, y, obj)) {
 		
 		// Slope up
-		if (!place_meeting(round(x + hsp), y - abs(hsp) - 1, obj)) {
+		if (!place_meeting(x + hsp, y - abs(hsp) - 1, obj)) {
 			
-			while (place_meeting(round(x + hsp), ceil(y), obj)) {
-				y -= subpixel;
+			while (place_meeting(x + hsp, y, obj)) {
+				y -= sp;
 			}
 			
 		} else {
  		
-			while (!place_meeting(x + sign(hsp + force.x), y, obj)) {
+			while (!place_meeting(x + sign(hsp + fx), y, obj)) {
 				x = x + sign(hsp + force.x);
 			}
 		
@@ -118,9 +129,9 @@ function collision_set(obj, subpixel = 1) {
 		}
 	}
 	
-	if (place_meeting(x, y + vsp + force.y, obj)) {
-		while (!place_meeting(x, y + sign(vsp + force.y), obj)) {
-			y = y + sign(vsp + force.y);
+	if (place_meeting(x, y + vsp + fy, obj)) {
+		while (!place_meeting(x, y + sign(vsp + fy), obj)) {
+			y = y + sign(vsp + fy);
 		}
 		
 		vsp = 0;

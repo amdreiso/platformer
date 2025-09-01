@@ -1,4 +1,4 @@
-function room_transition(roomID, playerPosition, onEnter=function(){}, transitionTime = 0.1){
+function room_transition(roomID, playerPosition, onEnter=function(){}, transitionTime = 0.33){
 	
 	Main.transition = true;
 	Main.transitionOutput = roomID;

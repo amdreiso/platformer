@@ -101,21 +101,24 @@ function translation_init(){
 		.finalize();
 		
 	TRANSLATION.add("cutscene_junkeeper_2")
-		.set(LANGUAGE_ID.English, $"[scale=0.55][shake=0.1][italic]...your circuits will be a fine addition to my collection...[/italic][/shake][/scale]")
-		.set(LANGUAGE_ID.Brazilian, $"[scale=0.55][shake=0.1][italic]...seus circuitos serão uma boa adição para a minha coleção...[/italic][/shake][/scale]")
+		.set(LANGUAGE_ID.English, $"[scale=0.55][shake=0.1][italic]...actually... thinking about it...[/italic][/shake][/scale]")
+		.set(LANGUAGE_ID.Brazilian, $"[scale=0.55][shake=0.1][italic]...na verdade... pensando bem...[/italic][/shake][/scale]")
 		.finalize();
 		
 	TRANSLATION.add("cutscene_junkeeper_3")
+		.set(LANGUAGE_ID.English, $"[scale=0.55][shake=0.1][italic]...your circuits would be a fine addition to my garbage collection...[/italic][/shake][/scale]")
+		.set(LANGUAGE_ID.Brazilian, $"[scale=0.55][shake=0.1][italic]...seus circuitos seriam uma boa adição para a minha coleção de lixo...[/italic][/shake][/scale]")
+		.finalize();
+		
+	TRANSLATION.add("cutscene_junkeeper_4")
+		.set(LANGUAGE_ID.English, $"[scale=0.55][shake=0.1][italic]...but first... I'll destroy you...[/italic][/shake][/scale]")
+		.set(LANGUAGE_ID.Brazilian, $"[scale=0.55][shake=0.1][italic]...mas antes... eu vou te destruir...[/italic][/shake][/scale]")
+		.finalize();
+		
+	TRANSLATION.add("cutscene_junkeeper_5")
 		.set(LANGUAGE_ID.English, $"[scale=1.55][shake=0.5][color=red][speed=20]BOOT YOURSELF![/speed][/color][/shake][/scale]")
 		.set(LANGUAGE_ID.Brazilian, $"[scale=1.55][shake=0.5][color=red][speed=20]SE LIGUE![/speed][/color][/shake][/scale]")
 		.finalize();
-	
-		//.setDialogue([
-		//	,
-		//	,
-		//	,
-		//	,
-		//])
 	
 	
 	#endregion

@@ -12,8 +12,8 @@
   "duration":2.5277777,
   "name":"snd_explosion1",
   "parent":{
-    "name":"effects",
-    "path":"folders/Sounds/effects.yy",
+    "name":"explosions",
+    "path":"folders/Sounds/effects/explosions.yy",
   },
   "preload":false,
   "resourceType":"GMSound",

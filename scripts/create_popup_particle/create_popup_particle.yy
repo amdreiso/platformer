@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"create_popup_particle",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"create_popup_particle",
+  "parent":{
+    "name":"particles",
+    "path":"folders/Scripts/particles.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

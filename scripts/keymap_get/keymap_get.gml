@@ -14,7 +14,8 @@ function keymap_get(){
 			jumpHold: (keyboard_check(ord("Z")) || keyboard_check(vk_space) || gamepad_button_check(Gamepad.ID, gp_face1)),
 			
 			interact: (keyboard_check_pressed(ord("C")) || gamepad_button_check_pressed(Gamepad.ID, gp_face2)),
-			interactDoor: (keyboard_check_pressed(vk_up) || gamepad_button_check_pressed(Gamepad.ID, gp_padu)),
+			interactDoor: (keyboard_check_pressed(ord("C")) || gamepad_button_check_pressed(Gamepad.ID, gp_face2)),
+			//interactDoor: (keyboard_check_pressed(vk_up) || gamepad_button_check_pressed(Gamepad.ID, gp_padu)),
 			attack: (keyboard_check_pressed(ord("X")) || gamepad_button_check(Gamepad.ID, gp_face3)),
 			specialAttack: (keyboard_check_pressed(ord("X")) || gamepad_button_check(Gamepad.ID, gp_face3)),
 		},
@@ -28,6 +29,6 @@ function keymap_get(){
 		selectLeftHold:				(keyboard_check(vk_left) || gamepad_button_check(Gamepad.ID, gp_padl) || gamepad_axis_value(Gamepad.ID, gp_axislh) < 0),
 		selectRightHold:			(keyboard_check(vk_right) || gamepad_button_check(Gamepad.ID, gp_padr) || gamepad_axis_value(Gamepad.ID, gp_axislh) > 0),
 		
-		pause:								(keyboard_check_pressed(vk_enter) || keyboard_check_pressed(vk_escape) || gamepad_button_check_pressed(Gamepad.ID, gp_start)),
+		pause:								(gamepad_button_check_pressed(Gamepad.ID, gp_start)),
 	}
 }
