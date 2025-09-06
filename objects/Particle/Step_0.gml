@@ -2,6 +2,9 @@
 x += hsp;
 y += vsp;
 
+scale += scaleFactor;
+scale = max(0, scale);
+
 if (gravityApply) {
 	vsp += gravityForce;
 }

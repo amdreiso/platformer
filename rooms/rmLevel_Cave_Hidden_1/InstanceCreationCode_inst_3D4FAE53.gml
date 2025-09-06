@@ -1,3 +1,3 @@
 
 output.roomID = rmLevel_Cave_Entrance;
-output.playerPosition = vec2(1 * 16, 26 * 16);
+output.playerPosition = vec2(PLAYER_BUFFER_ROOM_WIDTH, 10 * 16);

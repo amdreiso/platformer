@@ -15,17 +15,6 @@ COMMAND = {
 	},
 }
 
-//var add = function(name, argc, fn) {
-//	var command = function(name, argc, fn) {
-//		return {
-//			name: name,
-//			argc: argc,
-//			fn: fn,
-//		}
-//	}
-//	array_push(CommandData, command(name, argc, fn));
-//}
-
 COMMAND.register("save_settings", 0, function(args){
 	settings_save();
 });

@@ -12,6 +12,7 @@ enum ITEM_TYPE {
 
 enum ITEM_ID {
 	ScrapElectronics,
+	Jetpack,
 }
 
 enum SUBITEM_ID {

@@ -33,8 +33,8 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"sDefaultTrigger",
-    "path":"sprites/sDefaultTrigger/sDefaultTrigger.yy",
+    "name":"sDefaultTrigger_Transition",
+    "path":"sprites/sDefaultTrigger_Transition/sDefaultTrigger_Transition.yy",
   },
   "spriteMaskId":null,
   "visible":true,

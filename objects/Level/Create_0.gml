@@ -11,6 +11,13 @@ isCutscene = false;
 
 hasBoss = false;
 
+
+
+
+tilePos = function(val) {
+	return val * 16;
+}
+
 screen = {
 	flashAlpha: 0,
 	flashTime: 0.01,
@@ -102,6 +109,39 @@ drawBossbar = function() {
 		
 		draw_sprite_ext(hbSprite, 0, (((WIDTH / 2) + i * width) - maximumHp * width / 2) + hbOffsetX, HEIGHT - hbHeight, hbScale * hbXscale, hbScale, 0, hbColor, 1);
 		
+	}
+	
+}
+
+
+checkPlayerTransitions = function(level) {
+	if (!instance_exists(Player)) return;
+	
+	var xx = Player.x;
+	var yy = Player.y;
+	
+	// Left transition
+	if (xx < 0) {
+		var roomID = level.components.transitionLeft;
+		if (roomID != -1) room_transition(roomID, "left");
+	}
+	
+	// Right transition
+	if (xx > room_width) {
+		var roomID = level.components.transitionRight;
+		if (roomID != -1) room_transition(roomID, "right");
+	}
+	
+	// Up transition
+	if (yy < 0) {
+		var roomID = level.components.transitionUp;
+		if (roomID != -1) room_transition(roomID, "up");
+	}
+	
+	// Down transition
+	if (yy > room_height) {
+		var roomID = level.components.transitionDown;
+		if (roomID != -1) room_transition(roomID, "down");
 	}
 	
 }

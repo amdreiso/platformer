@@ -82,8 +82,16 @@ step = 0;
 load = true;
 tick = 0;
 
+moveSpeed = 0;
+
+reset = function() {
+	moveSpeed = 0;
+}
+
 next = function(onEnd=function(){}) {
 	if (step < array_length(cutscene)-1) {
+		
+		reset();
 		
 		step ++;
 		load = true;
@@ -106,7 +114,9 @@ play = function() {
 				load = false;
 			}
 			
-			var spd = c.moveSpd;
+			moveSpeed = lerp(moveSpeed, c.moveSpd, c.moveAmt);
+			
+			var spd = moveSpeed;
 			
 			if (c.moveX != undefined) {
 				var hsp = sign(c.moveX - c.object.x);

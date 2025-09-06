@@ -33,10 +33,11 @@ function CutsceneStep(event) {
 		return methods;
 	};
 	
-	methods.setMovePosition = function(x, y, movespd) {
+	methods.setMovePosition = function(x, y, movespd, amt = 1) {
 		cs.moveX = x;
 		cs.moveY = y;
 		cs.moveSpd = movespd;
+		cs.moveAmt = amt;
 		return methods;
 	};
 	

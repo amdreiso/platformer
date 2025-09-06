@@ -6,6 +6,7 @@ busy = (Paused
 				|| instance_exists(Textbox) 
 				|| Paused
 				|| Debug.console
+				|| map.open
 );
 
 movement();
@@ -15,6 +16,20 @@ applyCollisions();
 attack();
 handleHealth();
 handleBackflip();
+
+
+// Check for tiles
+var xchunk = x div ROOM_TILE_WIDTH;
+var ychunk = y div ROOM_TILE_HEIGHT;
+
+if (xchunk != lastChunk.x || ychunk != lastChunk.y || room != lastChunk.roomID) {
+	lastChunk.x = xchunk;
+	lastChunk.y = ychunk;
+	lastChunk.roomID = room;
+	
+	print($"new chunk at x: {xchunk} y: {ychunk}");
+	map.discover(room, xchunk, ychunk);
+}
 
 
 // Lighting
@@ -37,5 +52,8 @@ if (!Debug) return;
 if (keyboard_check(vk_control)) {
 	noclip = (mouse_check_button(mb_left));
 }
+
+x = clamp(x, -1, room_width + 1);
+y = clamp(y, -1, room_height + 1);
 
 

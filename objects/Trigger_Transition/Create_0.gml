@@ -9,5 +9,8 @@ output = {
 }
 
 trigger = function() {
-	room_transition(output.roomID, output.playerPosition, output.onEnter, output.transitionTime);
+	var pos = output.playerPosition;
+	var newPos = vec2();
+	
+	room_transition(output.roomID, pos, output.onEnter, output.transitionTime);
 }

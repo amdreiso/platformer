@@ -100,7 +100,7 @@ globalvar Style; Style = {
 		},
 		
 		light: {
-			buttonBackground: c_white,
+			buttonBackground: 0xdddddd,
 			buttonForeground: $FF181818,
 		}
 	},
@@ -144,7 +144,7 @@ rainbowValue = 220;
 
 
 if (!instance_exists(Player)) {
-	instance_create_layer(190, 500, "Init", Player);
+	instance_create_layer(190, 232, "Init", Player);
 	//instance_create_layer(600, 300, "Init", Player);
 }
 
@@ -175,6 +175,7 @@ transitionAlpha = 0;
 transitionOutput = -1;
 transitionPlayerPosition = vec2();
 transitionOnEnter = function(){}
+transitionSide = "side";
 
 
 

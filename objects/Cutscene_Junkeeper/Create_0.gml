@@ -4,6 +4,10 @@ event_inherited();
 var dialogueScale = 1.5;
 
 handDustRange = 20;
+handHeightCharge = 450;
+handHeightChargeAmount = 0.25;
+handChargeSpeed = 7;
+handShakeValue = 0.35;
 
 cutscene = [
 	
@@ -70,9 +74,9 @@ cutscene = [
 	
 	CutsceneStep(CUTSCENE_EVENT.Move)
 		.setObject(Junkdigger.leftHand)
-		.setMovePosition(undefined, 480, 2)
+		.setMovePosition(undefined, handHeightCharge - 5, 2)
 		.onUpdate(function(){
-			var xx = 0.25;
+			var xx = handShakeValue;
 			var hand = Junkdigger.leftHand;
 			hand.x += random_range(-xx, xx);
 			hand.depth = layer_get_depth(layer_get_id("Boss_Hand_Back"));
@@ -82,7 +86,7 @@ cutscene = [
 	
 	CutsceneStep(CUTSCENE_EVENT.Move)
 		.setObject(Junkdigger.leftHand)
-		.setMovePosition(undefined, JUNKKEEPER_HAND_POSITION, 5)
+		.setMovePosition(undefined, JUNKKEEPER_HAND_POSITION, handChargeSpeed, handHeightChargeAmount)
 		.onStart(function(){
 			var hand = Junkdigger.leftHand;
 			hand.depth = layer_get_depth(layer_get_id("Boss_Hand_Front"));
@@ -103,9 +107,9 @@ cutscene = [
 	
 	CutsceneStep(CUTSCENE_EVENT.Move)
 		.setObject(Junkdigger.rightHand)
-		.setMovePosition(undefined, 480, 2)
+		.setMovePosition(undefined, handHeightCharge, 2)
 		.onUpdate(function(){
-			var xx = 0.25;
+			var xx = handShakeValue;
 			var hand = Junkdigger.rightHand;
 			hand.x += random_range(-xx, xx);
 			hand.depth = layer_get_depth(layer_get_id("Boss_Hand_Back"));
@@ -115,7 +119,7 @@ cutscene = [
 	
 	CutsceneStep(CUTSCENE_EVENT.Move)
 		.setObject(Junkdigger.rightHand)
-		.setMovePosition(undefined, JUNKKEEPER_HAND_POSITION, 5)
+		.setMovePosition(undefined, JUNKKEEPER_HAND_POSITION, handChargeSpeed, handHeightChargeAmount)
 		.onStart(function(){
 			var hand = Junkdigger.rightHand;
 			hand.depth = layer_get_depth(layer_get_id("Boss_Hand_Front"));

@@ -1,5 +1,4 @@
 
-//backgroundSong = audio_play_sound(snd_menu, 0, true, 1, 0, random_range(0.90, 1.00));
 
 enum MENU_PAGE {
 	Resume,
@@ -29,12 +28,17 @@ menuButtonBackground = Style.GUI.light.buttonBackground;
 
 backgroundColor = c_blue;
 
+setPage = function(val) {
+	PauseMenu.buttonIndex = 0;
+	PauseMenu.page = val;
+}
+
 enum MENU_BUTTON_TYPE {
 	Method,
 	Slider,
 }
 
-var Button = function(name, backgroundColor, textColor, fn, goback = true) {
+var Button = function(name, backgroundColor, textColor, fn, goback = false) {
 	return {
 		type: MENU_BUTTON_TYPE.Method,
 		name: name,
@@ -60,15 +64,15 @@ var ButtonSlider = function(name, backgroundColor, textColor, get, set, variable
 
 homeButtons = [
 	Button("resume", c_white, c_black, function(){
-		instance_destroy(PauseMenu);
+		PauseMenu.active = false;
 	}),
 	
 	Button("options", c_green, c_black, function(){
-		PauseMenu.page = MENU_PAGE.Options;
+		setPage(MENU_PAGE.Options);
 	}),
 	
 	Button("feed the dev xD", c_red, c_black, function(){
-		PauseMenu.page = MENU_PAGE.Dev;
+		setPage(MENU_PAGE.Dev);
 	}),
 	
 	Button("quit", c_orange, c_blue, function(){
@@ -78,25 +82,21 @@ homeButtons = [
 
 optionButtons = [
 	Button("return", c_blue, c_white, function(){
-		PauseMenu.page = MENU_PAGE.Home;
+		setPage(MENU_PAGE.Home);
 	}),
 	
 	Button("graphics", c_fuchsia, c_black, function(){
-		PauseMenu.page = MENU_PAGE.OptionsGraphics;
+		setPage(MENU_PAGE.OptionsGraphics);
 	}),	
 	
 	Button("audio", c_aqua, c_black, function(){
-		PauseMenu.page = MENU_PAGE.OptionsAudio;
+		setPage(MENU_PAGE.OptionsAudio);
 	}),	
 ];
 
 optionGraphicButtons = [
 	Button("return", c_blue, c_white, function(){
-		PauseMenu.page = MENU_PAGE.Options;
-	}),
-	
-	Button("toggle fullscreen", make_color_rgb(35, 35, 35), c_white, function(){
-		window_set_fullscreen( !window_get_fullscreen() );
+		setPage(MENU_PAGE.Options);
 	}),
 	
 	Button("toggle scanlines", make_color_rgb(35, 35, 35), c_white, function(){
@@ -106,7 +106,7 @@ optionGraphicButtons = [
 
 optionAudioButtons = [
 	Button("return", c_blue, c_white, function(){
-		PauseMenu.page = MENU_PAGE.Options;
+		setPage(MENU_PAGE.Options);
 	}),
 	
 	ButtonSlider("volume", $FFCBA646, Style.sliderBackground, 
@@ -127,7 +127,7 @@ optionAudioButtons = [
 
 devButtons = [
 	Button("return", c_blue, c_white, function(){
-		PauseMenu.page = MENU_PAGE.Home;
+		setPage(MENU_PAGE.Home);
 	}),
 	
 	Button("discord", make_color_rgb(100, 100, 255), c_white, function(){
@@ -144,6 +144,8 @@ menuPosXFinal = menuWidth;
 menuSelectedButtonAngle = 0;
 
 drawButtons = function(arr) {
+	if (!active) return;
+	
 	var click				= (Keymap.select);
 	var up					= (Keymap.selectUp);
 	var down				= (Keymap.selectDown);
@@ -154,17 +156,23 @@ drawButtons = function(arr) {
 	
 	var xx = menuPosX;
 	var c0 = c_black;
-	var scale = 2;
+	var scale = 0.75;
+	
+	var buttonPadding = 1.25;
 
 	for (var i = 0; i < array_length(arr); i++) {
 		var b = arr[i];
 		var str = b.name;
-		var height = 26 * scale;
-				
+		var height = string_height(str) * buttonPadding * scale;
+		
+		var back = menuButtonBackground;
+		var fore = menuButtonForeground;
+		
 		if (buttonIndex == i) {
-			str = string_insert("[ ", str, 0);
-			str = string_insert(str, " ]", 0);
+			str = string_insert("> ", str, 0);
+			str = string_insert(str, " <", 0);
 		} else {
+			back = color_darkness(back, 50);
 		}
 		
 		var heightOffset = 2;
@@ -176,7 +184,7 @@ drawButtons = function(arr) {
 			
 				draw_label(
 					(buttonPosX), (margin) + (i + heightOffset) * height, str, scale, 
-					menuButtonBackground, menuButtonForeground, 1
+					back, fore, 1
 				);
 				
 				break;
@@ -191,23 +199,23 @@ drawButtons = function(arr) {
 				var color											= c_black;
 				var alpha											= 1;
 				
-				var leftArrowBackgroundColor	= menuButtonBackground;
-				var leftArrowTextColor				= menuButtonForeground;
+				var leftArrowBackgroundColor	= back;
+				var leftArrowTextColor				= fore;
 				
-				var rightArrowBackgroundColor = menuButtonBackground;
-				var rightArrowTextColor				= menuButtonForeground;
+				var rightArrowBackgroundColor = back;
+				var rightArrowTextColor				= fore;
 				
 				if (buttonIndex == i) {
 					if (lefthold && current > 0) { 
-						leftArrowBackgroundColor = menuButtonForeground;
-						leftArrowTextColor = menuButtonBackground;
+						leftArrowBackgroundColor = fore;
+						leftArrowTextColor = back;
 						
 						b.set(current - b.slope); 
 					}
 					
 					if (righthold && current < b.variabledefault) { 
-						rightArrowBackgroundColor = menuButtonForeground;
-						rightArrowTextColor = menuButtonBackground;
+						rightArrowBackgroundColor = fore;
+						rightArrowTextColor = back;
 						
 						b.set(current + b.slope); 
 					}
@@ -294,6 +302,8 @@ drawButtons = function(arr) {
 
 drawMenu = function() {
 	
+	draw_set_font(fnt_menu);
+	
 	var c0 = 0x000;
 	
 	draw_set_alpha(0.5 * (menuPosX / menuPosXFinal));
@@ -308,9 +318,6 @@ drawMenu = function() {
 	gpu_set_blendmode(bm_normal);
 	
 	draw_set_alpha(1);
-	
-
-	
 	
 	
 	switch(page) {
@@ -334,6 +341,8 @@ drawMenu = function() {
 			drawButtons(devButtons);
 			break;
 	}
+	
+	draw_set_font(fnt_console);
 }
 
 

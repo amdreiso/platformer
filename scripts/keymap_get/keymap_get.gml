@@ -18,6 +18,8 @@ function keymap_get(){
 			//interactDoor: (keyboard_check_pressed(vk_up) || gamepad_button_check_pressed(Gamepad.ID, gp_padu)),
 			attack: (keyboard_check_pressed(ord("X")) || gamepad_button_check(Gamepad.ID, gp_face3)),
 			specialAttack: (keyboard_check_pressed(ord("X")) || gamepad_button_check(Gamepad.ID, gp_face3)),
+			
+			map: (keyboard_check_pressed(ord("V")) || gamepad_button_check_pressed(Gamepad.ID, gp_face4)),
 		},
 		
 		select:								(keyboard_check_pressed(vk_space) || gamepad_button_check_pressed(Gamepad.ID, gp_face1)),

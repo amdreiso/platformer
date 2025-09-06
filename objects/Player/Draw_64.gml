@@ -5,4 +5,12 @@ drawGUI();
 drawSecretGUI();
 drawDeathScreen();
 
-draw_debug();
+draw_debug_gui();
+
+
+if (Keymap.player.map) {
+	map.open = !map.open;
+	map.size = 200;
+}
+map.size = lerp(map.size, 20, 0.25);
+map.draw();

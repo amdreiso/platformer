@@ -3,6 +3,8 @@
 var level = LEVEL.get(room);
 if (level == -1) return;
 
+checkPlayerTransitions(level);
+
 hasBoss = (instance_exists(Boss));
 
 if (newRoom) {
@@ -25,14 +27,10 @@ if (newRoom) {
 		audio_stop_all();
 		
 		// play current room's song
-		backgroundSong = audio_play_sound(song, 0, true);
+		backgroundSong = audio_play_sound(song, 0, true, Settings.audio.music * Settings.audio.volume);
 	} else {
 		
-		
-		
 	}
-	
-	print(backgroundSong);
 	
 	// Room Light Level
 	darkness = level.components.darkness;
@@ -42,8 +40,31 @@ if (newRoom) {
 	
 	level.components.create();
 	
-	newRoom = false;
 	
+	// move player on transition
+	switch (Main.transitionSide) {
+		case "left":
+			var p = vec2(room_width - PLAYER_BUFFER_ROOM_WIDTH, Main.transitionPlayerPosition.y);
+			player_set_position(p);
+			break;
+					
+		case "right":
+			var p = vec2(PLAYER_BUFFER_ROOM_WIDTH, Main.transitionPlayerPosition.y);
+			player_set_position(p);
+			break;
+					
+		case "up":
+			var p = vec2(Main.transitionPlayerPosition.x, room_height - PLAYER_BUFFER_ROOM_WIDTH - 4);
+			player_set_position(p);
+			break;
+					
+		case "down":
+			var p = vec2(Main.transitionPlayerPosition.x, PLAYER_BUFFER_ROOM_WIDTH);
+			player_set_position(p);
+			break;
+	}
+	
+	newRoom = false;
 }
 
 if (audio_is_playing(backgroundSong)) {
@@ -51,6 +72,7 @@ if (audio_is_playing(backgroundSong)) {
 }
 
 roomCode();
+
 
 
 

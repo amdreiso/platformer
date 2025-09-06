@@ -16,6 +16,7 @@ destroy = false;
 xscale = 1;
 yscale = 1;
 scale = 1;
+scaleFactor = 0;
 
 color = c_white;
 

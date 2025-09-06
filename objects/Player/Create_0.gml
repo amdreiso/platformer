@@ -21,7 +21,7 @@ COMMAND.register("god", 0, function(args) {
 
 // Player
 busy = false;
-god = true;
+god = false;
 children = [];
 lightLevel = 20;
 isSolid = true;
@@ -36,11 +36,91 @@ soul = SOUL_TYPE.Castoff;
 collisionMask = instance_create_depth(x, y, depth, PlayerCollision);
 
 
+// Map
+function MapTile(roomID, x, y) constructor {
+	self.roomID = roomID;
+	self.x = x;
+	self.y = y;
+}
+
+map = {
+	open: false,
+	size: 20,
+	grid: [],
+	
+	discover: function(roomID, x, y) {
+		print(room_get_name(roomID));
+		var tile = new MapTile(roomID, x, y);
+		array_push(Player.map.grid, tile);
+	},
+	
+	draw: function() {
+		if (!Player.map.open) return;
+		
+		draw_set_alpha(0.5);
+		draw_rectangle_color(0, 0, WIDTH, HEIGHT, c_black, c_black, c_black, c_black, false);
+		draw_set_alpha(1);
+		
+		var pos = vec2(
+			100, HEIGHT / 2
+		);
+		
+		for (var i = 0; i < array_length(grid); i++) {
+			
+			var g = grid[i];
+			var size = Player.map.size;
+			
+			var level = LEVEL.get(g.roomID);
+			var roomOffsetX = level.components.mapOffsetPos.x;
+			var roomOffsetY = level.components.mapOffsetPos.y;
+			
+			var padding = 1.05;
+			
+			var xx = floor(pos.x + (g.x * size * padding) + roomOffsetX * size);
+			var yy = floor(pos.y + (g.y * size * padding) + roomOffsetY * size);
+			
+			var c0 = make_color_hsv(140, 255, 230);
+			var c1 = c_white;
+			var c2 = c_black;
+			
+			draw_rectangle_color(
+				xx, yy,
+				xx + size, yy + size,
+				c0, c0, c0, c0, false
+			);
+			
+			if (Player.lastChunk.x == g.x && Player.lastChunk.y == g.y && room == g.roomID) {
+				draw_set_alpha(0.5);
+				draw_rectangle_color(
+					xx, yy,
+					xx + size, yy + size,
+					c2, c2, c2, c2, false
+				);
+				draw_set_alpha(1);
+				
+				draw_rectangle_color(
+					xx, yy,
+					xx + size, yy + size,
+					c0, c1, c0, c1, true
+				);
+			
+				var scale = 1;
+				draw_sprite_ext(sPlayerOneEye_Idle, 0, xx + size / 2, yy + size / 2, scale, scale, 0, c_white, 1);
+			}
+			
+			
+			
+		}
+	},
+}
+
+
 // Stats
 damage = 10;
 defense = 0;
 luck = 0;
 intelligence = 0;
+mana = 100;
 
 
 // Health
@@ -112,6 +192,7 @@ jumpThroughGracePeriod	= 0;
 knockback								= vec2();
 impact									= false;
 impactTimer							= 0;
+lastChunk								= {roomID: -1, x: 0, y: 0};
 
 getPosition = function() {
 	return vec2(x, y);
@@ -158,7 +239,7 @@ movement = function() {
 	
 	impact = false;
 	
-	if (onGround && !wasOnGround) {
+	if (onGround && !wasOnGround && !onSlope) {
 		jumpThroughGracePeriod = 0;
 		createDustParticles(10, 5, 0.20);
 		impact = true;
@@ -174,9 +255,13 @@ movement = function() {
 		lastPlaceStanding = vec2(x, y);
 	}
 	
-	
+	var wasOnSlope = onSlope;
 	if (place_meeting(x, y + 1, Collision_Slope)) {
 		onSlope = true;
+	}
+	
+	if (onSlope && !wasOnSlope) {
+		print("on slope");
 	}
 	
 	var hspMultiplier = 1;
@@ -266,7 +351,6 @@ dash = function() {
 }
 
 
-
 // Particles
 createDustParticles = function(val, range, spd = 0.15) {
 	
@@ -286,6 +370,7 @@ createDustParticles = function(val, range, spd = 0.15) {
 			getRandomSprite = true;
 			
 			scale = random_range(1.00, 1.50);
+			scaleFactor = random_range(-0.01, -0.10) / 4;
 			
 			image_angle = irandom(360);
 			image_xscale = choose(-1, 1);
@@ -577,6 +662,7 @@ attack = function() {
 }
 
 
+
 // Inventory
 #macro ITEM_STACK 10
 
@@ -584,6 +670,11 @@ inventory = {};
 
 inventory.content = [];
 inventory.slots = [];
+
+inventory.equipment = {
+	hand: -1,
+	armor: -1,
+};
 
 inventory.getItemSlot = function(itemID, quantity) {
 	var item = {}

@@ -14,6 +14,12 @@ function level_init(){
 				isCutscene: false,
 				create: function(){},
 				roomCode: function(){},
+				transitionLeft: -1,
+				transitionRight: -1,
+				transitionUp: -1,
+				transitionDown: -1,
+				
+				mapOffsetPos: vec2(),
 			};
 		},
 		
@@ -55,12 +61,15 @@ function level_init(){
 		
 		backgroundSong: snd_mechanicalHope,
 		
+		transitionLeft: rmLevel_Cave_Hidden_1,
+		transitionUp: rmLevel_Cave_Corridor,
+		
 		create: function() {
 			
 			var broken0 = CurrentChapter.cave_entrance.hidden_wall_0.isBroken;
 			
 			if (!broken0) {
-				var f = instance_create_layer(0, 400, "Fakewalls", FakeWall);
+				var f = instance_create_layer(0, Level.tilePos(8), "Fakewalls", FakeWall);
 				f.sprite = sFakewall1;
 				f.onDestroy = function() {
 					CurrentChapter.cave_entrance.hidden_wall_0.isBroken = true;
@@ -102,6 +111,18 @@ function level_init(){
 		darkness: 0.00,
 		playerVision: 0.33,
 		
+		mapOffsetPos: vec2(-1, 0),
+		
+		transitionRight: rmLevel_Cave_Entrance,
+	});
+	
+	LEVEL.register(rmLevel_Cave_Corridor, "cave corridor", {
+		darkness: 0.00,
+		playerVision: 0.33,
+		
+		mapOffsetPos: vec2(0, -1),
+		
+		transitionDown: rmLevel_Cave_Entrance,
 	});
 	
 	#endregion

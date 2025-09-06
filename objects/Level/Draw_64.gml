@@ -10,3 +10,4 @@ if (Settings.graphics.drawScanlines) {
 		draw_set_alpha(1);
 	}
 }
+

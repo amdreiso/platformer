@@ -1,5 +1,5 @@
 
-drawOnSurface = true;
+drawOnSurface = false;
 scale = 1;
 
 anglex = 0;

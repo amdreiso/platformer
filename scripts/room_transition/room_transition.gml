@@ -1,9 +1,10 @@
-function room_transition(roomID, playerPosition, onEnter=function(){}, transitionTime = 0.33){
+function room_transition(roomID, side, onEnter=function(){}, transitionTime = 0.33){
 	
-	Main.transition = true;
 	Main.transitionOutput = roomID;
-	Main.transitionPlayerPosition = playerPosition;
+	Main.transitionPlayerPosition = vec2(Player.x, Player.y);
 	Main.transitionTime = transitionTime;
 	Main.transitionOnEnter = onEnter;
+	Main.transition = true;
+	Main.transitionSide = side;
 	
 }

@@ -8,8 +8,8 @@
   "name":"Cutscene_Junkeeper",
   "overriddenProperties":[],
   "parent":{
-    "name":"Cutscenes",
-    "path":"folders/Objects/Cutscenes.yy",
+    "name":"Junkdigger",
+    "path":"folders/Objects/Bosses/Junkdigger.yy",
   },
   "parentObjectId":{
     "name":"Cutscene",

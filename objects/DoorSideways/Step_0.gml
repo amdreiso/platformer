@@ -25,14 +25,7 @@ if (open) {
 		image_index -= 0.2;
 	} else {
 		image_speed = 0;
-		
-		if (Player.x < x) {
-			image_xscale *= -1;
-		} else {
-			image_xscale *= 1;
-		}
 	}
-	
 	
 }
 

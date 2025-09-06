@@ -13,9 +13,15 @@ function draw_room_transition(){
 			
 		} else {
 			
-			player_set_position(transitionPlayerPosition);
-			transitionOnEnter();
+			var pos = transitionPlayerPosition;
+			var newPos = vec2(
+				pos.x,
+				pos.y + sprite_get_height(Player.sprite_index) / 2
+			);
+			
 			room_goto(transitionOutput);
+			
+			transitionOnEnter();
 			
 			transition = false;
 			
