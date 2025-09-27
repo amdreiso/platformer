@@ -1,5 +1,7 @@
 
-if (target == noone) return;
+cam = view_camera[CameraViewport];
+
+if (target == noone || !active) return;
 
 
 if (shakeValue > 0) shakeValue -= GameSpeed / 2; else shakeValue = 0;

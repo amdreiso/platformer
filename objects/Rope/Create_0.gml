@@ -41,7 +41,7 @@ draw = function() {
 	draw_set_color(c_white);
 	for (var i = 0; i < segments - 1; i++) {
 	
-		surface_set_target(SurfaceHandler.surface);
+		if (surface_exists(SurfaceHandler.surface)) surface_set_target(SurfaceHandler.surface);
 		
 		if (sprite == -1) {
 			draw_set_color(rope[i].color);
@@ -55,6 +55,6 @@ draw = function() {
 			length = sprite_get_height(sprite);
 		}
 	
-		surface_reset_target();
+		if (surface_exists(SurfaceHandler.surface)) surface_reset_target();
 	}
 }

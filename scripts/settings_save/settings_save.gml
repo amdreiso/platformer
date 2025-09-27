@@ -20,12 +20,7 @@ function settings_load(){
 	var content = json_parse(buffer_read(buffer, buffer_string));
 	buffer_delete(buffer);
 	
-	var names = struct_get_names(content);
-	
-	for (var i = 0; i < array_length(names); i++) {
-		struct_set(Settings, names[i], struct_get(content, names[i]));
-	}
-	
+	struct_merge_recursive(Settings, content);
 	
 	show_debug_message("Settings Loaded!");
 	

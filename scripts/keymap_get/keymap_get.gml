@@ -1,10 +1,10 @@
 function keymap_get(){
 	return {
 		player: {
-			up:			(keyboard_check(vk_up) || gamepad_button_check(Gamepad.ID, gp_padu) || gamepad_axis_value(Gamepad.ID, gp_axislv) < 0),
-			left:		(keyboard_check(vk_left) || gamepad_button_check(Gamepad.ID, gp_padl) || gamepad_axis_value(Gamepad.ID, gp_axislh) < 0),
-			down:		(keyboard_check(vk_down) || gamepad_button_check(Gamepad.ID, gp_padd) || gamepad_axis_value(Gamepad.ID, gp_axislv) > 0),
-			right:	(keyboard_check(vk_right) || gamepad_button_check(Gamepad.ID, gp_padr) || gamepad_axis_value(Gamepad.ID, gp_axislh) > 0),
+			up:			(keyboard_check(vk_up)		|| keyboard_check(ord("W")) || gamepad_button_check(Gamepad.ID, gp_padu) || gamepad_axis_value(Gamepad.ID, gp_axislv) < 0),
+			left:		(keyboard_check(vk_left)	|| keyboard_check(ord("A")) || gamepad_button_check(Gamepad.ID, gp_padl) || gamepad_axis_value(Gamepad.ID, gp_axislh) < 0),
+			down:		(keyboard_check(vk_down)	|| keyboard_check(ord("S")) || gamepad_button_check(Gamepad.ID, gp_padd) || gamepad_axis_value(Gamepad.ID, gp_axislv) > 0),
+			right:	(keyboard_check(vk_right) || keyboard_check(ord("D")) || gamepad_button_check(Gamepad.ID, gp_padr) || gamepad_axis_value(Gamepad.ID, gp_axislh) > 0),
 			upPressed:			(keyboard_check_pressed(vk_up)		|| gamepad_button_check_pressed(Gamepad.ID, gp_padu)),
 			leftPressed:		(keyboard_check_pressed(vk_left)	|| gamepad_button_check_pressed(Gamepad.ID, gp_padl)),
 			downPressed:		(keyboard_check_pressed(vk_down)	|| gamepad_button_check_pressed(Gamepad.ID, gp_padd)),

@@ -64,7 +64,6 @@ createJunkParticles = function(x, y, value) {
 
 
 charge = function(follow=true) {
-	
 	if (y > hitGroundChargedHeight) {
 		
 		if (follow) x = lerp(x, Player.x, 0.03);
@@ -79,7 +78,6 @@ charge = function(follow=true) {
 	}
 	
 	return true;
-	
 }
 
 smashGround = function() {
@@ -114,20 +112,4 @@ setSpriteStates = function() {
 	// returns native sprite variable
 	return sprite;
 }
-
-
-
-
-//draw = function() {
-	
-//	sprite_index = sprite;
-	
-	
-//	surface_set_target(SurfaceHandler.surface);
-	
-//	draw_self();
-	
-//	surface_reset_target();
-	
-//}
 

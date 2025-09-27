@@ -1,4 +1,6 @@
 
+active = true;
+
 isSolid = false;
 cam = view_camera[0];
 
@@ -26,5 +28,3 @@ zoomSpd = 0.2;
 angle = 0;
 
 pos = vec2();
-
-

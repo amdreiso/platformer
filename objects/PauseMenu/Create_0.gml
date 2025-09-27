@@ -102,6 +102,10 @@ optionGraphicButtons = [
 	Button("toggle scanlines", make_color_rgb(35, 35, 35), c_white, function(){
 		Settings.graphics.drawScanlines = !Settings.graphics.drawScanlines;
 	}),
+	
+	Button("toggle UI", make_color_rgb(35, 35, 35), c_white, function(){
+		Settings.graphics.drawUI = !Settings.graphics.drawUI;
+	}),
 ];
 
 optionAudioButtons = [

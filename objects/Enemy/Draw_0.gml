@@ -1,4 +1,5 @@
 
+
 draw();
 
 
@@ -15,3 +16,4 @@ if (is_array(lightLevel)) {
 
 draw_set_alpha(1);
 gpu_set_blendmode(bm_normal);
+

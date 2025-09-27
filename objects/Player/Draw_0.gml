@@ -4,7 +4,14 @@ if (Level.isCutscene) return;
 draw();
 
 if (Debug.debug) {
-	draw_rectangle(bbox_left, bbox_top, bbox_right, bbox_bottom, true);
+	if (!is_undefined(lastPlaceStanding)) {
+		draw_circle(lastPlaceStanding.x, lastPlaceStanding.y, 4, true);
+	}
 }
 
 draw_debug();
+
+
+// Upgrades
+upgrade.draw();
+

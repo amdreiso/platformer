@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"player_upgrade_init",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"player_upgrade_init",
+  "parent":{
+    "name":"init",
+    "path":"folders/Scripts/init.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

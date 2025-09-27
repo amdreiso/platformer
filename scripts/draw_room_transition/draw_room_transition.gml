@@ -13,17 +13,21 @@ function draw_room_transition(){
 			
 		} else {
 			
+			transitionCooldown ++;
+			
 			var pos = transitionPlayerPosition;
 			var newPos = vec2(
 				pos.x,
 				pos.y + sprite_get_height(Player.sprite_index) / 2
 			);
 			
-			room_goto(transitionOutput);
+			if (transitionCooldown > transitionCooldownTime) {
+				room_goto(transitionOutput);
 			
-			transitionOnEnter();
+				Player.lastPlaceStanding = Player.getLastStandingPosition();
 			
-			transition = false;
+				transition = false;
+			}
 			
 			//audio_stop_sound(Level.backgroundSong);
 			
@@ -31,8 +35,12 @@ function draw_room_transition(){
 		
 	} else if (!transition) {
 		
+		transitionCooldown = 0;
+		
 		if (transitionAlpha > 0) {
+			
 			transitionAlpha -= transitionTime;
+			
 		} else {}
 		
 	}

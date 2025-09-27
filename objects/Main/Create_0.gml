@@ -10,7 +10,6 @@ fovy();
 translation_init();
 item_init();
 level_init();
-//directories_init();
 command_init();
 
 
@@ -21,7 +20,7 @@ story_progression();
 // Game info
 globalvar GameInfo;
 GameInfo = {
-	name: "wall-e my beloved",
+	name: "unnamed robot game",
 	version: [0, 0],
 	build: "indev",
 	author: "amdrei",
@@ -30,7 +29,6 @@ GameInfo = {
 
 // Globals
 globalvar Paused; Paused = false;
-
 globalvar GameSpeed; GameSpeed = 1;
 
 globalvar Debug; Debug = {
@@ -38,6 +36,7 @@ globalvar Debug; Debug = {
 	tools: false,
 	console: false,
 	specs: false,
+	drawAttackCommandInput: false,
 };
 
 
@@ -50,6 +49,7 @@ globalvar Settings; Settings = {
 		showKey: true,
 		
 		drawScanlines: false,
+		drawUI: true,
 		
 		physics: {
 			chains: false,
@@ -120,6 +120,9 @@ globalvar Gamepad;
 gamepad_init();
 
 
+// Camera
+globalvar CameraViewport; CameraViewport = CAMERA_VIEWPORT_DEFAULT;
+
 
 // Sound
 globalvar Sound; Sound = {};
@@ -169,13 +172,16 @@ if (CurrentChapter.beggining_cutscene.played) {
 
 // Room transition
 transition = false;
-transitionTime = 0.1;
+transitionTime = 0.01;
 transitionColor = c_black;
 transitionAlpha = 0;
 transitionOutput = -1;
 transitionPlayerPosition = vec2();
+transitionPlayerOffset = vec2();
 transitionOnEnter = function(){}
 transitionSide = "side";
+transitionCooldown = 0;
+transitionCooldownTime = 0;
 
 
 
@@ -194,9 +200,7 @@ runCommand = function(input, showHistory = false) {
 	
 	var args = string_split(input, " ", true);
 	var command = args[0];
-	print(command);
 	array_delete(args, 0, 1);
-	
 	
 	var found = false;
 	
@@ -215,6 +219,50 @@ runCommand = function(input, showHistory = false) {
 			}
 			
 			CommandData[i].fn(args);
+			found = true;
+		}
+	}
+	
+	for (var obj = 0; obj < instance_count; obj++) {
+		if (string_starts_with(command, object_get_name(obj))) {
+			var str = command;
+			var slices = string_split(str, ".");
+			var arguments = string_split(str, "=");
+			
+			if (array_length(slices) < 2) {
+				err("Usage is 'Object.variable = value'");
+				found = true;
+				break;
+			}
+			
+			var arglen = array_length(arguments);
+			if (arglen < 2) {
+				err("Not enough arguments!");
+				found = true;
+				break;
+			}
+			
+			var value = arguments[1];
+			var asset = asset_get_index(slices[0]);
+			
+			var sliceofslice = string_split(slices[1], "=");
+			var name = sliceofslice[0];
+			
+			log($"{asset}.{name} set to {value}");
+			
+			var variable = variable_struct_get(asset, name);
+			log(typeof(variable));
+			
+			switch (typeof(variable)) {
+				case "number":
+					variable_struct_set(asset, name, real(value));
+					break;
+				
+				case "string":
+					variable_struct_set(asset, name, value);
+					break;
+			}
+			
 			found = true;
 		}
 	}
@@ -244,6 +292,23 @@ drawConsole = function() {
 		array_push(commands, input);
 		keyboard_string = "";
 		pastCommand = 0;
+	}
+	
+	if (keyboard_check(vk_control) && keyboard_check_pressed(vk_backspace)) {
+		var s = keyboard_string;
+    var specials = ".=/ ";
+    var found = false;
+		
+    for (var i = string_length(s); i > 0; --i) {
+      var ch = string_char_at(s, i);
+      if (string_pos(ch, specials) > 0) {
+        keyboard_string = string_copy(s, 1, i);
+        found = true;
+        break;
+      }
+    }
+    
+		if (!found) keyboard_string = "";
 	}
 	
 	var len = array_length(commands);

@@ -111,8 +111,8 @@ function translation_init(){
 		.finalize();
 		
 	TRANSLATION.add("cutscene_junkeeper_4")
-		.set(LANGUAGE_ID.English, $"[scale=0.55][shake=0.1][italic]...but first... I'll destroy you...[/italic][/shake][/scale]")
-		.set(LANGUAGE_ID.Brazilian, $"[scale=0.55][shake=0.1][italic]...mas antes... eu vou te destruir...[/italic][/shake][/scale]")
+		.set(LANGUAGE_ID.English, $"[scale=0.55][shake=0.1][italic]...but first... I'll have to destroy you...[/italic][/shake][/scale]")
+		.set(LANGUAGE_ID.Brazilian, $"[scale=0.55][shake=0.1][italic]...mas antes... eu terei que te destruir...[/italic][/shake][/scale]")
 		.finalize();
 		
 	TRANSLATION.add("cutscene_junkeeper_5")

@@ -125,6 +125,9 @@ COMMAND.register("test", 0, function(args) {
 	player_set_position(vec2(160, 138));
 });
 
+COMMAND.register("debug_combo", 0, function(args) {
+	Debug.drawAttackCommandInput = !Debug.drawAttackCommandInput;
+});
 
 
 }

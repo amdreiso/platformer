@@ -18,11 +18,13 @@ deathSound = choose(snd_explosion1, snd_explosion2, snd_explosion3, snd_explosio
 defaultSpd = 0.5;
 spd = defaultSpd;
 hsp = 0;
+hspLast = 0;
 vsp = 0;
 force = vec2();
 applyGravity = true;
 applyGroundCollisions = true;
 drawOnSurface = true;
+onSlope = false;
 
 knockbackResistence = 1;
 
@@ -43,7 +45,26 @@ collisions = function() {
 	if (applyGroundCollisions) {
 		collision_set(Collision);
 		collision_set(Collision_Slope);
+		
 	}
+	
+	if (place_meeting(x, y + 1, Collision_Slope)) {
+		onSlope = true;
+	}
+	
+	// Push the player's y position up by a pixel so it doesnt get stuck on turns on slopes
+	if (hsp != hspLast && hsp != 0) {
+		hspLast = hsp;
+		if (onSlope) {
+			y -= 1;
+			print("avoiding getting stuck on slope");
+		}
+	}
+	
+	if (onSlope) {
+		hsp = round(hsp);
+	}
+	
 	
 	player_attack_check(function(a){
 		if (isHit) return;
@@ -57,6 +78,8 @@ collisions = function() {
 		hit(a.damage);
 		
 	});
+	
+	bound_to_room();
 	
 	//if (place_meeting(x, y, PlayerAttack) && !isHit) {
 	//	var a = PlayerAttack;

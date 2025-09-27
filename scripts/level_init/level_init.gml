@@ -5,6 +5,17 @@ function level_init(){
 	globalvar LEVEL;
 	
 	LEVEL = {
+		transitionAdd: function(side, x, y, roomID, playerOffset=vec2()) {
+			var t = {};
+			
+			t.side = side;
+			t.x = x * ROOM_TILE_WIDTH;
+			t.y = y * ROOM_TILE_HEIGHT;
+			t.roomID = roomID;
+			t.playerOffset = playerOffset;
+			
+			return t;
+		},
 		
 		getDefaultComponents: function() {
 			return {
@@ -14,10 +25,7 @@ function level_init(){
 				isCutscene: false,
 				create: function(){},
 				roomCode: function(){},
-				transitionLeft: -1,
-				transitionRight: -1,
-				transitionUp: -1,
-				transitionDown: -1,
+				transitions: [],
 				
 				mapOffsetPos: vec2(),
 			};
@@ -42,12 +50,12 @@ function level_init(){
 	
 	// Initializing 
 	LEVEL.register(rmTEST, "TESTING ROOM", {
-		darkness: 0,
+		darkness: 0.00,
 	});
 	
 	
 	LEVEL.register(rmBegginingCutscene, "beggining cutscene", {
-		darkness: 1,
+		darkness: 0.00,
 		isCutscene: true,
 		
 		backgroundSong: snd_mechanicalHope,
@@ -57,15 +65,23 @@ function level_init(){
 	#region Caves
 	
 	LEVEL.register(rmLevel_Cave_Entrance, "cave entrance", {
-		darkness: 0.95,
+		darkness: 0.00,
 		
 		backgroundSong: snd_mechanicalHope,
 		
-		transitionLeft: rmLevel_Cave_Hidden_1,
-		transitionUp: rmLevel_Cave_Corridor,
+		transitions: [
+			LEVEL.transitionAdd("up", 0, 0, rmLevel_Cave_SpikeCorridor),
+			LEVEL.transitionAdd("left", 0, 0, rmLevel_Cave_Hidden_1),
+			LEVEL.transitionAdd("right", 2, 1, rmLevel_Cave_Corridor0),
+		],
+		
+		roomCode: function() {
+			parallax_set("Parallax_1", 0.20, -1);
+			parallax_set("Tiles_1", 0.25, -1);
+			parallax_set("Tiles_2", 0.50, 0.20);
+		},
 		
 		create: function() {
-			
 			var broken0 = CurrentChapter.cave_entrance.hidden_wall_0.isBroken;
 			
 			if (!broken0) {
@@ -76,12 +92,11 @@ function level_init(){
 					STORY.save();
 				}
 			}
-			
 		},
 	});
 	
 	LEVEL.register(rmLevel_Cave_Village, "village", {
-		darkness: 0.90,
+		darkness: 0.00,
 		
 		backgroundSong: snd_dreamsOfAnElectricMind,
 		
@@ -98,6 +113,10 @@ function level_init(){
 		
 		backgroundSong: snd_forgottenSpace,
 		
+		transition: [
+			LEVEL.transitionAdd("up", 0, 0, rmLevel_Cave_DumpYard, vec2(-1, 0)),
+		],
+		
 		create: function() {
 			// Boss code
 			if (!CurrentChapter.dump_yard.boss_0.defeated) {
@@ -113,16 +132,32 @@ function level_init(){
 		
 		mapOffsetPos: vec2(-1, 0),
 		
-		transitionRight: rmLevel_Cave_Entrance,
+		transitions: [
+			LEVEL.transitionAdd("right", 0, 0, rmLevel_Cave_Entrance),
+		],
 	});
 	
-	LEVEL.register(rmLevel_Cave_Corridor, "cave corridor", {
+	LEVEL.register(rmLevel_Cave_SpikeCorridor, "cave corridor", {
 		darkness: 0.00,
 		playerVision: 0.33,
 		
 		mapOffsetPos: vec2(0, -1),
 		
-		transitionDown: rmLevel_Cave_Entrance,
+		transitions: [
+			LEVEL.transitionAdd("down", 0, 1, rmLevel_Cave_Entrance),
+		],
+	});
+	
+	LEVEL.register(rmLevel_Cave_Corridor0, "Corridor", {
+		darkness: 0.00,
+		playerVision: 0.33,
+		
+		mapOffsetPos: vec2(3, 0),
+		
+		transitions: [
+			LEVEL.transitionAdd("left", 0, 1, rmLevel_Cave_Entrance),
+			LEVEL.transitionAdd("down", 1, 2, rmLevel_Cave_DumpYard, vec2(2, 2)),
+		],
 	});
 	
 	#endregion

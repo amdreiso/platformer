@@ -1,4 +1,6 @@
 
+if (!Settings.graphics.drawUI) return;
+
 drawBossbar();
 drawScreenFlash();
 
@@ -10,4 +12,3 @@ if (Settings.graphics.drawScanlines) {
 		draw_set_alpha(1);
 	}
 }
-

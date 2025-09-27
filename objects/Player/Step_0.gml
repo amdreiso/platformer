@@ -7,6 +7,7 @@ busy = (Paused
 				|| Paused
 				|| Debug.console
 				|| map.open
+				|| resetPosition
 );
 
 movement();
@@ -36,6 +37,10 @@ if (xchunk != lastChunk.x || ychunk != lastChunk.y || room != lastChunk.roomID) 
 viewDistance = viewDistanceDefault * LevelData[? room].components.playerVision;
 
 
+// Upgrades
+upgrade.update();
+
+
 // Audio
 audio_listener_position(x, y, 0);
 
@@ -53,7 +58,6 @@ if (keyboard_check(vk_control)) {
 	noclip = (mouse_check_button(mb_left));
 }
 
-x = clamp(x, -1, room_width + 1);
-y = clamp(y, -1, room_height + 1);
+bound_to_room();
 
 

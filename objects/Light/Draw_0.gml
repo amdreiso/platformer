@@ -3,7 +3,7 @@
 
 
 surface_depth_disable(true);
-surface_set_target(SurfaceHandler.surface);
+if (surface_exists(SurfaceHandler.surface)) surface_set_target(SurfaceHandler.surface);
 
 if (sprite != -1) {
 	sprite_index = sprite;
@@ -11,7 +11,7 @@ if (sprite != -1) {
 }
 
 
-surface_reset_target();
+if (surface_exists(SurfaceHandler.surface)) surface_reset_target();
 
 depth = -99999;
 

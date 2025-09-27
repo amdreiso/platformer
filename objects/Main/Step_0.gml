@@ -109,6 +109,10 @@ if (keyboard_check(vk_control)) {
 	if (keyboard_check_pressed(ord("F"))) {
 		ScreenFlash.flash();
 	}
+	
+	if (keyboard_check_pressed(ord("S"))) {
+		save_room_screenshot();
+	}
 }
 
 

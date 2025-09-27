@@ -1,2 +1,4 @@
 
-language_set(LANGUAGE_ID.English);
+language_set(LANGUAGE_ID.Brazilian);
+
+//Debug.debug = true;

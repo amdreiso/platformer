@@ -19,6 +19,9 @@ COMMAND.register("god", 0, function(args) {
 #endregion
 
 
+name = "player";
+
+
 // Player
 busy = false;
 god = false;
@@ -28,12 +31,131 @@ isSolid = true;
 raycastCount = 180;
 viewDistanceDefault = 50;
 viewDistance = 50;
+isVisible = true;
 
 emitter = audio_emitter_create();
 
 soul = SOUL_TYPE.Castoff;
 
 collisionMask = instance_create_depth(x, y, depth, PlayerCollision);
+
+
+
+// Upgrades
+PlayerUpgradeData = ds_map_create();
+
+upgrade = {};
+
+upgrade.list = [];
+
+upgrade.rem = function(upgradeID) {
+	for (var i = 0; i < array_length(upgrade.list); i++) {
+		if (upgrade.list[i] == upgradeID) {
+			array_delete(upgrade.list, i, 1);
+		}
+	}
+}
+
+upgrade.add = function(upgradeID) {
+	for (var i = 0; i < array_length(upgrade.list); i++) {
+		if (upgrade.list[i] == upgradeID) return;
+	}
+	
+	array_push(upgrade.list, upgradeID);
+	return true;
+}
+
+upgrade.register = function(upgradeID, name, icon, update, draw) {
+	var upg = {};
+	upg.name = name;
+	upg.icon = icon;
+	upg.update = update;
+	upg.draw = draw;
+	
+	PlayerUpgradeData[? upgradeID] = upg;
+}
+
+upgrade.get = function(key) {
+	if (!ds_map_exists(PlayerUpgradeData, key)) return;
+	return PlayerUpgradeData[? key];
+}
+
+upgrade.update = function() {
+	var len = array_length(upgrade.list);
+	if (len == 0) return;
+	
+	for (var i = 0; i < len; i++) {
+		var upgradeID = upgrade.list[i];
+		var update = upgrade.get(upgradeID).update;
+		update(Player);
+	}
+}
+
+upgrade.draw = function() {
+	var len = array_length(upgrade.list);
+	if (len == 0) return;
+	
+	for (var i = 0; i < len; i++) {
+		var upgradeID = upgrade.list[i];
+		var draw = upgrade.get(upgradeID).draw;
+		draw(Player);
+	}
+}
+
+
+#region Upgrades
+
+enum PLAYER_UPGRADE_ID {
+	Jetpack,
+}
+
+upgrade.register(
+	PLAYER_UPGRADE_ID.Jetpack, "Jetpack", -1,
+	
+	function(obj){
+		
+		static fuelDefault = 200;
+		static fuel = fuelDefault;
+		
+		var takeoff = 1.026;
+		var key = keyboard_check(ord("S"));
+		var keyPressed = keyboard_check_pressed(ord("S"));
+		var keyReleased = keyboard_check_released(ord("S"));
+		
+		var maxFlyingSpeed = 3;
+		
+		if (keyPressed) {
+			obj.flying = true;
+		}
+		
+		if (keyReleased) {
+			obj.flying = false;
+		}
+		
+		if (key && fuel > 0) {
+			fuel -= GameSpeed;
+			obj.vsp = 0;
+			obj.knockback.y -= takeoff;
+			
+			obj.knockback.y = clamp(obj.knockback.y, -maxFlyingSpeed, maxFlyingSpeed);
+			
+		} else {
+			fuel = fuelDefault;
+			
+		}
+		
+	},
+	
+	function(){
+		
+	}
+);
+
+#endregion
+
+upgrade.add(PLAYER_UPGRADE_ID.Jetpack);
+
+
 
 
 // Map
@@ -49,7 +171,6 @@ map = {
 	grid: [],
 	
 	discover: function(roomID, x, y) {
-		print(room_get_name(roomID));
 		var tile = new MapTile(roomID, x, y);
 		array_push(Player.map.grid, tile);
 	},
@@ -108,8 +229,6 @@ map = {
 				draw_sprite_ext(sPlayerOneEye_Idle, 0, xx + size / 2, yy + size / 2, scale, scale, 0, c_white, 1);
 			}
 			
-			
-			
 		}
 	},
 }
@@ -124,28 +243,41 @@ mana = 100;
 
 
 // Health
-defaultHp = 200;
-hpDisplay = defaultHp;
-hp = defaultHp;
-isHit = false;
+hp = new Stat(200);
+hpDisplay = hp.defaultValue;
+
 hitCooldown = 0;
+resetPosition = false;
+resetPositionTick = 0
+resetPositionTime = 0.33 * 60;
 isDead = false;
+isHit = false;
 
 setHp = function(value) {
-	defaultHp = value;
-	hp = value;
+	hp.updateValue(value);
 }
 
 handleHealth = function() {
 	hitCooldown = max(0, hitCooldown - GameSpeed);
 	if (hitCooldown == 0) isHit = false;
-	isDead = (hp <= 0);
+	isDead = (hp.value <= 0);
+	
+	resetPositionTick += GameSpeed;
+	
+	if (resetPosition && resetPositionTick >= resetPositionTime) {
+		x = lastPlaceStanding.x;
+		y = lastPlaceStanding.y - 2;
+		image_xscale = lastPlaceStanding.image_xscale;
+		
+		resetPositionTick = 0;
+		resetPosition = false;
+	}
 }
 
 hit = function(damage, xscale=1) {
 	if (isHit || god) return;
 	
-	hp -= damage;
+	hp.sub(damage);
 	isHit = true;
 	hitCooldown = 50;
 	
@@ -166,6 +298,18 @@ hit = function(damage, xscale=1) {
 }
 
 
+dieByContact = function() {
+	if (resetPosition) return;
+	
+	resetPosition = true;
+	resetPositionTick = 0;
+	
+	hit(10);
+	
+	knockback = vec2();
+}
+
+
 
 // Movement
 allowMovement						= true;
@@ -173,6 +317,7 @@ defaultSpd							= 1.33;
 spd											= defaultSpd;
 hsp											= 0;
 vsp											= 0;
+hspLast									= 0;
 hspFrac									= 0;
 vspFrac									= 0;
 force										= vec2();
@@ -186,13 +331,16 @@ onSlope									= false;
 isMoving								= false;
 isFlipping							= false;
 noclip									= false;
-lastPlaceStanding				= -1;
+lastPlaceStanding				= undefined;
 applyGravity						= true;
 jumpThroughGracePeriod	= 0;
 knockback								= vec2();
 impact									= false;
 impactTimer							= 0;
-lastChunk								= {roomID: -1, x: 0, y: 0};
+lastChunk								= { roomID: -1, x: 0, y: 0 };
+secondJumpTick					= 0;
+flying									= false;
+
 
 getPosition = function() {
 	return vec2(x, y);
@@ -213,6 +361,16 @@ handleBackflip = function() {
 		angle = 0; 
 		isFlipping = false; 
 	}
+}
+
+getLastStandingPosition = function() {
+	var pos = {};
+	
+	pos.x = x;
+	pos.y = y;
+	pos.image_xscale = image_xscale;
+	
+	return pos;
 }
 
 movement = function() {
@@ -252,7 +410,9 @@ movement = function() {
 		
 		isJumping = false;
 		
-		lastPlaceStanding = vec2(x, y);
+		if (!place_meeting(x, y + 1, Collision_JumpThrough)) {
+			lastPlaceStanding = getLastStandingPosition();
+		}
 	}
 	
 	var wasOnSlope = onSlope;
@@ -260,8 +420,13 @@ movement = function() {
 		onSlope = true;
 	}
 	
-	if (onSlope && !wasOnSlope) {
-		print("on slope");
+	// Push the player's y position up by a pixel so it doesnt get stuck on turns on slopes
+	if (hsp != hspLast && hsp != 0) {
+		hspLast = hsp;
+		if (onSlope) {
+			y -= 1;
+			print("Player: avoiding getting stuck on slope");
+		}
 	}
 	
 	var hspMultiplier = 1;
@@ -310,14 +475,26 @@ movement = function() {
 		jumpThroughGracePeriod = 15;
 	}
 	
-	var jumpCondition = (jumpCount > 0 /* && impactTimer == 0 */);
+	if (onAir) {
+		secondJumpTick += GameSpeed;
+	} else {
+		secondJumpTick = 0;
+	}
+	
+	var jumpCondition = (jumpCount > 0 /* && impactTimer == 0 */ && secondJumpTick < 40);
 	
 	if (map.jump && jumpCondition) {
 		vsp = 0;
 		vsp -= jumpForce;
 		
+		onSlope = false;
+		
 		if (onGround) {
 			createDustParticles(10, 5);
+		}
+		
+		if (jumpCount == jumpCountDefault) {
+			secondJumpTick = 0;
 		}
 		
 		jumpCount --;
@@ -353,7 +530,6 @@ dash = function() {
 
 // Particles
 createDustParticles = function(val, range, spd = 0.15) {
-	
 	repeat (val) {
 		var pos = randvec2(x, y + sprite_height / 2, range);
 		
@@ -378,10 +554,8 @@ createDustParticles = function(val, range, spd = 0.15) {
 			
 			fadeout = true;
 			fadeoutSpeed = random_range(0.05, 0.15) / 5;
-			
 		}
 	}
-	
 }
 
 
@@ -390,37 +564,45 @@ createDustParticles = function(val, range, spd = 0.15) {
 //collisionTilemap = layer_tilemap_get_id("Collision_Map");
 
 
-collisions = {
-	solid: [Collision, Collision_JumpThrough, Collision_Rayblock, Collision_Slope],
-};
-
-
 applyCollisions = function() {
 	if (noclip) return;
 	
 	
 	// Player Collision Mask
 	if (!instance_exists(PlayerCollision)) {
+		
 		collisionMask = instance_create_depth(x, y, depth, PlayerCollision);
+		
 	} else {
 	
 		with (collisionMask) {
 			// Make collision object follow the player
 			self.x = other.x;
 			self.y = other.y;
-		
+			
+			if (place_meeting(x, y, Collision_Death)) {
+				
+				Player.dieByContact();
+				
+			}
+			
 			if (place_meeting(x, y, Trigger)) {
 				instance_destroy(instance_nearest(x, y, Trigger));
 			}
 	
 			if (place_meeting(x, y, ProjectileEnemy)) {
 				var proj = instance_nearest(x, y, ProjectileEnemy);
-				var xdir = sign(x - proj.shooter.x);
-				if (xdir == 0) xdir = choose(1, -1);
+				
+				if (!proj.used) {
+					var xdir = sign(x - proj.shooter.x);
+					if (xdir == 0) xdir = choose(1, -1);
 		
-				other.hit(proj.damage, xdir);
+					other.hit(proj.damage, xdir);
 		
-				instance_destroy(proj);
+					if (proj.destroyOnContact) {
+						instance_destroy(proj);
+					}
+				}
 			}
 	
 			if (place_meeting(x, y, Enemy)) {
@@ -775,7 +957,6 @@ drawInventorySlotsGUI = function() {
 
 
 
-
 // Draw
 angle = 0;
 
@@ -788,6 +969,8 @@ spriteStates = {
 blink = false;
 
 draw = function() {
+	if (!isVisible) return;
+	
 	var sprite = spriteStates.idle;
 	
 	// Move when walking horizontally
@@ -836,8 +1019,7 @@ draw = function() {
 	}
 	
 	
-	
-	surface_set_target(SurfaceHandler.surface);
+	if (surface_exists(SurfaceHandler.surface)) surface_set_target(SurfaceHandler.surface);
 	
 	// Blink sprite when hit
 	if (hitCooldown % 5 == true) {
@@ -849,7 +1031,11 @@ draw = function() {
 		draw_outline(1, angle, Style.outlineColor);
 	}
 	
-	surface_reset_target();
+	//if (jumpCount < jumpCountDefault) {
+	//	draw_sprite_ext(sPlayer_DoubleJumpFireы, -1, x, y + sprite_height / 2, image_xscale, 1, sin(current_time * 0.001) * 0.5, c_white, 1);
+	//}
+	
+	if (surface_exists(SurfaceHandler.surface)) surface_reset_target();
 }
 
 // Draw GUI
@@ -869,12 +1055,12 @@ drawGUI = function() {
 	}
 	
 	
-	if (hpDisplay > hp) {
-		hpDisplay = lerp(hpDisplay, hp, 0.25);
+	if (hpDisplay > hp.value) {
+		hpDisplay = lerp(hpDisplay, hp.value, 0.25);
 	}
 	
 	var maxHpDisplay = 100;
-	var hpPart = (hpDisplay / defaultHp);
+	var hpPart = (hpDisplay / hp.defaultValue);
 	
 	for (var i = 0; i < maxHpDisplay; i++) {
 		var xoffset = (sprite_get_width(sItemDisplay) * guiScale) / 2 + margin;

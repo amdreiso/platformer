@@ -7,6 +7,7 @@ function macros_load(){
 	#macro HEIGHT display_get_gui_height()
 	
 	#macro CAMERA_ZOOM_DEFAULT 1
+	#macro CAMERA_VIEWPORT_DEFAULT 0
 	
 	#macro DEFAULT_FONT fnt_console
 	

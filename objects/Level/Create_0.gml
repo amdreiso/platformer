@@ -12,8 +12,6 @@ isCutscene = false;
 hasBoss = false;
 
 
-
-
 tilePos = function(val) {
 	return val * 16;
 }
@@ -101,16 +99,11 @@ drawBossbar = function() {
 			hbXscale = -1;
 		}
 		
-		
 		if (i >= ceil(maximumHp * hpPart)) hbColor = c_dkgray;
 		
-		
 		var width = 1;
-		
 		draw_sprite_ext(hbSprite, 0, (((WIDTH / 2) + i * width) - maximumHp * width / 2) + hbOffsetX, HEIGHT - hbHeight, hbScale * hbXscale, hbScale, 0, hbColor, 1);
-		
 	}
-	
 }
 
 
@@ -120,28 +113,65 @@ checkPlayerTransitions = function(level) {
 	var xx = Player.x;
 	var yy = Player.y;
 	
+	var find = function(side) {
+		if (Main.transition) return;
+		
+		var level = LEVEL.get(room);
+		var len = array_length(level.components.transitions);
+		
+		for (var i = 0; i < len; i++) {
+			var t = level.components.transitions[i];
+			
+			var tx = t.x div ROOM_TILE_WIDTH;
+			var ty = t.y div ROOM_TILE_HEIGHT;
+			var px = Player.x div ROOM_TILE_WIDTH;
+			var py = Player.y div ROOM_TILE_HEIGHT;
+			
+			//print($"tx: {tx} px: {px} | ty: {ty} py: {py} | side: {side} tside: {t.side}");
+			
+			if (tx == px && ty == py && side == t.side) {
+				
+				return t;
+			}
+		}
+		
+		return false;
+	}
+	
 	// Left transition
 	if (xx < 0) {
-		var roomID = level.components.transitionLeft;
-		if (roomID != -1) room_transition(roomID, "left");
+		var transition = find("left");
+		if (transition) {
+			var roomID = transition.roomID;
+			if (!is_undefined(roomID)) room_transition(roomID, "left", transition.playerOffset);
+		}
 	}
 	
 	// Right transition
 	if (xx > room_width) {
-		var roomID = level.components.transitionRight;
-		if (roomID != -1) room_transition(roomID, "right");
+		var transition = find("right");
+		if (transition) {
+			var roomID = transition.roomID;
+			if (!is_undefined(roomID)) room_transition(roomID, "right", transition.playerOffset);
+		}
 	}
 	
 	// Up transition
 	if (yy < 0) {
-		var roomID = level.components.transitionUp;
-		if (roomID != -1) room_transition(roomID, "up");
+		var transition = find("up");
+		if (transition) {
+			var roomID = transition.roomID;
+			if (!is_undefined(roomID)) room_transition(roomID, "up", transition.playerOffset);
+		}
 	}
 	
 	// Down transition
 	if (yy > room_height) {
-		var roomID = level.components.transitionDown;
-		if (roomID != -1) room_transition(roomID, "down");
+		var transition = find("down");
+		if (transition) {
+			var roomID = transition.roomID;
+			if (!is_undefined(roomID)) room_transition(roomID, "down", transition.playerOffset);
+		}
 	}
 	
 }

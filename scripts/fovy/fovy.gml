@@ -5,9 +5,76 @@ enum BUTTON_ORIGIN {
 	MiddleCenter,
 }
 
-
 function fovy(){
 	show_debug_message("Loaded fovy!");
+}
+
+
+function Stat(_value) constructor {
+	
+	value = _value;
+	defaultValue = _value;
+	
+	static sub = function(val) {
+		value -= val;
+	}
+	
+	static add = function(val) {
+		value += val;
+	}
+	
+	static getPercentage = function() {
+		return (value / defaultValue) * 100;
+	}
+	
+	static updateValue = function(val) {
+		value = val;
+		defaultValue = val;
+	}
+	
+	
+	
+}
+
+
+function show_object_status() {
+	if (mouse_check_button_pressed(mb_left) && mouse_box_collision()) {
+		log(object_get_name(object_index) + ": " + json_stringify(self, true));
+	}
+}
+
+function mouse_box_collision() {
+	var on = (mouse_x > bbox_left && mouse_x < bbox_right && mouse_y > bbox_top && mouse_y < bbox_bottom);
+	return on;
+}
+
+function array_get_random(arr) {
+	var index = irandom(array_length(arr) - 1);
+	return arr[index];
+}
+
+function save_room_screenshot() {
+	var filename = room_get_name(room) + ".png";
+	
+	// Make camera see the entire room 1:1 ratio
+	var cam = camera_create_view(0, 0, room_width, room_height);
+	
+	view_set_visible(CAMERA_VIEWPORT_DEFAULT, false);
+	view_set_visible(1, true);
+	view_set_camera(1, cam);
+	
+	window_set_size(room_width, room_height);
+	
+	CameraViewport = 1;
+	
+	Player.isVisible = false;
+	Settings.graphics.drawUI = false;
+	
+	screen_save(filename);
+	
+	print($"Screenshot saved as {filename}");
+	
+	CameraViewport = 0;
 }
 
 function position_get(o) {
@@ -71,7 +138,7 @@ function color_darkness(color, value) {
 
 function position_tolerance(xx, yy, tolerance) {
 	var t = tolerance;
-	return (x > xx - t && x < yy + t && y > yy - t && y < yy + t);
+	return (x > xx - t && x < xx + t && y > yy - t && y < yy + t);
 }
 
 function on_last_frame(fn) {
@@ -215,7 +282,7 @@ function button(
 				draw_set_alpha(1);
 				
 				if (cursor) {
-					set_cursor(CURSOR.Pointer);
+					//set_cursor(CURSOR.Pointer);
 				}
 				
 				hoverFunction();
@@ -568,6 +635,21 @@ function struct_merge(dest, src) {
 		struct_set(dest, key, val);
 	}
 }
+
+function struct_merge_recursive(default_struct, loaded_struct) {
+  var names = struct_get_names(loaded_struct);
+  for (var i = 0; i < array_length(names); i++) {
+    var key = names[i];
+    var loaded_val = struct_get(loaded_struct, key);
+
+    if (variable_struct_exists(default_struct, key) && is_struct(struct_get(default_struct, key)) && is_struct(loaded_val)) {
+      struct_merge_recursive(struct_get(default_struct, key), loaded_val);
+    } else {
+      struct_set(default_struct, key, loaded_val);
+    }
+  }
+}
+
 
 function rope_create_point(_x, _y, _width = 2, color = c_green) {
   return {

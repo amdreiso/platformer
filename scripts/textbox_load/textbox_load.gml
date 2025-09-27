@@ -23,7 +23,7 @@ function parse_rich_text(input, font=fnt_console, italic=fnt_console_italic) {
   var shake = false;
 	var defaultScale = 0.33;
 	var scale = defaultScale;
-	var spd = 10;
+	var spd = 17;
   var i = 1;
 	var angle = 0;
 	var waveamp = 0;

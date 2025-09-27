@@ -11,6 +11,15 @@ handShakeValue = 0.35;
 
 cutscene = [
 	
+	CutsceneStep(CUTSCENE_EVENT.Sleep)
+		.setTime(1)
+		.onStart(function(){
+			if (!instance_exists(Player)) return;
+			Player.hsp = 0;
+			Player.vsp = 0;
+			Player.knockback = vec2();
+		})
+		.finalize(),
 	
 	CutsceneStep(CUTSCENE_EVENT.WaitFor)
 		.waitFor(function(){

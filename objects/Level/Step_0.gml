@@ -42,19 +42,30 @@ if (newRoom) {
 	
 	
 	// move player on transition
+	var offset = Main.transitionPlayerOffset;
+	
 	switch (Main.transitionSide) {
 		case "left":
 			var p = vec2(room_width - PLAYER_BUFFER_ROOM_WIDTH, Main.transitionPlayerPosition.y);
+			p.x += offset.x * ROOM_TILE_WIDTH;
+			p.y += offset.y * ROOM_TILE_HEIGHT;
+			
 			player_set_position(p);
 			break;
 					
 		case "right":
 			var p = vec2(PLAYER_BUFFER_ROOM_WIDTH, Main.transitionPlayerPosition.y);
+			p.x += offset.x * ROOM_TILE_WIDTH;
+			p.y += offset.y * ROOM_TILE_HEIGHT;
+			
 			player_set_position(p);
 			break;
 					
 		case "up":
-			var p = vec2(Main.transitionPlayerPosition.x, room_height - PLAYER_BUFFER_ROOM_WIDTH - 4);
+			var p = vec2(Main.transitionPlayerPosition.x, room_height - PLAYER_BUFFER_ROOM_WIDTH - 8);
+			p.x += offset.x * ROOM_TILE_WIDTH;
+			p.y += offset.y * ROOM_TILE_HEIGHT;
+			
 			player_set_position(p);
 			break;
 					
