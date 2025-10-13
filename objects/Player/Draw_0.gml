@@ -15,3 +15,7 @@ draw_debug();
 // Upgrades
 upgrade.draw();
 
+
+// Effects
+effect_run(self, "draw");
+

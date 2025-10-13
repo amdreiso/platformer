@@ -1,26 +1,13 @@
 
 event_inherited();
 
-var chooseState = function() {
-	// choose between charging a throw or smashing attack
-	state = choose(
-		JUNKEEPER_HAND_STATE.ChargingSmash,
-		JUNKEEPER_HAND_STATE.ChargingThrow
-	);
-}
+
 
 if (place_meeting(x, y, Player) && state == JUNKEEPER_HAND_STATE.Idling) {
 	chooseState();
 }
 
-if (whenHit) {
-	if (state == JUNKEEPER_HAND_STATE.Idling) {
-		chooseState();
-	}
-	
-	Junkdigger.setHp();
-	whenHit = false;
-}
+
 
 switch (state) {
 	

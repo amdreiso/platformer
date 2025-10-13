@@ -28,7 +28,7 @@ repeat (val) {
 		image_yscale = choose(-1, 1);
 			
 		fadeout = true;
-		fadeoutSpeed = random_range(0.05, 0.15) / 20;
+		fadeoutSpeed = random_range(0.05, 0.15) / 5;
 			
 	}
 }

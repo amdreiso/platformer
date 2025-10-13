@@ -6,6 +6,12 @@ used = false;
 attacking = true;
 
 initialDirection = 1;
+knockback = 1;
+
+effects = [];
+
+angle = 0;
+color = c_white;
 
 collisions = function() {
 	var frame = attacking;

@@ -1,8 +1,10 @@
 
+depth = 9999999;
+
 if (!Settings.graphics.drawUI) return;
 
 drawBossbar();
-drawScreenFlash();
+//drawScreenFlash();
 
 if (Settings.graphics.drawScanlines) {
 	var size = 4;

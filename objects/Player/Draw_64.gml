@@ -9,10 +9,12 @@ drawDeathScreen();
 
 draw_debug_gui();
 
+drawMenu();
 
-if (Keymap.player.map) {
-	map.open = !map.open;
-	map.size = 30;
-}
-map.size = lerp(map.size, 20, 0.25);
-map.draw();
+
+//if (Keymap.player.map && (!busy || map.open)) {
+//	map.open = !map.open;
+//	map.size = 30;
+//}
+//map.size = lerp(map.size, 30, 0.25);
+//map.draw();

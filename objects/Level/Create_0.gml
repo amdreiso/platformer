@@ -68,7 +68,7 @@ drawBossbar = function() {
 	draw_set_valign(fa_middle);
 	draw_set_font(fnt_boss);
 	
-	draw_text_transformed_color(WIDTH / 2, HEIGHT - nameHeight, Boss.name, nameScale, nameScale, 0, nameColor, nameColor, nameColor, nameColor, 1);
+	draw_text_transformed_color(WIDTH / 2, nameHeight, Boss.name, nameScale, nameScale, 0, nameColor, nameColor, nameColor, nameColor, 1);
 	
 	draw_set_halign(fa_left);
 	draw_set_valign(fa_middle);
@@ -83,7 +83,6 @@ drawBossbar = function() {
 	
 	var maximumHp = Boss.defaultHp;
 	var hpPart = (Boss.hp / Boss.defaultHp);
-	
 	
 	for (var i = 0; i < maximumHp; i++) {
 		hbSprite = sHealthbar;
@@ -102,13 +101,15 @@ drawBossbar = function() {
 		if (i >= ceil(maximumHp * hpPart)) hbColor = c_dkgray;
 		
 		var width = 1;
-		draw_sprite_ext(hbSprite, 0, (((WIDTH / 2) + i * width) - maximumHp * width / 2) + hbOffsetX, HEIGHT - hbHeight, hbScale * hbXscale, hbScale, 0, hbColor, 1);
+		draw_sprite_ext(hbSprite, 0, (((WIDTH / 2) + i * width) - maximumHp * width / 2) + hbOffsetX, hbHeight, hbScale * hbXscale, hbScale, 0, hbColor, 1);
 	}
 }
 
 
 checkPlayerTransitions = function(level) {
 	if (!instance_exists(Player)) return;
+	
+	if (Player.levelTransitionCooldown > 0) return;
 	
 	var xx = Player.x;
 	var yy = Player.y;

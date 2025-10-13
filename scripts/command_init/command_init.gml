@@ -129,6 +129,11 @@ COMMAND.register("debug_combo", 0, function(args) {
 	Debug.drawAttackCommandInput = !Debug.drawAttackCommandInput;
 });
 
+COMMAND.register("game_speed", 1, function(args) {
+	var val = real(args[0]);
+	GameSpeed = val;
+});
+
 
 }
 

@@ -2,17 +2,16 @@
 //collisionTilemap = layer_tilemap_get_id("Collision_Map");
 
 busy = (Paused 
-				|| isDead
-				|| instance_exists(Textbox) 
-				|| Paused
-				|| Debug.console
-				|| map.open
-				|| resetPosition
+		|| isDead
+		|| instance_exists(Textbox) 
+		|| Paused
+		|| Debug.console
+		|| menu
+		|| resetPosition
 );
 
-movement();
 
-applyCollisions();
+movement();
 
 attack();
 handleHealth();
@@ -20,6 +19,8 @@ handleBackflip();
 
 
 // Check for tiles
+tilePosition.x = x div ROOM_TILE_WIDTH;
+tilePosition.y = y div ROOM_TILE_HEIGHT;
 var xchunk = x div ROOM_TILE_WIDTH;
 var ychunk = y div ROOM_TILE_HEIGHT;
 
@@ -28,9 +29,13 @@ if (xchunk != lastChunk.x || ychunk != lastChunk.y || room != lastChunk.roomID) 
 	lastChunk.y = ychunk;
 	lastChunk.roomID = room;
 	
-	print($"new chunk at x: {xchunk} y: {ychunk}");
+	print($"Discovered new level tile at x: {xchunk} y: {ychunk}");
 	map.discover(room, xchunk, ychunk);
 }
+
+
+// Level transitions
+levelTransitionCooldown = max(0, levelTransitionCooldown - GameSpeed);
 
 
 // Lighting
@@ -49,6 +54,18 @@ if (!instance_exists(Camera)) {
 	var cam = instance_create_depth(x, y, depth, Camera);
 	cam.target = self;
 }
+
+
+// Effects
+effect_run(self, "update");
+effect_apply();
+
+
+
+
+// Apply all collisions
+applyCollisions();
+
 
 
 // Debug thingies

@@ -22,9 +22,10 @@ function translation_init(){
 			return methods;
 		},
 		
-		get: function(key) {
+		get: function(key, lang=undefined) {
 			// tries to get translation, if undefined, returns english
-			return TranslationData[? key][? Language] ?? TranslationData[? key][? LANGUAGE_ID.English];
+			if (lang == undefined) return TranslationData[? key][? Language] ?? TranslationData[? key][? LANGUAGE_ID.English];
+			return TranslationData[? key][? LANGUAGE_ID.English];
 		},
 	};
 	
@@ -155,6 +156,56 @@ function translation_init(){
 		.finalize();
 	
 	#endregion
+	
+	#endregion
+	
+	#region Items
+	
+	
+	TRANSLATION.add(ITEM_ID.ScrapElectronics)
+		.set(LANGUAGE_ID.English, "scrap electronics")
+		.set(LANGUAGE_ID.Brazilian, "resto de eletrônicos")
+		.finalize();
+	
+	TRANSLATION.add(ITEM_ID.Jetpack)
+		.set(LANGUAGE_ID.English, "jetpack")
+		.set(LANGUAGE_ID.Brazilian, "mochila a jato")
+		.finalize();
+	
+	TRANSLATION.add(ITEM_ID.BaseballBat)
+		.set(LANGUAGE_ID.English, "baseball bat")
+		.set(LANGUAGE_ID.Brazilian, "taco de beisebol")
+		.finalize();
+		
+	TRANSLATION.add(ITEM_ID.FlameSpell)
+		.set(LANGUAGE_ID.English, "flame spell")
+		.set(LANGUAGE_ID.Brazilian, "encantamento de chamas")
+		.finalize();
+		
+	TRANSLATION.add(ITEM_ID.FreezeSpell)
+		.set(LANGUAGE_ID.English, "ice spell")
+		.set(LANGUAGE_ID.Brazilian, "encantamento de gelo")
+		.finalize();
+		
+	TRANSLATION.add(ITEM_ID.KnockbackSpell)
+		.set(LANGUAGE_ID.English, "knockback spell")
+		.set(LANGUAGE_ID.Brazilian, "encantamento de impulso")
+		.finalize();
+		
+	TRANSLATION.add(ITEM_ID.StrengthSpell)
+		.set(LANGUAGE_ID.English, "strength spell")
+		.set(LANGUAGE_ID.Brazilian, "encantamento de força")
+		.finalize();
+		
+		
+		
+	#endregion
+	
+	#region Spells
+	
+	#endregion
+	
+	#region Effects
 	
 	#endregion
 	

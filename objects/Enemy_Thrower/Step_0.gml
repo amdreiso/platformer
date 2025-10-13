@@ -22,9 +22,9 @@ if (distance_to_object(Player) < radius) {
 	if (thrownCooldown == 0) {
 		var p = instance_create_depth(x, y, depth, Enemy_Thrower_Projectile);
 			
-		var hspd = 0.6;
+		var hspd = 0.3;
 		p.hsp = phdir * hspd;
-		p.vsp -= 1.35;
+		p.vsp -= 1.48;
 		p.shooter = self;
 		p.damage = projdamage;
 		

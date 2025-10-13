@@ -10,6 +10,28 @@ function fovy(){
 }
 
 
+
+
+function Callback() constructor {
+	list = [];
+	
+	static register = function(fn) {
+		array_push(list, fn);
+	}
+	
+	static run = function() {
+		var len = array_length(list);
+		for (var i = 0; i < len; i++) {
+			list[i]();
+			
+			// End of callbacks
+			if (i == len - 1) {
+			}
+		}
+	}
+}
+
+
 function Stat(_value) constructor {
 	
 	value = _value;
@@ -31,8 +53,6 @@ function Stat(_value) constructor {
 		value = val;
 		defaultValue = val;
 	}
-	
-	
 	
 }
 
@@ -149,29 +169,34 @@ function on_last_frame(fn) {
 	return false;
 }
 
-function apply_force() {
-  var decel = FORCE_DECELERATION * GameSpeed;
-
-  if (abs(force.x) <= decel) {
-    force.x = 0;
-  } else {
-    force.x -= decel * sign(force.x);
-  }
-
-  if (abs(force.y) <= decel) {
-    force.y = 0;
-  } else {
-    force.y -= decel * sign(force.y);
-  }
+function apply_knockback() {
+	if (round(knockback.x) != 0) knockback.x += ( -sign(knockback.x) * GameSpeed ); else knockback.x = 0;
+	if (round(knockback.y) != 0) knockback.y += ( -sign(knockback.y) * GameSpeed ); else knockback.y = 0;
 }
+
+//function apply_force() {
+//  var decel = FORCE_DECELERATION * GameSpeed;
+
+//  if (abs(force.x) <= decel) {
+//    force.x = 0;
+//  } else {
+//    force.x -= decel * sign(force.x);
+//  }
+
+//  if (abs(force.y) <= decel) {
+//    force.y = 0;
+//  } else {
+//    force.y -= decel * sign(force.y);
+//  }
+//}
 
 function collision_set(obj, subpixel = 1) {
 	if (!instance_exists(obj)) return;
 	
 	var sp = 1;
 	
-	var fx = force.x;
-	var fy = force.y;
+	var fx = knockback.x;
+	var fy = knockback.y;
 	
 	fx = 0; fy = 0;
 	
@@ -191,7 +216,7 @@ function collision_set(obj, subpixel = 1) {
 			}
 		
 			hsp = 0;
-			force.x = 0;
+			knockback.x = 0;
 			
 		}
 	}
@@ -202,7 +227,7 @@ function collision_set(obj, subpixel = 1) {
 		}
 		
 		vsp = 0;
-		force.y = 0;
+		knockback.y = 0;
 	}
 	
 	

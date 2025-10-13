@@ -18,8 +18,8 @@
   "resourceType":"GMTileSet",
   "resourceVersion":"2.0",
   "spriteId":{
-    "name":"sTileSet1",
-    "path":"sprites/sTileSet1/sTileSet1.yy",
+    "name":"sTileSet_Caves",
+    "path":"sprites/sTileSet_Caves/sTileSet_Caves.yy",
   },
   "spriteNoExport":false,
   "textureGroupId":{

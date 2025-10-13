@@ -10,6 +10,8 @@ if (getRandomSprite) {
 
 image_blend = color;
 
+image_angle = angle;
+
 image_xscale = xscale * scale;
 image_yscale = yscale * scale;
 

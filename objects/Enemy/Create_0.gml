@@ -7,11 +7,17 @@ lightLevel = 16;
 lightAlpha = 0.25;
 lightColor = c_white;
 
+effects = [];
+
 damage = 10;
 
 attackOnContact = true;
+ableToAttack = true;
 
-deathSound = choose(snd_explosion1, snd_explosion2, snd_explosion3, snd_explosion4);
+deathSound = choose(snd_explosion1, snd_explosion3, snd_explosion4);
+
+invincible = false;
+
 
 
 // Movement
@@ -20,20 +26,30 @@ spd = defaultSpd;
 hsp = 0;
 hspLast = 0;
 vsp = 0;
-force = vec2();
+knockback = vec2();
 applyGravity = true;
 applyGroundCollisions = true;
 drawOnSurface = true;
 onSlope = false;
+stun = 0;
+stunWhenHit = 0;
+attacking = false;
 
 knockbackResistence = 1;
 
 movement = function() {
 	
-	apply_force();
+	stun = max(0, stun - GameSpeed);
 	
-	x += hsp + force.x;
-	y += vsp + force.y;
+	if (stun > 0) {
+		return;
+	}
+	
+	// Knockback
+	apply_knockback();
+	
+	x += hsp + knockback.x;
+	y += vsp + knockback.y;
 	
 	if (applyGravity) vsp += Gravity;
 	
@@ -65,17 +81,19 @@ collisions = function() {
 		hsp = round(hsp);
 	}
 	
-	
+	// Player attack 
 	player_attack_check(function(a){
 		if (isHit) return;
 		
-		var knockback = 2.84 * knockbackResistence;
-		force.x = a.initialDirection * (knockback);
+		var k = (0.54 * a.knockback) * knockbackResistence;
+		knockback.x = a.initialDirection * (k);
 		
 		vsp = 0;
-		vsp -= a.dir.y * knockback;
+		vsp -= a.dir.y * k;
 		
 		hit(a.damage);
+		
+		effect_transfer(a.effects, self);
 		
 	});
 	
@@ -105,7 +123,10 @@ hp = defaultHp;
 isHit = false;
 hitCooldown = 0;
 hitFog = 0;
-whenHit = false;
+
+
+onHit = false;
+onHitCallbacks = new Callback();
 
 setHp = function(value) {
 	defaultHp = value;
@@ -123,35 +144,57 @@ handleHealth = function() {
 		instance_destroy();
 	}
 	
+	if (onHit) {
+		onHitCallbacks.run();
+		onHit = false;
+	}
+	
 }
 
 hit = function(damage) {
+	if (invincible) return false;
+	
 	hp -= damage;
 	isHit = true;
 	hitCooldown = 10;
 	
 	hitFog = 10;
+	onHit = true;
 	
-	whenHit = true;
+	stun = stunWhenHit;
 	
-	camera_shake(2);
+	camera_shake(5);
 	
 	create_popup_particle(damage);
+	
+	return true;
 }
 
 
 // Draw
 weaponSprite = -1;
+angle = 0;
 
 spriteStates = {
 	idle: sClone1,
 	move: sClone1,
+	stun: sClone1,
+	attack: sClone1,
 }
 
 setSpriteStates = function() {
+	
+	if (stun > 0) {
+		return spriteStates.stun;
+	}
+	
 	if (hsp != 0) {
 		image_xscale = sign(hsp);
 		return spriteStates.move;
+	}
+	
+	if (attacking) {
+		return spriteStates.attack;
 	}
 	
 	return spriteStates.idle;

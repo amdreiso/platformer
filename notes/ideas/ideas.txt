@@ -21,12 +21,14 @@ something something
 	NPCS:
 a robot with no perception of time, trapped in a dungeon
 
-an elderly robot who refuses to collaborate with the player and the girl
+an elderly robot who refuses to collaborate with the player and the girl, could be an elderly human as well
 
 
 	Mechanics:
-you can 'download' files in game, to make them appear in your save folder, such as maps, decoders, etc
-
+player will make his own decisions for fighting styles
+such as choosing different weapons
+and finding spells in drops / items in levels
+spells will modify a weapon, such as making it do more damage, making it flammable, making it freeze enemies, etc.
 
 
 

@@ -9,6 +9,9 @@ vsp = 0;
 gravityApply = false;
 gravityForce = 0.1;
 
+angle = 0;
+theta = 0;
+
 tick = 0;
 lifetime = 1000;
 destroy = false;

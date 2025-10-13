@@ -1,6 +1,6 @@
 
 
-#region Console Commands
+#region CONSOLE COMMANDS
 
 COMMAND.register("player_set_knockback", 2, function(args) {
 	try {
@@ -16,6 +16,19 @@ COMMAND.register("god", 0, function(args) {
 	Player.god = !Player.god;
 });
 
+COMMAND.register("player_add_effect", 2, function(args) {
+	var val = real(args[0]);
+	var time = real(args[1]);
+	
+	var effect = EFFECT.get(val);
+	if (is_undefined(effect)) { 
+		err("effect ID doesn't exist!");
+		return;
+	}
+	
+	effect_add(Player, val, time);
+});
+
 #endregion
 
 
@@ -27,21 +40,27 @@ busy = false;
 god = false;
 children = [];
 lightLevel = 20;
-isSolid = true;
 raycastCount = 180;
 viewDistanceDefault = 50;
 viewDistance = 50;
 isVisible = true;
+soul = SOUL_TYPE.Castoff;
 
 emitter = audio_emitter_create();
 
-soul = SOUL_TYPE.Castoff;
+effects = [];
 
-collisionMask = instance_create_depth(x, y, depth, PlayerCollision);
+levelTransitionCooldown = 0;
+
+spriteStates = {
+	idle: sPlayerOneEye_Idle,
+	move: sPlayerOneEye_Move_1,
+	attack: sPlayerOneEye_Attack,
+}
 
 
+#region UPGRADE
 
-// Upgrades
 PlayerUpgradeData = ds_map_create();
 
 upgrade = {};
@@ -103,8 +122,6 @@ upgrade.draw = function() {
 }
 
 
-#region Upgrades
-
 enum PLAYER_UPGRADE_ID {
 	Jetpack,
 }
@@ -136,7 +153,6 @@ upgrade.register(
 			fuel -= GameSpeed;
 			obj.vsp = 0;
 			obj.knockback.y -= takeoff;
-			
 			obj.knockback.y = clamp(obj.knockback.y, -maxFlyingSpeed, maxFlyingSpeed);
 			
 		} else {
@@ -151,18 +167,41 @@ upgrade.register(
 	}
 );
 
-#endregion
 
 upgrade.add(PLAYER_UPGRADE_ID.Jetpack);
 
+#endregion
 
 
+#region MAP
 
-// Map
-function MapTile(roomID, x, y) constructor {
+function MapTile(roomID, x, y, color, passages = {}) constructor {
 	self.roomID = roomID;
 	self.x = x;
 	self.y = y;
+	self.passages = {
+		down: false,
+		up: false,
+		right: false,
+		left: false,
+	};
+	
+	var transitions = LEVEL.get(roomID).components.transitions;
+	var len = array_length(transitions);
+	
+	for (var i = 0; i < len; i++) {
+		var t = transitions[i];
+		var xx, yy;
+		xx = t.x div ROOM_TILE_WIDTH;
+		yy = t.y div ROOM_TILE_HEIGHT;
+		
+		var playerInTile = (Player.tilePosition.x == xx && Player.tilePosition.y == yy);
+		
+		if (variable_struct_exists(self.passages, t.side) && playerInTile && !t.isHidden) {
+			variable_struct_set(self.passages, t.side, true);
+		}
+	}
+	
 }
 
 map = {
@@ -170,8 +209,8 @@ map = {
 	size: 20,
 	grid: [],
 	
-	discover: function(roomID, x, y) {
-		var tile = new MapTile(roomID, x, y);
+	discover: function(roomID, x, y, color=c_blue) {
+		var tile = new MapTile(roomID, x, y, color);
 		array_push(Player.map.grid, tile);
 	},
 	
@@ -204,11 +243,28 @@ map = {
 			var c1 = c_white;
 			var c2 = c_black;
 			
+			c0 = level.components.mapTileColor;
+			
 			draw_rectangle_color(
 				xx, yy,
 				xx + size, yy + size,
 				c0, c0, c0, c0, false
 			);
+			
+			// Draw passages
+			var p = g.passages;
+			var pc = c_black;
+			var pw = 2;
+			
+			//if (p.down) {
+			//	draw_line_width_color(xx, yy + size, xx + size / 3, yy + size, pw, pc, pc);
+			//	draw_line_width_color(xx + size, yy + size, (xx + size) - size / 3, yy + size, pw, pc, pc);
+				
+			//} else if (p.right) {
+				
+				
+			//}
+			
 			
 			if (Player.lastChunk.x == g.x && Player.lastChunk.y == g.y && room == g.roomID) {
 				draw_set_alpha(0.5);
@@ -233,16 +289,22 @@ map = {
 	},
 }
 
+#endregion
 
-// Stats
+
+#region STATS
+
 damage = 10;
 defense = 0;
 luck = 0;
 intelligence = 0;
 mana = 100;
 
+#endregion
 
-// Health
+
+#region HEALTH
+
 hp = new Stat(200);
 hpDisplay = hp.defaultValue;
 
@@ -274,25 +336,37 @@ handleHealth = function() {
 	}
 }
 
-hit = function(damage, xscale=1) {
-	if (isHit || god) return;
+hit = function(damage, xscale=1, applyKnockback = true, stun = true) {
+	if (isHit || god || isDead) return;
+	
+	var cooldown = 50;
+	if (!stun) then cooldown = 1;
 	
 	hp.sub(damage);
 	isHit = true;
-	hitCooldown = 50;
+	hitCooldown = cooldown;
 	
-	hsp = 0;
-	vsp = 0;
-	knockback.y -= (jumpForce * 4) * !onAir;
+	if (stun) {
+		hsp = 0;
+		vsp = 0;
+	}
 	
-	if (xscale == 0) xscale = choose(-1, 1);
-	knockback.x = xscale * 2;
+	if (applyKnockback) {
+		knockback.y -= (jumpForce * 4) * !onAir;
+		if (xscale == 0) xscale = choose(-1, 1);
+		knockback.x = xscale * 2;
+	}
 	
+	
+	// Screen effects
 	var shake = clamp(damage / 0.5, 0, 4);
 	
-	screen_flash(0.3, 0.06, c_red);
 	camera_shake(shake);
 	
+	Screen.flash(0.5, 0.05, c_white);
+	
+	
+	// Sounds
 	var hitSound = choose(snd_hit1, snd_hit2);
 	audio_play_sound(hitSound, 0, false, 0.5, 0, random_range(0.80, 1.00));
 }
@@ -309,9 +383,11 @@ dieByContact = function() {
 	knockback = vec2();
 }
 
+#endregion
 
 
-// Movement
+#region MOVEMENT
+
 allowMovement						= true;
 defaultSpd							= 1.33;
 spd											= defaultSpd;
@@ -330,6 +406,7 @@ onAir										= false;
 onSlope									= false;
 isMoving								= false;
 isFlipping							= false;
+hasFlipped							= false;
 noclip									= false;
 lastPlaceStanding				= undefined;
 applyGravity						= true;
@@ -340,7 +417,7 @@ impactTimer							= 0;
 lastChunk								= { roomID: -1, x: 0, y: 0 };
 secondJumpTick					= 0;
 flying									= false;
-
+tilePosition						= vec2();
 
 getPosition = function() {
 	return vec2(x, y);
@@ -349,6 +426,7 @@ getPosition = function() {
 flip = function() {
 	isFlipping = true;
 	angle = image_xscale * 5;
+	hasFlipped = true;
 }
 
 handleBackflip = function() {
@@ -376,9 +454,12 @@ getLastStandingPosition = function() {
 movement = function() {
 	if (busy) return;
 	
+	// keymap
+	var map = Keymap.player;
+	
+	
 	// Knockback
-	if (round(knockback.x) != 0) knockback.x += ( -sign(knockback.x) * GameSpeed ); else knockback.x = 0;
-	if (round(knockback.y) != 0) knockback.y += ( -sign(knockback.y) * GameSpeed ); else knockback.y = 0;
+	apply_knockback();
 	
 	isMoving = (hsp != 0 || vsp != 0);
 	applyGravity = (!place_meeting(x, y + 1, Elevator));
@@ -407,6 +488,7 @@ movement = function() {
 		onSlope = false;
 		jumpCount = jumpCountDefault;
 		isFlipping = false;
+		hasFlipped = false;
 		
 		isJumping = false;
 		
@@ -421,11 +503,29 @@ movement = function() {
 	}
 	
 	// Push the player's y position up by a pixel so it doesnt get stuck on turns on slopes
-	if (hsp != hspLast && hsp != 0) {
-		hspLast = hsp;
-		if (onSlope) {
-			y -= 1;
-			print("Player: avoiding getting stuck on slope");
+	//if (hsp != hspLast && hsp != 0) {
+	//	hspLast = hsp;
+	//	if (onSlope) {
+	//		y -= 1;
+	//		print("Player: avoiding getting stuck on slope");
+	//	}
+	//}
+	
+	
+	// check if player is stuck on slope and free him
+	static freeSlopeTimer = 0;
+	if (onSlope) {
+		
+		// check if is walking
+		if (map.left || map.right) {
+			freeSlopeTimer += GameSpeed;
+			
+			if (hsp == 0 && freeSlopeTimer > 1) {
+				print("Player: avoiding getting stuck on slope");
+				y -= 1;
+				freeSlopeTimer = 0;
+				
+			}
 		}
 	}
 	
@@ -442,8 +542,6 @@ movement = function() {
 	// gravity
 	if (applyGravity) vsp = (vsp + Gravity) * GameSpeed;
 	
-	apply_force();
-	
 	
 	// max falling speed
 	vsp = clamp(vsp, -MAX_FALLING_SPEED, MAX_FALLING_SPEED);
@@ -452,7 +550,6 @@ movement = function() {
 	var skipMovement = (OnCutscene);
 	if (skipMovement) return;
 	
-	var map = Keymap.player;
 	var left = map.left;
 	var right = map.right;
 	var jump = map.jump;
@@ -527,8 +624,11 @@ dash = function() {
 	}
 }
 
+#endregion
 
-// Particles
+
+#region PARTICLES
+
 createDustParticles = function(val, range, spd = 0.15) {
 	repeat (val) {
 		var pos = randvec2(x, y + sprite_height / 2, range);
@@ -558,10 +658,13 @@ createDustParticles = function(val, range, spd = 0.15) {
 	}
 }
 
+#endregion
 
 
-// Collisions
-//collisionTilemap = layer_tilemap_get_id("Collision_Map");
+#region COLLISIONS
+
+
+collisionMask = instance_create_depth(x, y, depth, PlayerCollision);
 
 
 applyCollisions = function() {
@@ -609,8 +712,8 @@ applyCollisions = function() {
 				var enemy = instance_nearest(x, y, Enemy);
 				var xdir = sign(x - enemy.x);
 				if (xdir == 0) xdir = choose(1, -1);
-		
-				if (enemy.attackOnContact) other.hit(enemy.damage, xdir);
+				
+				if (enemy.attackOnContact && enemy.ableToAttack) other.hit(enemy.damage, xdir);
 			}
 		}
 	
@@ -644,8 +747,11 @@ applyCollisions = function() {
 	}
 }
 
+#endregion
 
-// Attack
+
+#region ATTACK
+
 subitem_init();
 subitem = SUBITEM_ID.WaterBucket;
 
@@ -674,9 +780,10 @@ attackCommandGet = function(key) {
 
 // Big Jump
 attackCommandCreate("down+up+jump", "big jump!", function(){
-	if (!onGround) return;
+	if (!onGround) return false;
 	vsp = 0;
 	vsp -= 3;
+	return true;
 });
 
 attackCommandCreate("left+down+right+up+down+jump", "", function(){
@@ -685,54 +792,72 @@ attackCommandCreate("left+down+right+up+down+jump", "", function(){
 
 #region front-flip
 
-attackCommandCreate("left+jump+up+jump", "front-flip", function(){
-	if (onGround) return;
+attackCommandCreate("left+jump+up+jump", "front flip", function(){
+	if (onGround && hasFlipped) return;
 	flip();
+	return true;
 });
 
-attackCommandCreate("right+jump+up+jump", "front-flip", function(){
-	if (onGround) return;
+attackCommandCreate("right+jump+up+jump", "front flip", function(){
+	if (onGround && hasFlipped) return;
 	flip();
+	return true;
 });
 
-attackCommandCreate("jump+up+jump", "front-flip", function(){
-	if (onGround) return;
+attackCommandCreate("jump+up+jump", "front flip", function(){
+	if (onGround && hasFlipped) return;
 	flip();
+	return true;
 });
 
-attackCommandCreate("up+jump", "front-flip", function(){
-	if (onGround) return;
+attackCommandCreate("up+jump", "front flip", function(){
+	if (onGround && hasFlipped) return;
 	flip();
+	return true;
 });
 
 #endregion
 
 
 #endregion
+
+// ↑ ↓ → ←
 
 analogPressed = false;
 
 attack = function() {
 	if (busy || isAttacking) return;
 	
-	if (Keymap.player.attack) {
+	var handID = inventory.equipment.hand.itemID;
+	var hand = inventory.equipment.hand.get();
+	var handType = inventory.equipment.hand.getType();
+	
+	// Sword attack
+	if (Keymap.player.attack && handType == ITEM_TYPE.Sword) {
 		
-		var atk = instance_create_depth(floor(x), floor(y), depth, PlayerAttack);
-		atk.sprite_index = sPlayer_Attack1;
+		print($"Player attacked with '{TRANSLATION.get(handID, -1)}'");
+		
+		/*
+		TODO: 
+		make every sword attack sprite unique
+		*/
+		
+		var atk = instance_create_depth(x, y, depth, PlayerAttack);
+		
+		atk.sprite_index = hand.components.attackSprite;
 		atk.image_xscale = image_xscale;
 		atk.initialDirection = image_xscale;
 		
-		atk.damage = damage;
+		atk.damage = hand.components.damage;
+		
+		inventory.equipment.hand.spell.apply(atk);
 		
 		var hdir = image_xscale;
-		var vdir = Keymap.player.jumpHold && onGround;
+		var vdir = (Keymap.player.jumpHold && onGround);
 		
-		if (vdir && hsp == 0) hdir = 0; 
+		if (vdir && hsp == 0) then hdir = 0;
 		
-		atk.dir = vec2(
-			hdir,
-			vdir
-		);
+		atk.dir = vec2(hdir, vdir);
 		
 		isAttacking = true;
 	}
@@ -824,7 +949,7 @@ attack = function() {
 		
 		var command = attackCommandGet(attackCommandInput);
 		if (!is_undefined(command)) {
-			if (command.run()) print(command.name);
+			if (command.run()) then print($"Player executed command '{command.name}'");
 			attackCommandInput = "";
 		}
 		
@@ -837,15 +962,16 @@ attack = function() {
 	
 	
 	// handle weapons
-	var hand = inventory.getCurrentSlot().itemID;
 	
 	//if (Keymap.player.attack && ITEM.getType(hand) == ITEM_TYPE.Weapon) {
 	//}
 }
 
+#endregion
 
 
-// Inventory
+#region INVENTORY
+
 #macro ITEM_STACK 10
 
 inventory = {};
@@ -854,9 +980,13 @@ inventory.content = [];
 inventory.slots = [];
 
 inventory.equipment = {
-	hand: -1,
+	hand: new Tool(ITEM_ID.BaseballBat),
 	armor: -1,
 };
+
+
+				//inventory.equipment.hand.spell.add(SPELL_ID.Flames);
+
 
 inventory.getItemSlot = function(itemID, quantity) {
 	var item = {}
@@ -912,7 +1042,7 @@ inventory.removeItem = function() {
 };
 
 
-// HARDCODE ALERT
+///////////       HARDCODE ALERT        /////////////
 repeat(10) {
 	array_push( inventory.content, inventory.getItemSlot(-1, 0) );
 }
@@ -954,20 +1084,21 @@ drawInventorySlotsGUI = function() {
 	if (mouse_wheel_up() && inventory.slotIndex < array_length(inventory.slots) - 1) inventory.slotIndex ++;
 }
 
+#endregion
 
 
+#region DRAW
 
-// Draw
 angle = 0;
 
-spriteStates = {
-	idle: sPlayerOneEye_Idle,
-	move: sPlayerOneEye_Move,
-	attack: sPlayerOneEye_Attack,
-}
-
 blink = false;
+playerShadowColor = c_dkgray;
 
+color = c_white;
+
+shadow = ds_list_create();
+
+// Draw Function
 draw = function() {
 	if (!isVisible) return;
 	
@@ -1026,9 +1157,52 @@ draw = function() {
 		blink = !blink;
 	}
 	
+	
+	// Draw Shadow
+	static shdTick = 0;
+	shdTick ++;
+	if (shdTick >= 3) {
+		var shd = {};
+		shd.sprite = sprite;
+		shd.index = image_index;
+		shd.x = x;
+		shd.y = y;
+		shd.xscale = image_xscale;
+		shd.yscale = image_yscale;
+		shd.angle = angle;
+		shd.decrease = 0.075;
+		shd.time = 0.88;
+		shd.color = choose(c_red, c_fuchsia, c_yellow, c_aqua);
+		ds_list_add(shadow, shd);
+		
+		shdTick = 0;
+	}
+	
+	for (var i = 0; i < ds_list_size(shadow); i++) {
+		var key = ds_list_find_value(shadow, i);
+		
+		if (key.time <= 0) {
+			ds_list_delete(shadow, i);
+		}
+		
+		key.time -= key.decrease * GameSpeed;
+		
+		gpu_set_fog(true, key.color, 0, 1);
+		draw_sprite_ext(key.sprite, key.index, key.x, key.y, key.xscale, key.yscale, key.angle, c_white, key.time);
+		gpu_set_fog(false, c_white, 0, 1);
+	}
+	
+	
 	// Draw player sprite
 	if (hitCooldown == 0 || !blink) {
-		draw_outline(1, angle, Style.outlineColor);
+		//draw_outline(1, angle, Style.outlineColor);
+		
+		var xoffset = 2 * image_xscale;
+		var yoffset = 1 * image_yscale;
+		
+		sprite_index = sprite;
+		
+		draw_sprite_ext(sprite_index, image_index, x, y, image_xscale, image_yscale, angle, color, 1);
 	}
 	
 	//if (jumpCount < jumpCountDefault) {
@@ -1038,43 +1212,66 @@ draw = function() {
 	if (surface_exists(SurfaceHandler.surface)) surface_reset_target();
 }
 
-// Draw GUI
+#endregion
+
+
+#region DRAW GUI
+
 drawGUI = function() {
 	if (Paused) return;
 	
 	var guiScale = Style.guiScale;
-	var margin = 20 * guiScale;
 	
 	
-	// SubItem display
-	draw_sprite_ext(sItemDisplay, 0, margin, margin, guiScale, guiScale, 0, c_white, 1);
+	// Draw healthbar
+	var healthbarHeightPixels = 13 * guiScale;
 	
-	if (subitem != undefined) {
-		var si = SUBITEM.get(subitem);
-		draw_sprite_ext(si.sprite, 0, margin, margin, guiScale, guiScale, 0, c_white, 1);
-	}
+	var healthbarPos = vec2(50, HEIGHT - sprite_get_height(sPlayer_Healthbar) * 2);
+	var healthbarOffset = vec2(3 * guiScale, 6.6 * guiScale);
+	var color0 = c_white;
+	
+	var part = (hp.value / hp.defaultValue);
+	
+	draw_sprite_ext(sPlayer_Healthbar, 0, healthbarPos.x, healthbarPos.y, guiScale, guiScale, 0, c_white, 1);
+	
+	draw_rectangle_color(
+		healthbarPos.x - healthbarOffset.x, healthbarPos.y + healthbarOffset.y + 1, 
+		healthbarPos.x + healthbarOffset.x, healthbarPos.y - (healthbarOffset.y * part), 
+		color0, color0, color0, color0, false
+	);
 	
 	
-	if (hpDisplay > hp.value) {
-		hpDisplay = lerp(hpDisplay, hp.value, 0.25);
-	}
+	//var margin = 20 * guiScale;
 	
-	var maxHpDisplay = 100;
-	var hpPart = (hpDisplay / hp.defaultValue);
+	//// SubItem display
+	//draw_sprite_ext(sItemDisplay, 0, margin, margin, guiScale, guiScale, 0, c_white, 1);
 	
-	for (var i = 0; i < maxHpDisplay; i++) {
-		var xoffset = (sprite_get_width(sItemDisplay) * guiScale) / 2 + margin;
-		var width = (sprite_get_width(sHealthbar) * guiScale);
+	//if (subitem != undefined) {
+	//	var si = SUBITEM.get(subitem);
+	//	draw_sprite_ext(si.sprite, 0, margin, margin, guiScale, guiScale, 0, c_white, 1);
+	//}
+	
+	
+	//if (hpDisplay > hp.value) {
+	//	hpDisplay = lerp(hpDisplay, hp.value, 0.25);
+	//}
+	
+	//var maxHpDisplay = 100;
+	//var hpPart = (hpDisplay / hp.defaultValue);
+	
+	//for (var i = 0; i < maxHpDisplay; i++) {
+	//	var xoffset = (sprite_get_width(sItemDisplay) * guiScale) / 2 + margin;
+	//	var width = (sprite_get_width(sHealthbar) * guiScale);
 		
-		var color = c_white;
+	//	var color = c_white;
 		
-		var sprite = sHealthbar;
-		if (i == maxHpDisplay - 1) sprite = sHealthbar_end;
+	//	var sprite = sHealthbar;
+	//	if (i == maxHpDisplay - 1) sprite = sHealthbar_end;
 		
-		if (i >= ceil(maxHpDisplay * hpPart)) color = c_dkgray;
+	//	if (i >= ceil(maxHpDisplay * hpPart)) color = c_dkgray;
 		
-		draw_sprite_ext(sprite, 0, xoffset + i * width, margin, guiScale, guiScale, 0, color, 1);
-	}
+	//	draw_sprite_ext(sprite, 0, xoffset + i * width, margin, guiScale, guiScale, 0, color, 1);
+	//}
 }
 
 
@@ -1164,4 +1361,91 @@ drawDeathScreen = function() {
 }
 
 
+menu = false;
+menuStyle = {
+	background: 0x080808,
+	border: c_green,
+}
+
+MenuPage = function(name) constructor {
+	self.name = name;
+}
+
+menuPages = [
+	new MenuPage("Home"),
+	new MenuPage("Map"),
+	new MenuPage("Upgrades"),
+]
+
+menuIndex = 0;
+
+drawMenu = function() {
+	
+	if (Keymap.player.map && !(busy * !menu)) {
+		menu = !menu;
+	}
+	
+	
+	if (!menu) return;
+	
+	var x0 = 400;
+	var y0 = HEIGHT / 2;
+	
+	var scale = 2;
+	
+	var width = 15 * scale;
+	var height = 10 * scale;
+	
+	var fw = 8 * scale;
+	var fh = 12 * scale;
+	
+	var bg = menuStyle.background;
+	var br = menuStyle.border;
+	
+	// draw background
+	rect(x0, y0, width * fw, height * fh, bg);
+	
+	var borderx = 0;
+	var bordery = 0;
+	
+	draw_set_halign(fa_left);
+	draw_set_valign(fa_bottom);
+	
+	// horizontal borders
+	for (borderx = 0; borderx < width; borderx++) {
+		if (borderx != 0 && borderx != width - 1) {
+			draw_text_transformed_color((x0 - (width * fw) / 2) + (borderx * fw), y0 - ((height - 2) * fh) / 2, "-", scale, scale, 0, br, br, br, br, 1);
+			draw_text_transformed_color((x0 - (width * fw) / 2) + (borderx * fw), y0 + ((height) * fh) / 2, "-", scale, scale, 0, br, br, br, br, 1);
+		
+		}
+	}
+	
+	// vertical borders
+	for (bordery = 1; bordery < height + 1; bordery++) {
+		draw_text_transformed_color((x0 - (width * fw) / 2), (y0 - (height * fh) / 2) + bordery * fh, "|", scale, scale, 0, br, br, br, br, 1);
+		draw_text_transformed_color((x0 + ((width - 2) * fw) / 2), (y0 - (height * fh) / 2) + bordery * fh, "|", scale, scale, 0, br, br, br, br, 1);
+		
+	}
+	
+	var pageLen = array_length(menuPages);
+	
+	for (var i = 0; i < pageLen; i++) {
+		var page = menuPages[i];
+		var bw = 150;
+		var bh = 30;
+		var color = bg;
+		var color2 = bg;
+	}
+	
+	
+	menuIndex -= (keyboard_check_pressed(vk_left) && menuIndex > 0) ? 1 : 0;
+	menuIndex += (keyboard_check_pressed(vk_right) && menuIndex < pageLen - 1) ? 1 : 0;
+	
+	
+	draw_set_halign(fa_center);
+	draw_set_valign(fa_middle);
+	
+}
+
+#endregion
 

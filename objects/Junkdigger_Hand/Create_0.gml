@@ -23,6 +23,24 @@ hsp = 0;
 vsp = 0;
 
 
+chooseState = function() {
+	// choose between charging a throw or smashing attack
+	state = choose(
+		JUNKEEPER_HAND_STATE.ChargingSmash,
+		JUNKEEPER_HAND_STATE.ChargingThrow
+	);
+}
+
+
+// Change to random State when hit
+onHitCallbacks.register(function(){
+	if (state == JUNKEEPER_HAND_STATE.Idling) {
+		chooseState();
+	}
+	Junkdigger.setHp();
+});
+
+
 // Damages
 smashDamage = 30;
 

@@ -11,7 +11,6 @@ if (newRoom) {
 	
 	STORY.load();
 	
-	
 	// Background Song
 	var song = level.components.backgroundSong;
 	
@@ -22,7 +21,7 @@ if (newRoom) {
 	//}
 	
 	// if room has a song
-	if (song != -1 && backgroundSong != song) {
+	if (song != -1 && backgroundSong != song && !audio_is_playing(song)) {
 		// stop existing song
 		audio_stop_all();
 		

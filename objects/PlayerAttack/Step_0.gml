@@ -9,3 +9,4 @@ image_xscale = Player.image_xscale;
 dir.x = Player.hsp * image_xscale;
 
 collisions();
+

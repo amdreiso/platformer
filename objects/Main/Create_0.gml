@@ -11,6 +11,8 @@ translation_init();
 item_init();
 level_init();
 command_init();
+effect_init();
+spell_init();
 
 
 // Story
@@ -124,6 +126,20 @@ gamepad_init();
 globalvar CameraViewport; CameraViewport = CAMERA_VIEWPORT_DEFAULT;
 
 
+screenFlashColor = c_white;
+screenFlashDecrement = 0.1;
+screenFlashTime = 0;
+
+globalvar Screen; Screen = {
+	flash: function(time, decrement, color = c_white) {
+		Main.screenFlashColor = color;
+		Main.screenFlashDecrement = decrement;
+		Main.screenFlashTime = time;
+	}
+};
+
+
+
 // Sound
 globalvar Sound; Sound = {};
 
@@ -137,7 +153,6 @@ audio_listener_orientation(0, 1, 0, 0, 0, 1);
 
 audio_group_load(audiogroup_default);
 audio_group_load(audiogroup_songs);
-
 
 
 rainbowTick = 0;

@@ -8,4 +8,6 @@ function room_transition(roomID, side, onEnter=function(){}, transitionTime = 0.
 	Main.transition = true;
 	Main.transitionSide = side;
 	
+	if (instance_exists(Player)) Player.levelTransitionCooldown = 15;
+	
 }

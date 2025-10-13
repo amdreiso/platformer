@@ -15,10 +15,10 @@ body = instance_create_depth(x, y, depth, Junkdigger_Body);
 bodyOffset = vec2(0, -50);
 
 
-var yy = y + 100;
-leftHand = instance_create_layer(x - 100, yy, "Boss_Hand_Front", Junkdigger_Hand);
+var yy = y + 200;
+leftHand = instance_create_layer(x - 100, yy, "Boss_Hand_Back", Junkdigger_Hand);
 
-rightHand = instance_create_layer(x + 100, yy, "Boss_Hand_Front", Junkdigger_Hand);
+rightHand = instance_create_layer(x + 100, yy, "Boss_Hand_Back", Junkdigger_Hand);
 rightHand.image_xscale = -1;
 
 

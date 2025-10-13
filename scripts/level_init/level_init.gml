@@ -5,7 +5,7 @@ function level_init(){
 	globalvar LEVEL;
 	
 	LEVEL = {
-		transitionAdd: function(side, x, y, roomID, playerOffset=vec2()) {
+		transitionAdd: function(side, x, y, roomID, playerOffset=vec2(), isHidden = false) {
 			var t = {};
 			
 			t.side = side;
@@ -13,6 +13,7 @@ function level_init(){
 			t.y = y * ROOM_TILE_HEIGHT;
 			t.roomID = roomID;
 			t.playerOffset = playerOffset;
+			t.isHidden = isHidden;
 			
 			return t;
 		},
@@ -26,8 +27,10 @@ function level_init(){
 				create: function(){},
 				roomCode: function(){},
 				transitions: [],
+				section: LEVEL_SECTION.Caves,
 				
 				mapOffsetPos: vec2(),
+				mapTileColor: c_aqua,
 			};
 		},
 		
@@ -62,6 +65,7 @@ function level_init(){
 		
 	});
 	
+	
 	#region Caves
 	
 	LEVEL.register(rmLevel_Cave_Entrance, "cave entrance", {
@@ -71,7 +75,7 @@ function level_init(){
 		
 		transitions: [
 			LEVEL.transitionAdd("up", 0, 0, rmLevel_Cave_SpikeCorridor),
-			LEVEL.transitionAdd("left", 0, 0, rmLevel_Cave_Hidden_1),
+			LEVEL.transitionAdd("left", 0, 0, rmLevel_Cave_Hidden_1, vec2(), true),
 			LEVEL.transitionAdd("right", 2, 1, rmLevel_Cave_Corridor0),
 		],
 		
@@ -79,6 +83,7 @@ function level_init(){
 			parallax_set("Parallax_1", 0.20, -1);
 			parallax_set("Tiles_1", 0.25, -1);
 			parallax_set("Tiles_2", 0.50, 0.20);
+			parallax_set("Tiles_3", 0.80, 0.20);
 		},
 		
 		create: function() {
@@ -112,6 +117,9 @@ function level_init(){
 		playerVision: 0.33,
 		
 		backgroundSong: snd_forgottenSpace,
+		
+		mapOffsetPos: vec2(3, 3),
+		mapTileColor: c_red,
 		
 		transition: [
 			LEVEL.transitionAdd("up", 0, 0, rmLevel_Cave_DumpYard, vec2(-1, 0)),
@@ -148,7 +156,7 @@ function level_init(){
 		],
 	});
 	
-	LEVEL.register(rmLevel_Cave_Corridor0, "Corridor", {
+	LEVEL.register(rmLevel_Cave_Corridor0, "corridor", {
 		darkness: 0.00,
 		playerVision: 0.33,
 		
@@ -156,8 +164,38 @@ function level_init(){
 		
 		transitions: [
 			LEVEL.transitionAdd("left", 0, 1, rmLevel_Cave_Entrance),
+			LEVEL.transitionAdd("right", 1, 1, rmLevel_Cave_Elevator),
 			LEVEL.transitionAdd("down", 1, 2, rmLevel_Cave_DumpYard, vec2(2, 2)),
 		],
+	});
+	
+	LEVEL.register(rmLevel_Garden_Entrance, "garden entrance", {
+		
+		
+		roomCode: function() {
+			parallax_set("Tiles_3", 0.50, -1);
+			parallax_set("Tiles_4", 0.65, -1);
+		}
+		
+	});
+	
+	LEVEL.register(rmLevel_Cave_Elevator, "Cave Elevator", {
+		
+		transitions: [
+			LEVEL.transitionAdd("left", 0, 1, rmLevel_Cave_Corridor0),
+		],
+		
+	});
+	
+	#endregion
+	
+	
+	
+	
+	#region Secret Rooms
+	
+	
+	LEVEL.register(rmLevel_Skartobreke, "skartobreke", {
 	});
 	
 	#endregion

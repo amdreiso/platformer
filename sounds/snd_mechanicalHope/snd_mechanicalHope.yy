@@ -9,7 +9,7 @@
   "bitRate":128,
   "compression":0,
   "conversionMode":0,
-  "duration":51.0,
+  "duration":42.94737,
   "name":"snd_mechanicalHope",
   "parent":{
     "name":"songs",

@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"slope_avoid_getting_stuck",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"slope_avoid_getting_stuck",
+  "parent":{
+    "name":"collisions",
+    "path":"folders/Scripts/collisions.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

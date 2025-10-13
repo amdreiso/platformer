@@ -47,7 +47,6 @@ Style.reverseIntensity = sin(current_time * 0.001) * 1;
 
 
 if (Gamepad.ID != -1) {
-	
 	gamepad_set_axis_deadzone(Gamepad.ID, Settings.controls.gamepadDeadzone);
 	
 }
