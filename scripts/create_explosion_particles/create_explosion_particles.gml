@@ -1,6 +1,6 @@
 function create_explosion_particles(x, y, range, val=10, spd = 0.05){
 
-repeat (val) {
+repeat (val * 3) {
 	var pos = randvec2(x, y + sprite_height / 2, range);
 		
 	var part = instance_create_depth(pos.x, pos.y, depth, Particle);
@@ -15,6 +15,9 @@ repeat (val) {
 		sprite = sParticle_Explosion;
 		getRandomSprite = true;
 		
+		var r = 0.33;
+		theta = random_range(-r, r);
+		
 		color = choose(
 			c_red,
 			c_orange,
@@ -28,7 +31,7 @@ repeat (val) {
 		image_yscale = choose(-1, 1);
 			
 		fadeout = true;
-		fadeoutSpeed = random_range(0.05, 0.15) / 5;
+		fadeoutSpeed = random_range(0.05, 0.15) / 7;
 			
 	}
 }

@@ -46,6 +46,10 @@ viewDistance = viewDistanceDefault * LevelData[? room].components.playerVision;
 upgrade.update();
 
 
+// Inventory
+inventory.update();
+
+
 // Audio
 audio_listener_position(x, y, 0);
 

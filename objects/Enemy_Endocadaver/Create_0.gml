@@ -11,7 +11,7 @@ spriteStates.stun = sEndocadaver_Idle_Enemy;
 spriteStates.move = sEndocadaver_Move_Enemy;
 spriteStates.attack = sEndocadaver_Attack_Enemy;
 
-damage = 200;
+damage = 50;
 projdamage = 5;
 
 radius = 50;
@@ -49,11 +49,8 @@ onHitCallbacks.register(function(){
 		
 		p.gravityApply = true;
 		p.gravityForce = 0.075;
-		p.hsp = -dir * random_range(0.50, 1.25);
-		p.vsp -= random_range(0.20, 0.80) * 3;
+		p.hsp = -dir * choose(-2, -1, 1, 2);
+		p.vsp -= random_range(0.30, 0.80) * 3;
 	}
 });
-
-
-
 

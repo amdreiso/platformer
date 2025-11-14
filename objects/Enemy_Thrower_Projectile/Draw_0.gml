@@ -4,8 +4,12 @@ image_yscale = scale;
 
 image_angle = angle;
 
-surface_set_target(SurfaceHandler.surface);
+if (surface_exists(SurfaceHandler.surface)) surface_set_target(SurfaceHandler.surface);
 
 draw_self();
 
-surface_reset_target();
+if (surface_exists(SurfaceHandler.surface)) surface_reset_target();
+
+
+
+

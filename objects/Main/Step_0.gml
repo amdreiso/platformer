@@ -1,5 +1,8 @@
 
 
+Gravity = 0.07;
+
+
 #region Globals
 
 Keymap = keymap_get();
@@ -118,6 +121,10 @@ if (keyboard_check(vk_control)) {
 // Debug
 if (keyboard_check_pressed(vk_f3)) {
 	Debug.debug = !Debug.debug;
+	
+	if (keyboard_check(ord("A"))) {
+		Debug.drawAttackCommandInput = !Debug.drawAttackCommandInput;
+	}
 }
 
 if (keyboard_check_pressed(vk_anykey)) {

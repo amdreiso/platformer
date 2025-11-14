@@ -78,6 +78,7 @@ cutscene = [
 	//	.finalize(),
 ];
 
+
 step = 0;
 load = true;
 tick = 0;

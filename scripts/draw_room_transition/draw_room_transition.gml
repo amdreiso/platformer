@@ -23,9 +23,10 @@ function draw_room_transition(){
 			
 			if (transitionCooldown > transitionCooldownTime) {
 				room_goto(transitionOutput);
-			
+				
+				Level.newRoom = true;
 				Player.lastPlaceStanding = Player.getLastStandingPosition();
-			
+				
 				transition = false;
 			}
 			

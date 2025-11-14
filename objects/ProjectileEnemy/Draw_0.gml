@@ -7,8 +7,8 @@ image_xscale = scale;
 image_yscale = scale;
 
 
-surface_set_target(SurfaceHandler.surface);
+if (surface_exists(SurfaceHandler.surface)) surface_set_target(SurfaceHandler.surface);
 
 draw_sprite_ext(sprite, 0, x, y, scale, scale, image_angle, c_white, 1);
 
-surface_reset_target();
+if (surface_exists(SurfaceHandler.surface)) surface_reset_target();

@@ -3,7 +3,6 @@ event_inherited();
 
 var pitch = 1;
 
-
 movement();
 
 if (!audio_is_playing(snd_drone)) {
@@ -18,12 +17,6 @@ if (place_meeting(x, y, Player)) {
 	var xscale = 1;
 	if (x < Player.x) xscale = -1;
 	Player.hit(damage, xscale);
-	
-	repeat (50) {
-		var range = 10;
-		var pos = randvec2(x, y, range);
-		instance_create_depth(pos.x, pos.y, depth, Particle_Explosion);
-	}
 	
 	sound3D(-1, x, y, snd_explosion1, false, 0.5, [0.90, 1.00]);
 	

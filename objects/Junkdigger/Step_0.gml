@@ -14,4 +14,4 @@ vsp = cos(current_time * 0.0011) * 0.1;
 dead = (hp <= 0);
 door.openable = (dead);
 
-
+nohands = (!instance_exists(leftHand) && !instance_exists(rightHand));

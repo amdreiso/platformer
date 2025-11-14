@@ -37,7 +37,6 @@ backgroundSongGain				= 1;
 backgroundSongGainTime		= 1;
 setBackgroundSong					= function(snd, loop=false, gain=1, gaintime=1) {
 	
-	
 	// Stop current song if playing
 	if (!is_undefined(backgroundSong)) {
 		audio_stop_sound(backgroundSong);
@@ -176,6 +175,36 @@ checkPlayerTransitions = function(level) {
 	}
 	
 }
+
+
+
+
+screenlogs = [];
+
+screenlog = function(str) {
+	array_insert(screenlogs, 0, str);
+	
+	var len = array_length(screenlogs);
+	if (len > 10) {
+		array_delete(screenlogs, len, 1);
+	}
+}
+
+drawScreenlog = function() {
+	var len = array_length(screenlogs);
+	for (var i = 0; i < len; i++) {
+		draw_set_halign(fa_right);
+		var scale = 1;
+		var sep = 12 * scale;
+		
+		draw_text_outline(WIDTH, 200 - i * sep, screenlogs[i], scale, scale, 0, 1, fnt_console);
+	}
+	
+	draw_set_halign(fa_center);
+}
+
+
+
 
 
 /*

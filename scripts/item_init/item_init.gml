@@ -4,70 +4,53 @@ function item_init(){
 	globalvar ItemData; ItemData = ds_map_create();
 	globalvar ITEM;
 	
-	ITEM = {
-		
-		getDefaultComponents: function(type) {
-			var components = {
-				update: function(){},
-			};
+	var defaultComponents = function(type) {
+		var components = {
+			update: function(){},
+		};
 			
-			var newComponents = {};
+		var newComponents = {};
 			
-			
-			switch(type) {
-				case ITEM_TYPE.Blank:
+		switch(type) {
+			case ITEM_TYPE.Blank:
 					
-					break;
+				break;
 					
-				case ITEM_TYPE.Armor:
+			case ITEM_TYPE.Armor:
+				newComponents = {
+					defense : 1.25,					// 25% defense example
+				}
+				break;
 					
-					break;
-					
-				case ITEM_TYPE.Sword:
-					newComponents = {
-						damage : 1,
-						spells : [],
-						attackSprite : sPlayer_Attack1,
+			case ITEM_TYPE.Sword:
+				newComponents = {
+					damage : 1,
+					attackSprite : sPlayer_Attack1,
 						
-					};
+				};
 					
-					break;
+				break;
 				
-				case ITEM_TYPE.Spell:
-					newComponents = {
-						spellID: undefined,
+			case ITEM_TYPE.Spell:
+				newComponents = {
+					spellID: undefined,
 						
-					};
+				};
 					
-					break;
-			}
+				break;
+		}
 			
-			struct_merge(components, newComponents);
-			return components;
-		},
-		
-		register: function(itemID, type, sprite, components={}) {
-			var item = {};
-			item.type = type;
-			item.name = "unused item name, switch to TranslationData";
-			item.sprite = sprite;
-			
-			item.components = ITEM.getDefaultComponents(type);
-			
-			struct_merge(item.components, components);
-			
-			ItemData[? itemID] = item;
-		},
-		
-		get: function(itemID) {
-			return (ItemData[? itemID] ?? undefined);
-		},
-		
-		getType: function(itemID) {
-			return (ItemData[? itemID].type ?? undefined);
-		},
-		
+		struct_merge(components, newComponents);
+		return components;
 	};
+	
+	ITEM = new Registry();
+	ITEM.SetDefaultComponents(defaultComponents);
+	
+	
+	ITEM.Register(ITEM_ID.ScrapElectronics, {
+		type: ITEM_TYPE.Blank,
+	});
 	
 	
 	ITEM.register(ITEM_ID.ScrapElectronics, ITEM_TYPE.Blank, sScrapElectronics_Item);
@@ -76,9 +59,16 @@ function item_init(){
 	});
 	
 	
-	
-	ITEM.register(ITEM_ID.BaseballBat, ITEM_TYPE.Sword, -1, {
+	ITEM.register(ITEM_ID.BaseballBat, ITEM_TYPE.Sword, sItem_BaseballBat, {
 		damage: 8,
+	});
+	
+	ITEM.register(ITEM_ID.DevStick, ITEM_TYPE.Sword, sItem_DevStick, {
+		damage: infinity,
+	});
+	
+	ITEM.register(ITEM_ID.Armor, ITEM_TYPE.Armor, -1, {
+		defense : 1.50,
 	});
 	
 	

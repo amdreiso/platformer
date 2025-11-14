@@ -23,7 +23,14 @@ function ToolSpells() constructor {
 			
 			spell.applyAttackModifiers(obj);
 		}
+	}
+	
+	static has = function(spellID) {
+		for (var i = 0; i < array_length(self.list); i++) {
+			if (self.list[i] == spellID) return true;
+		}
 		
+		return false;
 	}
 }
 
@@ -41,6 +48,22 @@ function Tool(itemID) constructor {
 	}
 	
 	static getType = function() {
-		return ITEM.getType(self.itemID);
+		return ITEM.get(self.itemID).type;
+	}
+}
+
+function Armor(itemID) constructor {
+	self.itemID = itemID;
+	
+	static set = function(itemID) {
+		self.itemID = itemID;
+	}
+	
+	static get = function() {
+		return ITEM.get(self.itemID);
+	}
+	
+	static getDefense = function() {
+		return ITEM.get(self.itemID).components.defense;
 	}
 }

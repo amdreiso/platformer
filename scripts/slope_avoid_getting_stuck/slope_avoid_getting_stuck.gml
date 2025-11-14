@@ -9,7 +9,6 @@ function slope_avoid_getting_stuck(){
 			if (hsp == 0 && freeSlopeTimer > 1) {
 				y -= 1;
 				freeSlopeTimer = 0;
-				
 			}
 		}
 	}

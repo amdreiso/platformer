@@ -4,15 +4,18 @@ function effect_init(){
 	globalvar EFFECT;
 	
 	EFFECT = {
-		register : function(effectID, load = function(){}, update = function(){}, draw = function(){}) {
+		register : function(effectID, load = function(){}, update = function(){}, draw = function(){}, transferableByContact = false) {
 			var e = {};
 			e.load = load;
 			e.update = update;
 			e.draw = draw;
+			
+			e.transferableByContact = transferableByContact;
+			
 			EffectData[? effectID] = e;
 		},
 		
-		get: function(effectID) {
+		get : function(effectID) {
 			return (EffectData[? effectID] ?? undefined);
 		},
 	}
@@ -38,10 +41,12 @@ function effect_init(){
 			
 			if (time > 60) {
 				time = 0;
+				
 				// Only take damage if function hit exists
-				if (variable_instance_exists(obj, "hit")) then obj.hit(damage, 1, false, false);
+				if (variable_instance_exists(obj, "hit")) {
+					obj.hit(damage, 1, false, false);
+				}
 			}
-			
 		},
 		
 		function(obj) {
@@ -55,9 +60,9 @@ function effect_init(){
 			
 			if (surface_exists(SurfaceHandler.surface)) surface_set_target(SurfaceHandler.surface);
 			
-			gpu_set_fog(true, c_red, 0, 1);
+			gpu_set_fog(true, c_orange, 0, 1);
 			
-			draw_sprite_ext(spr, index, obj.x, obj.y, xscale, yscale, angle, c_white, random_range(0.44, 0.77));
+			draw_sprite_ext(spr, index, obj.x, obj.y, xscale, yscale, angle, c_white, random_range(0.44, 0.87));
 			
 			gpu_set_fog(false, c_red, 0, 1);
 			
@@ -92,6 +97,7 @@ function effect_init(){
 			}
 			
 		},
+		true			/// Transferable
 	);
 	
 	#endregion
@@ -181,10 +187,12 @@ function effect_init(){
 			
 			if (time > 60) {
 				time = 0;
+				
 				// Only take damage if function hit exists
-				if (variable_instance_exists(obj, "hit")) then obj.hit(damage, 1, false, false);
+				if (variable_instance_exists(obj, "hit")) { 
+					obj.hit(damage, 1, false, false);
+				}
 			}
-			
 		},
 		
 		function(obj) {
@@ -232,10 +240,10 @@ function effect_init(){
 			}
 			
 		},
+		true			/// transferable By Contact
 	);
 	
 	#endregion
-	
 	
 }
 
@@ -316,6 +324,14 @@ function effect_remove(obj, effectID) {
 			array_delete(obj.effects, i, 1);
 		}
 	}
+}
+
+
+function effect_has(obj, effectID) {
+	for (var i = 0; i < array_length(obj.effects); i++) {
+		if (obj.effects[i].effectID == effectID) return true;
+	}
+	return false;
 }
 
 

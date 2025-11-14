@@ -27,7 +27,6 @@ function CutsceneStep(event) {
 		return methods;
 	};
 	
-	
 	methods.setObject = function(obj) {
 		cs.object = obj;
 		return methods;

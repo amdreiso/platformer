@@ -9,20 +9,67 @@ function fovy(){
 	show_debug_message("Loaded fovy!");
 }
 
+function approach(value, target, amount) {
+  if (value < target) return min(value + amount, target)
+  if (value > target) return max(value - amount, target)
+  return value
+}
 
+function mouse_get_direction(x, y) {
+	return point_direction(x, y, mouse_x, mouse_y);
+}
 
+function interval_set(obj, time, fn) {
+	static tick = 0;
+	static alltimetick = 0;
+	
+	tick += GameSpeed;
+	alltimetick += GameSpeed;
+	
+	if (tick >= time) {
+		tick = 0;
+		fn(obj, alltimetick);
+	}
+}
+
+function Registry() constructor {
+	self.entries = ds_map_create();
+	self.defaultComponents = {};
+	
+	static SetDefaultComponents = function(components) {
+		self.defaultComponents = components;
+	}
+	
+	static Register = function(val, components = {}) {
+		var entry = {};
+		entry.components = {};
+		
+		struct_merge(entry.components, self.defaultComponents);
+		struct_merge(entry.components, components);
+		
+		self.entries[? val] = entry;
+	}
+	
+	static Get = function(val) {
+		return self.entries[? val] ?? undefined;
+	}
+	
+	static GetType = function(val) {
+		return self.entries[? val].components.type ?? undefined;
+	}
+}
 
 function Callback() constructor {
 	list = [];
 	
-	static register = function(fn) {
+	static Register = function(fn) {
 		array_push(list, fn);
 	}
 	
-	static run = function() {
+	static Run = function(obj) {
 		var len = array_length(list);
 		for (var i = 0; i < len; i++) {
-			list[i]();
+			list[i](obj);
 			
 			// End of callbacks
 			if (i == len - 1) {
@@ -169,9 +216,14 @@ function on_last_frame(fn) {
 	return false;
 }
 
-function apply_knockback() {
-	if (round(knockback.x) != 0) knockback.x += ( -sign(knockback.x) * GameSpeed ); else knockback.x = 0;
-	if (round(knockback.y) != 0) knockback.y += ( -sign(knockback.y) * GameSpeed ); else knockback.y = 0;
+function knockback_apply() {
+	var knockbackFallout = 0.20;
+	
+	//if (round(knockback.x) != 0) knockback.x += ( -sign(knockback.x) * knockbackFallout * GameSpeed ); else knockback.x = 0;
+	//if (round(knockback.y) != 0) knockback.y += ( -sign(knockback.y) * knockbackFallout * GameSpeed ); else knockback.y = 0;
+	
+	knockback.x = approach(knockback.x, 0, knockbackFallout);
+	knockback.y = approach(knockback.y, 0, knockbackFallout);
 }
 
 //function apply_force() {
@@ -210,14 +262,13 @@ function collision_set(obj, subpixel = 1) {
 			}
 			
 		} else {
- 		
+ 			
 			while (!place_meeting(x + sign(hsp + fx), y, obj)) {
-				x = x + sign(hsp + force.x);
+				x = x + sign(hsp + fx);
 			}
-		
+			
 			hsp = 0;
 			knockback.x = 0;
-			
 		}
 	}
 	
@@ -230,18 +281,24 @@ function collision_set(obj, subpixel = 1) {
 		knockback.y = 0;
 	}
 	
-	
 }
 
+function isometric_position(x, y) {
+	var x0, y0, xoffset = 0;
+	var w = TILE_WIDTH;
+	var h = TILE_HEIGHT - 4;
+	
+	if (y % 2 == true) then xoffset = w / 2;
+			
+	x0 = (x * w) + xoffset;
+	y0 = (y * (h / 2));
+	
+	return vec2(x0, y0);
+}
 
-
-
-
-function vec2(x=0, y=0) {
-	return {
-		x: x,
-		y: y,
-	}
+function Vec2(x=0, y=0) constructor {
+	self.x = x;
+	self.y = y;
 }
 
 function randvec2(x=0, y=0, range=0) {
@@ -258,11 +315,9 @@ function irandvec2(x=0, y=0, range=0) {
 	}
 }
 
-function dim(width=0, height=0) {
-	return {
-		width: width,
-		height: height,
-	}
+function Dim(width=0, height=0) constructor {
+	self.width = width;
+	self.height = height;
 }
 
 function sound3D(emitter, x, y, snd, loop, gain, pitch, offset = 0){
@@ -533,8 +588,8 @@ function get_perlin_noise_1D(xx, range){
 
 
 // Code from Arend Peter Teaches
-function get_perlin_noise_2D(xx, yy, range, r = false){
-	var chunkSize = 64 * 1;
+function get_perlin_noise_2D(xx, yy, range, r = false, chunksize = 1){
+	var chunkSize = 64 * chunksize;
 	var noise = 0;
 
 	range = range div 2;
@@ -558,7 +613,7 @@ function get_perlin_noise_2D(xx, yy, range, r = false){
     
 	  chunkSize = chunkSize div 2;
 	  range = range div 2;
-	  range = max(1,range);
+	  range = max(1, range);
 	}
 	
 	if (r) {
@@ -582,10 +637,10 @@ function random_seed(range){
 	}
 	
 	var seed = 0;
-	seed += Seed + num;
+	seed += World.seed + num;
 
 	random_set_seed(seed);
-	rand = random_range(0, range);
+	var rand = random_range(0, range);
 
 	return rand;
 }
@@ -674,51 +729,6 @@ function struct_merge_recursive(default_struct, loaded_struct) {
     }
   }
 }
-
-
-function rope_create_point(_x, _y, _width = 2, color = c_green) {
-  return {
-    x: _x,
-    y: _y,
-    oldx: _x,
-    oldy: _y,
-		color: color,
-		width: _width,
-		children: [],
-    pinned: false,
-  };
-}
-
-function rope_update_point(p) {
-  var vx = p.x - p.oldx;
-  var vy = p.y - p.oldy;
-
-  p.oldx = p.x;
-  p.oldy = p.y;
-
-  p.x += vx;
-  p.y += vy + Gravity;
-}
-
-function rope_apply_constraint(p1, p2, length) {
-  var dx = p2.x - p1.x;
-  var dy = p2.y - p1.y;
-  var dist = sqrt(dx*dx + dy*dy);
-  var diff = (dist - length) / dist;
-    
-  var offsetX = dx * 0.5 * diff;
-  var offsetY = dy * 0.5 * diff;
-
-  if (!p1.pinned) {
-    p1.x += offsetX;
-    p1.y += offsetY;
-  }
-  if (!p2.pinned) {
-    p2.x -= offsetX;
-    p2.y -= offsetY;
-  }
-}
-
 
 function raycast_to_collisions(x1, y1, x2, y2) {
   var nearest = noone;

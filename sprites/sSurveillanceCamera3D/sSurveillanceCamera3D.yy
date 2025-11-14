@@ -1,5 +1,5 @@
 {
-  "$GMSprite":"",
+  "$GMSprite":"v2",
   "%Name":"sSurveillanceCamera3D",
   "bboxMode":0,
   "bbox_bottom":6,
@@ -12,15 +12,15 @@
   "edgeFiltering":false,
   "For3D":false,
   "frames":[
-    {"$GMSpriteFrame":"","%Name":"9041b1ec-97e9-4f26-9141-aa04f17dd403","name":"9041b1ec-97e9-4f26-9141-aa04f17dd403","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
-    {"$GMSpriteFrame":"","%Name":"c8d149d2-4f41-441e-9274-302ffe226bd5","name":"c8d149d2-4f41-441e-9274-302ffe226bd5","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
-    {"$GMSpriteFrame":"","%Name":"aa405154-2a2e-4e89-add4-979bdf4b65f3","name":"aa405154-2a2e-4e89-add4-979bdf4b65f3","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
-    {"$GMSpriteFrame":"","%Name":"b4051a1e-14be-4670-8a99-3502152b4b13","name":"b4051a1e-14be-4670-8a99-3502152b4b13","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
-    {"$GMSpriteFrame":"","%Name":"ceb34eae-7322-48ee-a826-c1b90729173c","name":"ceb34eae-7322-48ee-a826-c1b90729173c","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
-    {"$GMSpriteFrame":"","%Name":"6e78d76c-862f-45a6-b139-6af93d5b019d","name":"6e78d76c-862f-45a6-b139-6af93d5b019d","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
-    {"$GMSpriteFrame":"","%Name":"a48721d2-1126-4150-b336-b245110cfa99","name":"a48721d2-1126-4150-b336-b245110cfa99","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
-    {"$GMSpriteFrame":"","%Name":"3937a0a4-9067-4ce6-ad9c-6f15c083b7fd","name":"3937a0a4-9067-4ce6-ad9c-6f15c083b7fd","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
-    {"$GMSpriteFrame":"","%Name":"03ca3a22-aa6e-4c4e-ac6f-5f2372341f02","name":"03ca3a22-aa6e-4c4e-ac6f-5f2372341f02","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"9041b1ec-97e9-4f26-9141-aa04f17dd403","name":"9041b1ec-97e9-4f26-9141-aa04f17dd403","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"c8d149d2-4f41-441e-9274-302ffe226bd5","name":"c8d149d2-4f41-441e-9274-302ffe226bd5","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"aa405154-2a2e-4e89-add4-979bdf4b65f3","name":"aa405154-2a2e-4e89-add4-979bdf4b65f3","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"b4051a1e-14be-4670-8a99-3502152b4b13","name":"b4051a1e-14be-4670-8a99-3502152b4b13","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"ceb34eae-7322-48ee-a826-c1b90729173c","name":"ceb34eae-7322-48ee-a826-c1b90729173c","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"6e78d76c-862f-45a6-b139-6af93d5b019d","name":"6e78d76c-862f-45a6-b139-6af93d5b019d","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"a48721d2-1126-4150-b336-b245110cfa99","name":"a48721d2-1126-4150-b336-b245110cfa99","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"3937a0a4-9067-4ce6-ad9c-6f15c083b7fd","name":"3937a0a4-9067-4ce6-ad9c-6f15c083b7fd","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"03ca3a22-aa6e-4c4e-ac6f-5f2372341f02","name":"03ca3a22-aa6e-4c4e-ac6f-5f2372341f02","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
   ],
   "gridX":0,
   "gridY":0,
@@ -78,33 +78,15 @@
     "timeUnits":1,
     "tracks":[
       {"$GMSpriteFramesTrack":"","builtinName":0,"events":[],"inheritsTrackColour":true,"interpolation":1,"isCreationTrack":false,"keyframes":{"$KeyframeStore<SpriteFrameKeyframe>":"","Keyframes":[
-            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
-                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"9041b1ec-97e9-4f26-9141-aa04f17dd403","path":"sprites/sSurveillanceCamera3D/sSurveillanceCamera3D.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
-              },"Disabled":false,"id":"3ece3203-aa9c-4bb3-9924-69bf1c585d7b","IsCreationKey":false,"Key":0.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
-            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
-                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"c8d149d2-4f41-441e-9274-302ffe226bd5","path":"sprites/sSurveillanceCamera3D/sSurveillanceCamera3D.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
-              },"Disabled":false,"id":"c0308b0a-04ea-41f9-b514-55429c9a3dde","IsCreationKey":false,"Key":1.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
-            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
-                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"aa405154-2a2e-4e89-add4-979bdf4b65f3","path":"sprites/sSurveillanceCamera3D/sSurveillanceCamera3D.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
-              },"Disabled":false,"id":"b9102115-902f-4063-b815-1b69ad84c06a","IsCreationKey":false,"Key":2.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
-            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
-                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"b4051a1e-14be-4670-8a99-3502152b4b13","path":"sprites/sSurveillanceCamera3D/sSurveillanceCamera3D.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
-              },"Disabled":false,"id":"2eec2495-db71-4a6e-928c-23a84844e93d","IsCreationKey":false,"Key":3.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
-            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
-                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"ceb34eae-7322-48ee-a826-c1b90729173c","path":"sprites/sSurveillanceCamera3D/sSurveillanceCamera3D.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
-              },"Disabled":false,"id":"6f8245c2-33bd-4d3f-9b8f-25f76e683492","IsCreationKey":false,"Key":4.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
-            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
-                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"6e78d76c-862f-45a6-b139-6af93d5b019d","path":"sprites/sSurveillanceCamera3D/sSurveillanceCamera3D.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
-              },"Disabled":false,"id":"729ed7ec-cf11-447d-a099-043a33bdbbd2","IsCreationKey":false,"Key":5.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
-            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
-                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"a48721d2-1126-4150-b336-b245110cfa99","path":"sprites/sSurveillanceCamera3D/sSurveillanceCamera3D.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
-              },"Disabled":false,"id":"a819d017-c1c0-4c67-9161-2a9bcfec483c","IsCreationKey":false,"Key":6.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
-            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
-                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"3937a0a4-9067-4ce6-ad9c-6f15c083b7fd","path":"sprites/sSurveillanceCamera3D/sSurveillanceCamera3D.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
-              },"Disabled":false,"id":"39ebe51a-ea71-444c-b229-03e4ab02b5c0","IsCreationKey":false,"Key":7.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
-            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
-                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"03ca3a22-aa6e-4c4e-ac6f-5f2372341f02","path":"sprites/sSurveillanceCamera3D/sSurveillanceCamera3D.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
-              },"Disabled":false,"id":"dd70cc69-6980-4676-82cc-659d5f806d6d","IsCreationKey":false,"Key":8.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
+            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{"0":{"$SpriteFrameKeyframe":"","Id":{"name":"9041b1ec-97e9-4f26-9141-aa04f17dd403","path":"sprites/sSurveillanceCamera3D/sSurveillanceCamera3D.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},},"Disabled":false,"id":"3ece3203-aa9c-4bb3-9924-69bf1c585d7b","IsCreationKey":false,"Key":0.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
+            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{"0":{"$SpriteFrameKeyframe":"","Id":{"name":"c8d149d2-4f41-441e-9274-302ffe226bd5","path":"sprites/sSurveillanceCamera3D/sSurveillanceCamera3D.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},},"Disabled":false,"id":"c0308b0a-04ea-41f9-b514-55429c9a3dde","IsCreationKey":false,"Key":1.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
+            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{"0":{"$SpriteFrameKeyframe":"","Id":{"name":"aa405154-2a2e-4e89-add4-979bdf4b65f3","path":"sprites/sSurveillanceCamera3D/sSurveillanceCamera3D.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},},"Disabled":false,"id":"b9102115-902f-4063-b815-1b69ad84c06a","IsCreationKey":false,"Key":2.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
+            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{"0":{"$SpriteFrameKeyframe":"","Id":{"name":"b4051a1e-14be-4670-8a99-3502152b4b13","path":"sprites/sSurveillanceCamera3D/sSurveillanceCamera3D.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},},"Disabled":false,"id":"2eec2495-db71-4a6e-928c-23a84844e93d","IsCreationKey":false,"Key":3.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
+            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{"0":{"$SpriteFrameKeyframe":"","Id":{"name":"ceb34eae-7322-48ee-a826-c1b90729173c","path":"sprites/sSurveillanceCamera3D/sSurveillanceCamera3D.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},},"Disabled":false,"id":"6f8245c2-33bd-4d3f-9b8f-25f76e683492","IsCreationKey":false,"Key":4.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
+            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{"0":{"$SpriteFrameKeyframe":"","Id":{"name":"6e78d76c-862f-45a6-b139-6af93d5b019d","path":"sprites/sSurveillanceCamera3D/sSurveillanceCamera3D.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},},"Disabled":false,"id":"729ed7ec-cf11-447d-a099-043a33bdbbd2","IsCreationKey":false,"Key":5.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
+            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{"0":{"$SpriteFrameKeyframe":"","Id":{"name":"a48721d2-1126-4150-b336-b245110cfa99","path":"sprites/sSurveillanceCamera3D/sSurveillanceCamera3D.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},},"Disabled":false,"id":"a819d017-c1c0-4c67-9161-2a9bcfec483c","IsCreationKey":false,"Key":6.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
+            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{"0":{"$SpriteFrameKeyframe":"","Id":{"name":"3937a0a4-9067-4ce6-ad9c-6f15c083b7fd","path":"sprites/sSurveillanceCamera3D/sSurveillanceCamera3D.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},},"Disabled":false,"id":"39ebe51a-ea71-444c-b229-03e4ab02b5c0","IsCreationKey":false,"Key":7.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
+            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{"0":{"$SpriteFrameKeyframe":"","Id":{"name":"03ca3a22-aa6e-4c4e-ac6f-5f2372341f02","path":"sprites/sSurveillanceCamera3D/sSurveillanceCamera3D.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},},"Disabled":false,"id":"dd70cc69-6980-4676-82cc-659d5f806d6d","IsCreationKey":false,"Key":8.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
           ],"resourceType":"KeyframeStore<SpriteFrameKeyframe>","resourceVersion":"2.0",},"modifiers":[],"name":"frames","resourceType":"GMSpriteFramesTrack","resourceVersion":"2.0","spriteId":null,"trackColour":0,"tracks":[],"traits":0,},
     ],
     "visibleRange":null,

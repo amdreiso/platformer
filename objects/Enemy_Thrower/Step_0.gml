@@ -54,3 +54,8 @@ if (distance_to_object(Player) < radius) {
 }
 
 collisions();
+
+
+effect_run(self, "update");
+effect_apply();
+

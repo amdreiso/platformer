@@ -9,4 +9,3 @@ gravityApply = false;
 lifetime = 120;
 
 yspd = random_range(0.05, 0.20);
-

@@ -8,3 +8,8 @@ if (face == sBoss_Junkdigger_FE_swap) {
 		faceFrame = 0;
 	}
 }
+
+
+if (!Junkdigger.nohands) return;
+
+

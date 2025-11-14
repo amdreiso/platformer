@@ -1,10 +1,10 @@
 
 event_inherited();
 
-x += hsp;
-y += vsp;
+x += hsp * GameSpeed;
+y += vsp * GameSpeed;
 
-vsp += Gravity / 2;
+vsp += (Gravity) / 2;
 
 var spd = 2;
 

@@ -13,6 +13,7 @@ level_init();
 command_init();
 effect_init();
 spell_init();
+cutscene_init();
 
 
 // Story
@@ -53,6 +54,8 @@ globalvar Settings; Settings = {
 		drawScanlines: false,
 		drawUI: true,
 		
+		enableSurfaces: true,
+		
 		physics: {
 			chains: false,
 		},
@@ -74,8 +77,6 @@ globalvar Language; Language = LANGUAGE_ID.English;
 globalvar LanguageReset; LanguageReset = true;
 
 globalvar Keymap;
-
-
 
 globalvar OnCutscene; OnCutscene = false;
 
@@ -166,6 +167,11 @@ if (!instance_exists(Player)) {
 	//instance_create_layer(600, 300, "Init", Player);
 }
 
+if (!instance_exists(Level)) {
+	instance_create_layer(0, 0, "Init", Level);
+	//instance_create_layer(600, 300, "Init", Player);
+}
+
 if (!instance_exists(QuestHandler)) {
 	instance_create_layer(190, 500, "Init", QuestHandler);
 }
@@ -228,7 +234,7 @@ runCommand = function(input, showHistory = false) {
 			var argc = CommandData[i].argc;
 			var argl = array_length(args);
 			
-			if (argc != argl) {
+			if (argc != argl && argc != -1) {
 				err($"Missing {argc} arguments.");
 				return;
 			}
@@ -309,6 +315,14 @@ drawConsole = function() {
 		pastCommand = 0;
 	}
 	
+	if (keyboard_check(vk_control) && keyboard_check_pressed(ord("V")) && clipboard_has_text()) {
+		keyboard_string += clipboard_get_text();
+	}
+	
+	if (keyboard_check(vk_control) && keyboard_check_pressed(ord("C")) && keyboard_string != "") {
+		clipboard_set_text(keyboard_string);
+	}
+	
 	if (keyboard_check(vk_control) && keyboard_check_pressed(vk_backspace)) {
 		var s = keyboard_string;
     var specials = ".=/ ";
@@ -326,6 +340,30 @@ drawConsole = function() {
 		if (!found) keyboard_string = "";
 	}
 	
+	if (keyboard_check_pressed(vk_tab)) {
+		var partial = string_lower(input);
+		var matches = [];
+	
+		for (var i = 0; i < array_length(CommandData); i++) {
+			var cmd_name = string_lower(CommandData[i].name);
+			if (string_pos(partial, cmd_name) == 1) {
+				array_push(matches, CommandData[i].name);
+			}
+		}
+		
+		if (array_length(matches) == 1) {
+			keyboard_string = matches[0] + " ";
+		}
+		
+		else if (array_length(matches) > 1) {
+			for (var i = 0; i < array_length(matches); i++) {
+				log(matches[i], c_ltgray);
+			}
+			log("");
+		}
+	}
+	
+	
 	var len = array_length(commands);
 	
 	if (keyboard_check_pressed(vk_up) && pastCommand < len) {
@@ -339,10 +377,10 @@ drawConsole = function() {
 	}
 	
 	// Draw the actual console
-	var xx = window_get_width();
-	var yy = display_get_height();
 	var width = 700;
-	var height = 400;
+	var height = 412;
+	var xx = width * 1.05;
+	var yy = 0;
 	var c0 = $080808;
 	var c1 = Style.rainbow;
 	

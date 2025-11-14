@@ -134,6 +134,42 @@ COMMAND.register("game_speed", 1, function(args) {
 	GameSpeed = val;
 });
 
+COMMAND.register("instance_value", 2, function(args) {
+	var obj = asset_get_index(args[0]);
+	if (!instance_exists(obj)) {
+		err($"There are no instances of {object_get_name(obj)} on this level");
+		return;
+	}
+	var value = args[1];
+	
+	var r = variable_instance_get(obj, value);
+	
+	if (is_struct(r)) {
+		r = json_stringify(r, true);
+	}
+	
+	log(r);
+	
+});
+
+COMMAND.register("webhook", -1, function(args) {
+	//var url = "https://discord.com/api/webhooks/1433176484146708591/fursMfR_WUCBm5pSHTCRJPWtuB9NG_XuJhmdC9U5UDrUABbVjc__UheBwiSWQ7iSIl5t";
+	var url = "https://discord.com/api/webhooks/1433189295535165627/ieUi2nhy9YHKo05PpUcTayQUqpbq5c-ee75sanZrTH2DRajJibgBRq7dYN-to0TTJTTd";
+	var msg = "";
+	
+	for (var i = 0; i < array_length(args); i++) {
+		msg += args[i] + " ";
+	}
+	
+	var json = json_stringify({content: msg});
+	
+	var headers = ds_map_create();
+	ds_map_add(headers, "Content-Type", "application/json");
+	
+	http_request(url, "POST", headers, json);
+	
+});
+
 
 }
 

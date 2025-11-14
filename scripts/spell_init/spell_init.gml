@@ -13,7 +13,6 @@ function spell_init(){
 	globalvar SPELL;
 	
 	SPELL = {
-		
 		register : function(spellID, effectID, applyAttackModifiers = function(){}) {
 			var s = {};
 			s.effectID = effectID;
@@ -25,7 +24,6 @@ function spell_init(){
 		get: function(spellID) {
 			return (SpellData[? spellID] ?? undefined);
 		},
-		
 	}
 	
 	SPELL.register(SPELL_ID.Flames, EFFECT_ID.Burning, function(attack) {
@@ -48,6 +46,11 @@ function spell_init(){
 	SPELL.register(SPELL_ID.Strength, -1, function(attack) {
 		if (!instance_exists(attack)) return;
 		attack.damage = attack.damage * 1.50;
+		
+	});
+	
+	SPELL.register(SPELL_ID.Poison, EFFECT_ID.Poison, function(attack) {
+		if (!instance_exists(attack)) return;
 		
 	});
 	

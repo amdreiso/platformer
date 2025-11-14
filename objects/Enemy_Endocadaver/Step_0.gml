@@ -7,7 +7,6 @@ movement();
 handleHealth();
 
 var phdir = player_get_hdir();
-
 var dis = distance_to_object(Player);
 
 // See player
@@ -23,6 +22,7 @@ if (hasSeenPlayer && !attacking) {
 // Attack on short distance
 if (dis < attackingDistance && !attacking && !stun) {
 	attacking = true;
+	image_xscale = phdir;
 	image_index = 0;
 }
 
@@ -56,3 +56,8 @@ if (!player_alive()) {
 }
 
 collisions();
+
+effect_run(self, "update");
+effect_apply();
+
+

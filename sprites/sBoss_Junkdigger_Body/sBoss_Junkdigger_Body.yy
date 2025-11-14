@@ -1,5 +1,5 @@
 {
-  "$GMSprite":"",
+  "$GMSprite":"v2",
   "%Name":"sBoss_Junkdigger_Body",
   "bboxMode":0,
   "bbox_bottom":156,
@@ -12,8 +12,8 @@
   "edgeFiltering":false,
   "For3D":false,
   "frames":[
-    {"$GMSpriteFrame":"","%Name":"16a1d5ef-4f98-48fd-91d0-1f96e221b19d","name":"16a1d5ef-4f98-48fd-91d0-1f96e221b19d","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
-    {"$GMSpriteFrame":"","%Name":"f419859a-1606-4d9c-b986-a73ef3f950b9","name":"f419859a-1606-4d9c-b986-a73ef3f950b9","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"16a1d5ef-4f98-48fd-91d0-1f96e221b19d","name":"16a1d5ef-4f98-48fd-91d0-1f96e221b19d","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"f419859a-1606-4d9c-b986-a73ef3f950b9","name":"f419859a-1606-4d9c-b986-a73ef3f950b9","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
   ],
   "gridX":0,
   "gridY":0,
@@ -73,12 +73,8 @@
     "timeUnits":1,
     "tracks":[
       {"$GMSpriteFramesTrack":"","builtinName":0,"events":[],"inheritsTrackColour":true,"interpolation":1,"isCreationTrack":false,"keyframes":{"$KeyframeStore<SpriteFrameKeyframe>":"","Keyframes":[
-            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
-                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"16a1d5ef-4f98-48fd-91d0-1f96e221b19d","path":"sprites/sBoss_Junkdigger_Body/sBoss_Junkdigger_Body.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
-              },"Disabled":false,"id":"6eca99e6-e2ba-4636-a7e4-f6229e1e2869","IsCreationKey":false,"Key":0.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
-            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
-                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"f419859a-1606-4d9c-b986-a73ef3f950b9","path":"sprites/sBoss_Junkdigger_Body/sBoss_Junkdigger_Body.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
-              },"Disabled":false,"id":"31e1380d-c310-4c1d-aa50-451699b1e7d3","IsCreationKey":false,"Key":1.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
+            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{"0":{"$SpriteFrameKeyframe":"","Id":{"name":"16a1d5ef-4f98-48fd-91d0-1f96e221b19d","path":"sprites/sBoss_Junkdigger_Body/sBoss_Junkdigger_Body.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},},"Disabled":false,"id":"6eca99e6-e2ba-4636-a7e4-f6229e1e2869","IsCreationKey":false,"Key":0.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
+            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{"0":{"$SpriteFrameKeyframe":"","Id":{"name":"f419859a-1606-4d9c-b986-a73ef3f950b9","path":"sprites/sBoss_Junkdigger_Body/sBoss_Junkdigger_Body.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},},"Disabled":false,"id":"31e1380d-c310-4c1d-aa50-451699b1e7d3","IsCreationKey":false,"Key":1.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
           ],"resourceType":"KeyframeStore<SpriteFrameKeyframe>","resourceVersion":"2.0",},"modifiers":[],"name":"frames","resourceType":"GMSpriteFramesTrack","resourceVersion":"2.0","spriteId":null,"trackColour":0,"tracks":[],"traits":0,},
     ],
     "visibleRange":null,

@@ -3,7 +3,18 @@ event_inherited();
 
 #macro JUNKKEEPER_HAND_POSITION 533
 
-name = "JUNK-KEEPER";
+/*
+
+some ideas for names below
+
+junk digger
+junk keeper
+waste reaper
+waste keeper
+
+*/
+
+name = "Waste Reaper";
 
 active = false;
 dead = false;
@@ -25,6 +36,7 @@ rightHand.image_xscale = -1;
 door = instance_create_layer(6 * 16, 31 * 16, "Instances", DoorSideways);
 door.openable = false;
 
+nohands = false;
 
 // Set hp
 defaultHp = leftHand.defaultHp + rightHand.defaultHp;

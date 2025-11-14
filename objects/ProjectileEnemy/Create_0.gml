@@ -26,6 +26,6 @@ collisions = function() {
 	player_attack_check(function(){
 		if (!destroyOnPlayerAttack) return;
 		instance_destroy();
-	}, true, false);
+	}, false, false);
 	
 }

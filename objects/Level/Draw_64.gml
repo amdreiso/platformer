@@ -6,6 +6,8 @@ if (!Settings.graphics.drawUI) return;
 drawBossbar();
 //drawScreenFlash();
 
+drawScreenlog();
+
 if (Settings.graphics.drawScanlines) {
 	var size = 4;
 	for (var i = 0; i < HEIGHT / size; i++) {
@@ -14,3 +16,5 @@ if (Settings.graphics.drawScanlines) {
 		draw_set_alpha(1);
 	}
 }
+
+

@@ -16,6 +16,8 @@ tick = 0;
 lifetime = 1000;
 destroy = false;
 
+updateCallback = new Callback();
+
 xscale = 1;
 yscale = 1;
 scale = 1;

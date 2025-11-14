@@ -1,5 +1,5 @@
 {
-  "$GMSprite":"",
+  "$GMSprite":"v2",
   "%Name":"sEndocadaver_Move_Enemy",
   "bboxMode":2,
   "bbox_bottom":27,
@@ -12,10 +12,10 @@
   "edgeFiltering":false,
   "For3D":false,
   "frames":[
-    {"$GMSpriteFrame":"","%Name":"89992c17-931d-40d6-ab9c-0afbe605244a","name":"89992c17-931d-40d6-ab9c-0afbe605244a","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
-    {"$GMSpriteFrame":"","%Name":"7bd425de-1862-4a3f-9408-d5cdc97048d8","name":"7bd425de-1862-4a3f-9408-d5cdc97048d8","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
-    {"$GMSpriteFrame":"","%Name":"0a8b3108-d769-4c7b-859b-2b8c934f737b","name":"0a8b3108-d769-4c7b-859b-2b8c934f737b","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
-    {"$GMSpriteFrame":"","%Name":"a4f0e038-c42d-417d-b7ea-4a157bb2becd","name":"a4f0e038-c42d-417d-b7ea-4a157bb2becd","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"89992c17-931d-40d6-ab9c-0afbe605244a","name":"89992c17-931d-40d6-ab9c-0afbe605244a","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"7bd425de-1862-4a3f-9408-d5cdc97048d8","name":"7bd425de-1862-4a3f-9408-d5cdc97048d8","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"0a8b3108-d769-4c7b-859b-2b8c934f737b","name":"0a8b3108-d769-4c7b-859b-2b8c934f737b","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"a4f0e038-c42d-417d-b7ea-4a157bb2becd","name":"a4f0e038-c42d-417d-b7ea-4a157bb2becd","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
   ],
   "gridX":0,
   "gridY":0,
@@ -76,18 +76,10 @@
     "timeUnits":1,
     "tracks":[
       {"$GMSpriteFramesTrack":"","builtinName":0,"events":[],"inheritsTrackColour":true,"interpolation":1,"isCreationTrack":false,"keyframes":{"$KeyframeStore<SpriteFrameKeyframe>":"","Keyframes":[
-            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
-                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"89992c17-931d-40d6-ab9c-0afbe605244a","path":"sprites/sEndocadaver_Move_Enemy/sEndocadaver_Move_Enemy.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
-              },"Disabled":false,"id":"86b6a206-5e3b-43f9-b09e-264ff98f4c95","IsCreationKey":false,"Key":0.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
-            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
-                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"7bd425de-1862-4a3f-9408-d5cdc97048d8","path":"sprites/sEndocadaver_Move_Enemy/sEndocadaver_Move_Enemy.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
-              },"Disabled":false,"id":"bdf94fdd-e2fe-4397-9e45-5f3d54e8ce40","IsCreationKey":false,"Key":1.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
-            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
-                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"0a8b3108-d769-4c7b-859b-2b8c934f737b","path":"sprites/sEndocadaver_Move_Enemy/sEndocadaver_Move_Enemy.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
-              },"Disabled":false,"id":"0b6e386a-679b-4e9e-8b47-3f576178d9a1","IsCreationKey":false,"Key":2.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
-            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
-                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"a4f0e038-c42d-417d-b7ea-4a157bb2becd","path":"sprites/sEndocadaver_Move_Enemy/sEndocadaver_Move_Enemy.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
-              },"Disabled":false,"id":"36dab235-d3a0-4eaf-be6e-03aae5019b8f","IsCreationKey":false,"Key":3.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
+            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{"0":{"$SpriteFrameKeyframe":"","Id":{"name":"89992c17-931d-40d6-ab9c-0afbe605244a","path":"sprites/sEndocadaver_Move_Enemy/sEndocadaver_Move_Enemy.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},},"Disabled":false,"id":"86b6a206-5e3b-43f9-b09e-264ff98f4c95","IsCreationKey":false,"Key":0.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
+            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{"0":{"$SpriteFrameKeyframe":"","Id":{"name":"7bd425de-1862-4a3f-9408-d5cdc97048d8","path":"sprites/sEndocadaver_Move_Enemy/sEndocadaver_Move_Enemy.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},},"Disabled":false,"id":"bdf94fdd-e2fe-4397-9e45-5f3d54e8ce40","IsCreationKey":false,"Key":1.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
+            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{"0":{"$SpriteFrameKeyframe":"","Id":{"name":"0a8b3108-d769-4c7b-859b-2b8c934f737b","path":"sprites/sEndocadaver_Move_Enemy/sEndocadaver_Move_Enemy.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},},"Disabled":false,"id":"0b6e386a-679b-4e9e-8b47-3f576178d9a1","IsCreationKey":false,"Key":2.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
+            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{"0":{"$SpriteFrameKeyframe":"","Id":{"name":"a4f0e038-c42d-417d-b7ea-4a157bb2becd","path":"sprites/sEndocadaver_Move_Enemy/sEndocadaver_Move_Enemy.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},},"Disabled":false,"id":"36dab235-d3a0-4eaf-be6e-03aae5019b8f","IsCreationKey":false,"Key":3.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
           ],"resourceType":"KeyframeStore<SpriteFrameKeyframe>","resourceVersion":"2.0",},"modifiers":[],"name":"frames","resourceType":"GMSpriteFramesTrack","resourceVersion":"2.0","spriteId":null,"trackColour":0,"tracks":[],"traits":0,},
     ],
     "visibleRange":null,

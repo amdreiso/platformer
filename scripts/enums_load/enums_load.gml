@@ -24,6 +24,10 @@ enum ITEM_ID {
 	FreezeSpell,
 	KnockbackSpell,
 	StrengthSpell,
+	
+	DevStick,
+	
+	Armor,
 }
 
 enum SPELL_ID {

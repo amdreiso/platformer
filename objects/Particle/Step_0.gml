@@ -13,20 +13,19 @@ if (gravityApply) {
 
 tick += GameSpeed;
 
-if (tick >= lifetime) {
+if (round(tick) >= lifetime) {
 	destroy = true;
-	
 	if (!fadeout) then instance_destroy();
 }
 
 
 // Fadein
 if (fadein && !destroy) {
-	alpha = max(0, (alpha + fadeinSpeed) * GameSpeed);
+	alpha = clamp(alpha + fadeinSpeed * GameSpeed, 0, 1);
 }
 
 if (fadeout) {
-	alpha = max(0, (alpha - fadeoutSpeed) * GameSpeed);
+	alpha = clamp(alpha - fadeoutSpeed * GameSpeed, 0, 1);
 	
 	if (alpha == 0) destroy = true;
 }
@@ -34,10 +33,13 @@ if (fadeout) {
 
 // Fadeout
 if (destroy) {
-	alpha = max(0, (alpha - fadeoutSpeed) * GameSpeed);
+	alpha = clamp(alpha - fadeoutSpeed * GameSpeed, 0, 1);
 	
 	if (alpha == 0) {
 		instance_destroy();
 	}
 }
+
+
+updateCallback.run(self);
 

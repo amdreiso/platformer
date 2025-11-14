@@ -11,6 +11,9 @@ if (newRoom) {
 	
 	STORY.load();
 	
+	// Reset surface size
+	surface = surface_create(room_width, room_height);
+	
 	// Background Song
 	var song = level.components.backgroundSong;
 	
@@ -79,11 +82,15 @@ if (newRoom) {
 
 if (audio_is_playing(backgroundSong)) {
 	audio_sound_gain(backgroundSong, backgroundSongGain, backgroundSongGainTime);
+	audio_sound_pitch(backgroundSong, GameSpeed);
 }
 
 roomCode();
 
 
+if (!instance_exists(LevelFX)) {
+	instance_create_depth(0, 0, -99999999, LevelFX);
+}
 
 
 /*

@@ -4,7 +4,6 @@ event_inherited();
 sprite = sParticle_Explosion;
 index = irandom(sprite_get_number(sprite) - 1);
 
-
 gravityApply = false;
 lifetime = random_range(0.10, 1.00) * 60;
 
@@ -14,6 +13,9 @@ fadeout = true;
 fadeoutSpeed = 0.5;
 
 force = randvec2(0, 0, random_range(0.50, 2.00));
+
+var t = 50.00;
+theta = random_range(-t, t);
 
 spd = 0.05;
 hdir = random_range(-1.00, 1.00);

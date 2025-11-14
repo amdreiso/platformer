@@ -176,6 +176,11 @@ function translation_init(){
 		.set(LANGUAGE_ID.English, "baseball bat")
 		.set(LANGUAGE_ID.Brazilian, "taco de beisebol")
 		.finalize();
+	
+	TRANSLATION.add(ITEM_ID.DevStick)
+		.set(LANGUAGE_ID.English, "dev stick")
+		.set(LANGUAGE_ID.Brazilian, "dev stick")
+		.finalize();
 		
 	TRANSLATION.add(ITEM_ID.FlameSpell)
 		.set(LANGUAGE_ID.English, "flame spell")

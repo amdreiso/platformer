@@ -1,5 +1,5 @@
 {
-  "$GMSprite":"",
+  "$GMSprite":"v2",
   "%Name":"sBoss_Junkdigger_Tentacles",
   "bboxMode":0,
   "bbox_bottom":98,
@@ -12,13 +12,13 @@
   "edgeFiltering":false,
   "For3D":false,
   "frames":[
-    {"$GMSpriteFrame":"","%Name":"bfbf56da-3f1e-4a88-9d15-aa4a1e2338bf","name":"bfbf56da-3f1e-4a88-9d15-aa4a1e2338bf","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
-    {"$GMSpriteFrame":"","%Name":"9a98c478-bf90-413e-a6a6-69d7a11018d5","name":"9a98c478-bf90-413e-a6a6-69d7a11018d5","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
-    {"$GMSpriteFrame":"","%Name":"4afbca0b-2fa0-43e4-aba5-ae91cd48a479","name":"4afbca0b-2fa0-43e4-aba5-ae91cd48a479","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
-    {"$GMSpriteFrame":"","%Name":"c23adaec-0fd4-4f47-8ed4-80b37adb562f","name":"c23adaec-0fd4-4f47-8ed4-80b37adb562f","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
-    {"$GMSpriteFrame":"","%Name":"4098e4db-8948-4b02-bbf4-0d6d04fea165","name":"4098e4db-8948-4b02-bbf4-0d6d04fea165","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
-    {"$GMSpriteFrame":"","%Name":"41af2264-4c27-4717-ba98-1435745ed022","name":"41af2264-4c27-4717-ba98-1435745ed022","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
-    {"$GMSpriteFrame":"","%Name":"451ecaaa-41da-45dc-aae6-674b06e15dd8","name":"451ecaaa-41da-45dc-aae6-674b06e15dd8","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"bfbf56da-3f1e-4a88-9d15-aa4a1e2338bf","name":"bfbf56da-3f1e-4a88-9d15-aa4a1e2338bf","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"9a98c478-bf90-413e-a6a6-69d7a11018d5","name":"9a98c478-bf90-413e-a6a6-69d7a11018d5","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"4afbca0b-2fa0-43e4-aba5-ae91cd48a479","name":"4afbca0b-2fa0-43e4-aba5-ae91cd48a479","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"c23adaec-0fd4-4f47-8ed4-80b37adb562f","name":"c23adaec-0fd4-4f47-8ed4-80b37adb562f","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"4098e4db-8948-4b02-bbf4-0d6d04fea165","name":"4098e4db-8948-4b02-bbf4-0d6d04fea165","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"41af2264-4c27-4717-ba98-1435745ed022","name":"41af2264-4c27-4717-ba98-1435745ed022","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"451ecaaa-41da-45dc-aae6-674b06e15dd8","name":"451ecaaa-41da-45dc-aae6-674b06e15dd8","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
   ],
   "gridX":0,
   "gridY":0,
@@ -76,27 +76,13 @@
     "timeUnits":1,
     "tracks":[
       {"$GMSpriteFramesTrack":"","builtinName":0,"events":[],"inheritsTrackColour":true,"interpolation":1,"isCreationTrack":false,"keyframes":{"$KeyframeStore<SpriteFrameKeyframe>":"","Keyframes":[
-            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
-                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"bfbf56da-3f1e-4a88-9d15-aa4a1e2338bf","path":"sprites/sBoss_Junkdigger_Tentacles/sBoss_Junkdigger_Tentacles.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
-              },"Disabled":false,"id":"8bc7ba9f-8bd1-44fd-8925-0f245de42dd4","IsCreationKey":false,"Key":0.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
-            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
-                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"9a98c478-bf90-413e-a6a6-69d7a11018d5","path":"sprites/sBoss_Junkdigger_Tentacles/sBoss_Junkdigger_Tentacles.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
-              },"Disabled":false,"id":"a2c7edba-54f7-4893-b4b1-44b86e205a93","IsCreationKey":false,"Key":1.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
-            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
-                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"4afbca0b-2fa0-43e4-aba5-ae91cd48a479","path":"sprites/sBoss_Junkdigger_Tentacles/sBoss_Junkdigger_Tentacles.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
-              },"Disabled":false,"id":"9ba4b5b3-57df-41dd-81f7-78546aec95a8","IsCreationKey":false,"Key":2.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
-            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
-                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"c23adaec-0fd4-4f47-8ed4-80b37adb562f","path":"sprites/sBoss_Junkdigger_Tentacles/sBoss_Junkdigger_Tentacles.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
-              },"Disabled":false,"id":"52f465b7-b3a9-4d2e-a585-d7bd7e6c690a","IsCreationKey":false,"Key":3.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
-            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
-                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"4098e4db-8948-4b02-bbf4-0d6d04fea165","path":"sprites/sBoss_Junkdigger_Tentacles/sBoss_Junkdigger_Tentacles.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
-              },"Disabled":false,"id":"6421e5f4-d462-4ae9-8243-09eec4c126e0","IsCreationKey":false,"Key":4.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
-            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
-                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"41af2264-4c27-4717-ba98-1435745ed022","path":"sprites/sBoss_Junkdigger_Tentacles/sBoss_Junkdigger_Tentacles.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
-              },"Disabled":false,"id":"af67085a-89e1-4cf6-81d5-96db92c12a8c","IsCreationKey":false,"Key":5.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
-            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
-                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"451ecaaa-41da-45dc-aae6-674b06e15dd8","path":"sprites/sBoss_Junkdigger_Tentacles/sBoss_Junkdigger_Tentacles.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
-              },"Disabled":false,"id":"91fe203d-a265-4f63-af35-202007add90d","IsCreationKey":false,"Key":6.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
+            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{"0":{"$SpriteFrameKeyframe":"","Id":{"name":"bfbf56da-3f1e-4a88-9d15-aa4a1e2338bf","path":"sprites/sBoss_Junkdigger_Tentacles/sBoss_Junkdigger_Tentacles.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},},"Disabled":false,"id":"8bc7ba9f-8bd1-44fd-8925-0f245de42dd4","IsCreationKey":false,"Key":0.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
+            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{"0":{"$SpriteFrameKeyframe":"","Id":{"name":"9a98c478-bf90-413e-a6a6-69d7a11018d5","path":"sprites/sBoss_Junkdigger_Tentacles/sBoss_Junkdigger_Tentacles.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},},"Disabled":false,"id":"a2c7edba-54f7-4893-b4b1-44b86e205a93","IsCreationKey":false,"Key":1.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
+            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{"0":{"$SpriteFrameKeyframe":"","Id":{"name":"4afbca0b-2fa0-43e4-aba5-ae91cd48a479","path":"sprites/sBoss_Junkdigger_Tentacles/sBoss_Junkdigger_Tentacles.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},},"Disabled":false,"id":"9ba4b5b3-57df-41dd-81f7-78546aec95a8","IsCreationKey":false,"Key":2.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
+            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{"0":{"$SpriteFrameKeyframe":"","Id":{"name":"c23adaec-0fd4-4f47-8ed4-80b37adb562f","path":"sprites/sBoss_Junkdigger_Tentacles/sBoss_Junkdigger_Tentacles.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},},"Disabled":false,"id":"52f465b7-b3a9-4d2e-a585-d7bd7e6c690a","IsCreationKey":false,"Key":3.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
+            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{"0":{"$SpriteFrameKeyframe":"","Id":{"name":"4098e4db-8948-4b02-bbf4-0d6d04fea165","path":"sprites/sBoss_Junkdigger_Tentacles/sBoss_Junkdigger_Tentacles.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},},"Disabled":false,"id":"6421e5f4-d462-4ae9-8243-09eec4c126e0","IsCreationKey":false,"Key":4.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
+            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{"0":{"$SpriteFrameKeyframe":"","Id":{"name":"41af2264-4c27-4717-ba98-1435745ed022","path":"sprites/sBoss_Junkdigger_Tentacles/sBoss_Junkdigger_Tentacles.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},},"Disabled":false,"id":"af67085a-89e1-4cf6-81d5-96db92c12a8c","IsCreationKey":false,"Key":5.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
+            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{"0":{"$SpriteFrameKeyframe":"","Id":{"name":"451ecaaa-41da-45dc-aae6-674b06e15dd8","path":"sprites/sBoss_Junkdigger_Tentacles/sBoss_Junkdigger_Tentacles.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},},"Disabled":false,"id":"91fe203d-a265-4f63-af35-202007add90d","IsCreationKey":false,"Key":6.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
           ],"resourceType":"KeyframeStore<SpriteFrameKeyframe>","resourceVersion":"2.0",},"modifiers":[],"name":"frames","resourceType":"GMSpriteFramesTrack","resourceVersion":"2.0","spriteId":null,"trackColour":0,"tracks":[],"traits":0,},
     ],
     "visibleRange":null,

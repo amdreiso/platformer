@@ -48,8 +48,8 @@ movement = function() {
 	// Knockback
 	apply_knockback();
 	
-	x += hsp + knockback.x;
-	y += vsp + knockback.y;
+	x += (hsp + knockback.x) * GameSpeed;
+	y += (vsp + knockback.y) * GameSpeed;
 	
 	if (applyGravity) vsp += Gravity;
 	
@@ -73,7 +73,6 @@ collisions = function() {
 		hspLast = hsp;
 		if (onSlope) {
 			y -= 1;
-			print("avoiding getting stuck on slope");
 		}
 	}
 	
@@ -91,10 +90,10 @@ collisions = function() {
 		vsp = 0;
 		vsp -= a.dir.y * k;
 		
+		hitByPlayer = true;
 		hit(a.damage);
 		
 		effect_transfer(a.effects, self);
-		
 	});
 	
 	bound_to_room();
@@ -145,11 +144,13 @@ handleHealth = function() {
 	}
 	
 	if (onHit) {
-		onHitCallbacks.run();
+		onHitCallbacks.run(self);
 		onHit = false;
 	}
 	
 }
+
+hitByPlayer = false;
 
 hit = function(damage) {
 	if (invincible) return false;
@@ -161,9 +162,12 @@ hit = function(damage) {
 	hitFog = 10;
 	onHit = true;
 	
-	stun = stunWhenHit;
-	
-	camera_shake(5);
+	if (hitByPlayer) { 
+		camera_shake(5);
+		stun = stunWhenHit;
+		
+		hitByPlayer = false;
+	}
 	
 	create_popup_particle(damage);
 	
@@ -218,7 +222,9 @@ draw = function() {
 	
 	sprite_index = sprite;
 	
-	if (drawOnSurface) surface_set_target(SurfaceHandler.surface);
+	var surf = (drawOnSurface && surface_exists(SurfaceHandler.surface));
+	
+	if (surf) surface_set_target(SurfaceHandler.surface);
 	
 	gpu_set_fog((hitFog > 0), c_white, 0, 1);
 	
@@ -226,7 +232,7 @@ draw = function() {
 	
 	gpu_set_fog(false, c_white, 0, 1);
 	
-	if (drawOnSurface) surface_reset_target();
+	if (surf) surface_reset_target();
 	
 	weaponDraw();
 }
