@@ -5,7 +5,7 @@ scale = 1;
 anglex = 0;
 angley = 0;
 
-playerOffset = vec2();
+playerOffset = new Vec2();
 alarm[0] = 1;
 
 gpu_set_ztestenable(true);

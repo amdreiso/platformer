@@ -16,7 +16,7 @@ function draw_room_transition(){
 			transitionCooldown ++;
 			
 			var pos = transitionPlayerPosition;
-			var newPos = vec2(
+			var newPos = new Vec2(
 				pos.x,
 				pos.y + sprite_get_height(Player.sprite_index) / 2
 			);

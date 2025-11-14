@@ -1,7 +1,7 @@
 
 isSolid = true;
 
-dir = vec2();
+dir = new Vec2();
 used = false;
 attacking = true;
 

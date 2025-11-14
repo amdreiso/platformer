@@ -12,7 +12,7 @@ spd = 2.33;
 
 setHp(5);
 
-target = vec2(Player.x, Player.y);
+target = new Vec2(Player.x, Player.y);
 follow = true;
 sleepCooldown = 20;
 sleep = sleepCooldown;

@@ -1,4 +1,5 @@
 
+
 function item_init(){
 	
 	globalvar ItemData; ItemData = ds_map_create();
@@ -7,13 +8,13 @@ function item_init(){
 	var defaultComponents = function(type) {
 		var components = {
 			update: function(){},
+			sprite: -1,
 		};
 			
 		var newComponents = {};
 			
 		switch(type) {
 			case ITEM_TYPE.Blank:
-					
 				break;
 					
 			case ITEM_TYPE.Armor:
@@ -47,50 +48,67 @@ function item_init(){
 	ITEM = new Registry();
 	ITEM.SetDefaultComponents(defaultComponents);
 	
+	print(json_stringify(ITEM.defaultComponents));
 	
+	// Blanks
 	ITEM.Register(ITEM_ID.ScrapElectronics, {
 		type: ITEM_TYPE.Blank,
 	});
 	
 	
-	ITEM.register(ITEM_ID.ScrapElectronics, ITEM_TYPE.Blank, sScrapElectronics_Item);
-	
-	ITEM.register(ITEM_ID.Jetpack, ITEM_TYPE.Armor, -1, {
-	});
-	
-	
-	ITEM.register(ITEM_ID.BaseballBat, ITEM_TYPE.Sword, sItem_BaseballBat, {
-		damage: 8,
-	});
-	
-	ITEM.register(ITEM_ID.DevStick, ITEM_TYPE.Sword, sItem_DevStick, {
-		damage: infinity,
-	});
-	
-	ITEM.register(ITEM_ID.Armor, ITEM_TYPE.Armor, -1, {
-		defense : 1.50,
-	});
-	
-	
-	#region Spells
-	
-	ITEM.register(ITEM_ID.FlameSpell, ITEM_TYPE.Spell, -1, {
+	// Spells
+	ITEM.Register(ITEM_ID.FlameSpell, {
+		type: ITEM_TYPE.Spell,
 		spellID: SPELL_ID.Flames,
 	});
 	
-	ITEM.register(ITEM_ID.FreezeSpell, ITEM_TYPE.Spell, -1, {
+	ITEM.Register(ITEM_ID.FreezeSpell, {
+		type: ITEM_TYPE.Spell,
 		spellID: SPELL_ID.Freeze,
 	});
 	
-	ITEM.register(ITEM_ID.KnockbackSpell, ITEM_TYPE.Spell, -1, {
+	ITEM.Register(ITEM_ID.PoisonSpell, {
+		type: ITEM_TYPE.Spell,
+		spellID: SPELL_ID.Poison,
+	});
+	
+	ITEM.Register(ITEM_ID.KnockbackSpell, {
+		type: ITEM_TYPE.Spell,
 		spellID: SPELL_ID.Knockback,
 	});
 	
-	ITEM.register(ITEM_ID.StrengthSpell, ITEM_TYPE.Spell, -1, {
+	ITEM.Register(ITEM_ID.StrengthSpell, {
+		type: ITEM_TYPE.Spell,
 		spellID: SPELL_ID.Strength,
 	});
 	
-	#endregion
+	
+	// Armor
+	ITEM.Register(ITEM_ID.Jetpack, {
+		type: ITEM_TYPE.Armor,
+	});
+	
+	ITEM.Register(ITEM_ID.Armor, {
+		type: ITEM_TYPE.Armor,
+		defense: 1.50,
+	});
+	
+	
+	// Swords
+	ITEM.Register(ITEM_ID.BaseballBat, {
+		type: ITEM_TYPE.Sword,
+		damage: 8,
+		
+		sprite: sItem_BaseballBat,
+	});
+	
+	ITEM.Register(ITEM_ID.DevStick, {
+		type: ITEM_TYPE.Sword,
+		damage: infinity,
+		
+		sprite: sItem_DevStick,
+	});
+	
 	
 }
 

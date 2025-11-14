@@ -44,11 +44,11 @@ function Tool(itemID) constructor {
 	}
 	
 	static get = function() {
-		return ITEM.get(self.itemID);
+		return ITEM.Get(self.itemID);
 	}
 	
 	static getType = function() {
-		return ITEM.get(self.itemID).type;
+		return ITEM.GetType(self.itemID);
 	}
 }
 
@@ -60,10 +60,10 @@ function Armor(itemID) constructor {
 	}
 	
 	static get = function() {
-		return ITEM.get(self.itemID);
+		return ITEM.Get(self.itemID);
 	}
 	
 	static getDefense = function() {
-		return ITEM.get(self.itemID).components.defense;
+		return ITEM.Get(self.itemID).components.defense;
 	}
 }

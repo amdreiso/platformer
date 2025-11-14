@@ -48,7 +48,7 @@ if (newRoom) {
 	
 	switch (Main.transitionSide) {
 		case "left":
-			var p = vec2(room_width - PLAYER_BUFFER_ROOM_WIDTH, Main.transitionPlayerPosition.y);
+			var p = new Vec2(room_width - PLAYER_BUFFER_ROOM_WIDTH, Main.transitionPlayerPosition.y);
 			p.x += offset.x * ROOM_TILE_WIDTH;
 			p.y += offset.y * ROOM_TILE_HEIGHT;
 			
@@ -56,7 +56,7 @@ if (newRoom) {
 			break;
 					
 		case "right":
-			var p = vec2(PLAYER_BUFFER_ROOM_WIDTH, Main.transitionPlayerPosition.y);
+			var p = new Vec2(PLAYER_BUFFER_ROOM_WIDTH, Main.transitionPlayerPosition.y);
 			p.x += offset.x * ROOM_TILE_WIDTH;
 			p.y += offset.y * ROOM_TILE_HEIGHT;
 			
@@ -64,7 +64,7 @@ if (newRoom) {
 			break;
 					
 		case "up":
-			var p = vec2(Main.transitionPlayerPosition.x, room_height - PLAYER_BUFFER_ROOM_WIDTH - 8);
+			var p = new Vec2(Main.transitionPlayerPosition.x, room_height - PLAYER_BUFFER_ROOM_WIDTH - 8);
 			p.x += offset.x * ROOM_TILE_WIDTH;
 			p.y += offset.y * ROOM_TILE_HEIGHT;
 			
@@ -72,7 +72,7 @@ if (newRoom) {
 			break;
 					
 		case "down":
-			var p = vec2(Main.transitionPlayerPosition.x, PLAYER_BUFFER_ROOM_WIDTH);
+			var p = new Vec2(Main.transitionPlayerPosition.x, PLAYER_BUFFER_ROOM_WIDTH);
 			player_set_position(p);
 			break;
 	}

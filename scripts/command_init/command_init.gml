@@ -122,7 +122,7 @@ COMMAND.register("zoom", 1, function(args) {
 COMMAND.register("test", 0, function(args) {
 	room_goto(rmTEST);
 	Debug.debug = true;
-	player_set_position(vec2(160, 138));
+	player_set_position(new Vec2(160, 138));
 });
 
 COMMAND.register("debug_combo", 0, function(args) {

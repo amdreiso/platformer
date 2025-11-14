@@ -27,5 +27,5 @@ pathNext = function() {
 	}
 }
 pathAdd = function(x, y) {
-	array_push(path, vec2(x, y));
+	array_push(path, new Vec2(x, y));
 }

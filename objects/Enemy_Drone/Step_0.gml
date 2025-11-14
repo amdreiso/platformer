@@ -27,7 +27,7 @@ if (place_meeting(x, y, Player)) {
 sleep = max(0, sleep - GameSpeed);
 
 var updateTarget = function() {
-	target = vec2(Player.x, Player.y - 8);
+	target = new Vec2(Player.x, Player.y - 8);
 	follow = true;
 	sleep = choose(50, 60, 70, 80) / 2;
 }

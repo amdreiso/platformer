@@ -20,10 +20,10 @@ active = false;
 dead = false;
 
 head = instance_create_depth(x, y, depth, Junkdigger_Head);
-headOffset = vec2(0, -50);
+headOffset = new Vec2(0, -50);
 
 body = instance_create_depth(x, y, depth, Junkdigger_Body);
-bodyOffset = vec2(0, -50);
+bodyOffset = new Vec2(0, -50);
 
 
 var yy = y + 200;

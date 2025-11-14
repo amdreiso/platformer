@@ -43,34 +43,7 @@ globalvar Debug; Debug = {
 };
 
 
-globalvar Settings; Settings = {
-	graphics: {
-		maxParticlesOnScreen: 200,
-		cameraShakeIntensity: 1.0,
-		guiScale: 2.0,
-		raycastCount: 500,
-		showKey: true,
-		
-		drawScanlines: false,
-		drawUI: true,
-		
-		enableSurfaces: true,
-		
-		physics: {
-			chains: false,
-		},
-	},
-	
-	audio: {
-		volume: 1,
-		music: 1,
-		sfx: 1,
-	},
-	
-	controls: {
-		gamepadDeadzone: 0.25,
-	},
-};
+globalvar Settings; Settings = settings_get();
 settings_load();
 
 globalvar Language; Language = LANGUAGE_ID.English;
@@ -197,8 +170,8 @@ transitionTime = 0.01;
 transitionColor = c_black;
 transitionAlpha = 0;
 transitionOutput = -1;
-transitionPlayerPosition = vec2();
-transitionPlayerOffset = vec2();
+transitionPlayerPosition = new Vec2();
+transitionPlayerOffset = new Vec2();
 transitionOnEnter = function(){}
 transitionSide = "side";
 transitionCooldown = 0;

@@ -7,7 +7,7 @@ ranLastFrame = false;
 
 output = {
 	roomID: -1,
-	playerPosition: vec2(0, 0),
+	playerPosition: new Vec2(0, 0),
 	onEnter: function(){},
 };
 

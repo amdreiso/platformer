@@ -218,7 +218,6 @@
     {"id":{"name":"Projectile","path":"objects/Projectile/Projectile.yy",},},
     {"id":{"name":"ProjectileEnemy","path":"objects/ProjectileEnemy/ProjectileEnemy.yy",},},
     {"id":{"name":"QuestHandler","path":"objects/QuestHandler/QuestHandler.yy",},},
-    {"id":{"name":"Rope","path":"objects/Rope/Rope.yy",},},
     {"id":{"name":"SurfaceHandler","path":"objects/SurfaceHandler/SurfaceHandler.yy",},},
     {"id":{"name":"Switch","path":"objects/Switch/Switch.yy",},},
     {"id":{"name":"TEST","path":"objects/TEST/TEST.yy",},},

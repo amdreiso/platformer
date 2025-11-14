@@ -55,7 +55,10 @@ function Registry() constructor {
 	}
 	
 	static GetType = function(val) {
-		return self.entries[? val].components.type ?? undefined;
+		if (ds_map_exists(self.entries, val)) {
+			if (!variable_struct_exists(self.entries[? val], "components")) return;
+			return self.entries[? val].components.type;
+		}
 	}
 }
 
@@ -145,7 +148,7 @@ function save_room_screenshot() {
 }
 
 function position_get(o) {
-	return vec2(o.x, o.y);
+	return new Vec2(o.x, o.y);
 }
 
 function angle_lerp(a, b, t) {
@@ -293,7 +296,7 @@ function isometric_position(x, y) {
 	x0 = (x * w) + xoffset;
 	y0 = (y * (h / 2));
 	
-	return vec2(x0, y0);
+	return new Vec2(x0, y0);
 }
 
 function Vec2(x=0, y=0) constructor {

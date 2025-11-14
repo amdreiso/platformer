@@ -4,7 +4,7 @@ destinations = [];
 destinationIndex = 0;
 
 pointAdd = function(x, y) {
-	array_push(destinations, vec2(x, y));
+	array_push(destinations, new Vec2(x, y));
 }
 
 active = false;

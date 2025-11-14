@@ -41,5 +41,5 @@ if (destroy) {
 }
 
 
-updateCallback.run(self);
+updateCallback.Run(self);
 

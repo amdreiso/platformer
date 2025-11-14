@@ -1,3 +1,39 @@
+
+function settings_get() {
+	var stt = {
+		graphics: {
+			maxParticlesOnScreen: 200,
+			cameraShakeIntensity: 1.0,
+			guiScale: 2.0,
+			raycastCount: 500,
+			showKey: true,
+		
+			drawScanlines: false,
+			drawUI: true,
+		
+			enableSurfaces: true,
+		
+			physics: {
+				chains: false,
+			},
+		},
+	
+		audio: {
+			volume: 1,
+			music: 1,
+			sfx: 1,
+		},
+	
+		controls: {
+			gamepadDeadzone: 0.25,
+		},
+	};
+	
+	stt.graphics.playerTrail = false;
+	
+	return stt;
+}
+
 function settings_save(){
 	
 	var con = json_stringify(Settings);

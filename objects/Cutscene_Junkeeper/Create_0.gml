@@ -17,7 +17,7 @@ cutscene = [
 			if (!instance_exists(Player)) return;
 			Player.hsp = 0;
 			Player.vsp = 0;
-			Player.knockback = vec2();
+			Player.knockback = new Vec2();
 		})
 		.finalize(),
 	

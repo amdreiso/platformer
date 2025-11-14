@@ -15,8 +15,8 @@ function draw_debug_gui(){
 	draw_text_outline(0, 0 * height, $"{GameInfo.name} {version}v made by {GameInfo.author}", scale, scale, 0, 1, fnt_console, back, fore);
 	draw_text_outline(0, 1 * height, $"fps {fps}", scale, scale, 0, 1, fnt_console, back, fore);
 	
-	var p = vec2(), c = vec2(), pdir = vec2(), t = vec2();
-	if (instance_exists(Player)) p = position_get(Player) pdir = vec2(Player.hsp, Player.vsp) t = Player.tilePosition;
+	var p = new Vec2(), c = new Vec2(), pdir = new Vec2(), t = new Vec2();
+	if (instance_exists(Player)) p = position_get(Player) pdir = new Vec2(Player.hsp, Player.vsp) t = Player.tilePosition;
 	if (instance_exists(Camera)) c = position_get(Camera);
 	
 	draw_text_outline(0, 2 * height, $"px {p.x} py {p.y} | hsp {pdir.x} vsp {pdir.y} | tx {t.x} ty {t.y}", scale, scale, 0, 1, fnt_console, back, fore);

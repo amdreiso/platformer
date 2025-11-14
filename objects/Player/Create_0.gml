@@ -6,7 +6,7 @@ COMMAND.register("player_set_knockback", 2, function(args) {
 	try {
 		var xx = real(args[0]);
 		var yy = real(args[1]);
-		Player.knockback = vec2(xx, yy);
+		Player.knockback = new Vec2(xx, yy);
 	} catch(e) {
 		err(e);
 	}
@@ -31,7 +31,7 @@ COMMAND.register("player_add_effect", 2, function(args) {
 
 COMMAND.register("player_set_item", 1, function(args) {
 	var val = real(args[0]);
-	var item = ITEM.get(val);
+	var item = ITEM.Get(val);
 	
 	if (is_undefined(item)) {
 		err("Item ID does not exist!");
@@ -236,7 +236,7 @@ map = {
 		draw_rectangle_color(0, 0, WIDTH, HEIGHT, c_black, c_black, c_black, c_black, false);
 		draw_set_alpha(1);
 		
-		var pos = vec2(
+		var pos = new Vec2(
 			100, HEIGHT / 2
 		);
 		
@@ -402,7 +402,7 @@ dieByContact = function() {
 	
 	hit(10);
 	
-	knockback = vec2();
+	knockback = new Vec2();
 }
 
 #endregion
@@ -418,7 +418,7 @@ vsp											= 0;
 hspLast									= 0;
 hspFrac									= 0;
 vspFrac									= 0;
-force										= vec2();
+force										= new Vec2();
 jumpForce								= 1.66;
 jumpCountDefault				= 1;
 jumpCount								= jumpCountDefault;
@@ -433,16 +433,16 @@ noclip									= false;
 lastPlaceStanding				= undefined;
 applyGravity						= true;
 jumpThroughGracePeriod	= 0;
-knockback								= vec2();
+knockback								= new Vec2();
 impact									= false;
 impactTimer							= 0;
 lastChunk								= { roomID: -1, x: 0, y: 0 };
 secondJumpTick					= 0;
 flying									= false;
-tilePosition						= vec2();
+tilePosition						= new Vec2();
 
 getPosition = function() {
-	return vec2(x, y);
+	return new Vec2(x, y);
 }
 
 flip = function() {
@@ -481,7 +481,7 @@ movement = function() {
 	
 	
 	// Knockback
-	apply_knockback();
+	knockback_apply();
 	
 	isMoving = (hsp != 0 || vsp != 0);
 	applyGravity = (!place_meeting(x, y + 1, Elevator));
@@ -894,7 +894,7 @@ attack = function() {
 		
 		if (vdir && hsp == 0) then hdir = 0;
 		
-		atk.dir = vec2(hdir, vdir);
+		atk.dir = new Vec2(hdir, vdir);
 		
 		isAttacking = true;
 	}
@@ -1124,7 +1124,7 @@ drawInventorySlotsGUI = function() {
 			alpha = 1;
 			
 			// Draw item names
-			var item = ITEM.get( inventory.slots[i].itemID );
+			var item = ITEM.Get( inventory.slots[i].itemID );
 			if (item) {
 				draw_set_halign(fa_left);
 				draw_set_valign(fa_middle);
@@ -1219,38 +1219,41 @@ draw = function() {
 	}
 	
 	
-	// Draw Shadow
-	static shdTick = 0;
-	shdTick ++;
-	if (shdTick >= 2) {
-		var shd = {};
-		shd.sprite = sprite;
-		shd.index = image_index;
-		shd.x = x;
-		shd.y = y;
-		shd.xscale = image_xscale;
-		shd.yscale = image_yscale;
-		shd.angle = angle;
-		shd.decrease = 0.075;
-		shd.time = 0.88;
-		shd.color = choose(c_orange);
-		ds_list_add(shadow, shd);
-		
-		shdTick = 0;
-	}
+	// Draw Trail
+	if (Settings.graphics.playerTrail) {
 	
-	for (var i = 0; i < ds_list_size(shadow); i++) {
-		var key = ds_list_find_value(shadow, i);
+		static shdTick = 0;
+		shdTick ++;
+		if (shdTick >= 2) {
+			var shd = {};
+			shd.sprite = sprite;
+			shd.index = image_index;
+			shd.x = x;
+			shd.y = y;
+			shd.xscale = image_xscale;
+			shd.yscale = image_yscale;
+			shd.angle = angle;
+			shd.decrease = 0.075;
+			shd.time = 0.88;
+			shd.color = choose(c_orange);
+			ds_list_add(shadow, shd);
 		
-		if (key.time <= 0) {
-			ds_list_delete(shadow, i);
+			shdTick = 0;
 		}
+	
+		for (var i = 0; i < ds_list_size(shadow); i++) {
+			var key = ds_list_find_value(shadow, i);
 		
-		key.time -= key.decrease * GameSpeed;
+			if (key.time <= 0) {
+				ds_list_delete(shadow, i);
+			}
 		
-		gpu_set_fog(true, key.color, 0, 1);
-		draw_sprite_ext(key.sprite, key.index, key.x, key.y, key.xscale, key.yscale, key.angle, c_white, key.time);
-		gpu_set_fog(false, c_white, 0, 1);
+			key.time -= key.decrease * GameSpeed;
+		
+			gpu_set_fog(true, key.color, 0, 1);
+			draw_sprite_ext(key.sprite, key.index, key.x, key.y, key.xscale, key.yscale, key.angle, c_white, key.time);
+			gpu_set_fog(false, c_white, 0, 1);
+		}
 	}
 	
 	
@@ -1289,10 +1292,10 @@ drawGUI = function() {
 	
 	{
 		var centerRange = 150;
-		var center = vec2(centerRange, HEIGHT - centerRange * 0.75);
+		var center = new Vec2(centerRange, HEIGHT - centerRange * 0.75);
 		
 		var padding = 1.5;
-		var offset = vec2(sprite_get_width(sItemSlot) * 1.75 * padding, sprite_get_height(sItemSlot) * padding);
+		var offset = new Vec2(sprite_get_width(sItemSlot) * 1.75 * padding, sprite_get_height(sItemSlot) * padding);
 		
 		var color = c_gray;
 		var scale = 1;
@@ -1330,16 +1333,22 @@ drawGUI = function() {
 		
 		var item0 = inventory.equipment[PLAYER_EQUIPMENT_ID.Hand].itemID;
 		if (item0 != -1) {
-			var item = ITEM.get(item0);
-			if (!is_undefined(item) && item.sprite != -1) then draw_sprite_ext(item.sprite, 0, slot0, yy, guiScale * scale, guiScale * scale, 0, c_white, 1);
+			var item = ITEM.Get(item0);
 			
+			if (!is_undefined(item)) {
+				var sprite = item.components.sprite;
+				if (sprite != -1) draw_sprite_ext(sprite, 0, slot0, yy, guiScale * scale, guiScale * scale, 0, c_white, 1);
+			}
 		}
 		
 		var item1 = inventory.equipment[PLAYER_EQUIPMENT_ID.Offhand].itemID;
 		if (item1 != -1) {
-			var item = ITEM.get(item1);
-			if (!is_undefined(item) && item.sprite != -1) then draw_sprite_ext(item.sprite, 0, slot1, yy, guiScale * scale, guiScale * scale, 0, c_white, 1);
+			var item = ITEM.Get(item1);
 			
+			if (!is_undefined(item)) {
+				var sprite = item.components.sprite;
+				if (sprite != -1) draw_sprite_ext(sprite, 0, slot1, yy, guiScale * scale, guiScale * scale, 0, c_white, 1);
+			}
 		}
 		
 	}

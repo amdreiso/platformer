@@ -5,7 +5,7 @@ function level_init(){
 	globalvar LEVEL;
 	
 	LEVEL = {
-		transitionAdd: function(side, x, y, roomID, playerOffset=vec2(), isHidden = false) {
+		transitionAdd: function(side, x, y, roomID, playerOffset=new Vec2(), isHidden = false) {
 			var t = {};
 			
 			t.side = side;
@@ -29,7 +29,7 @@ function level_init(){
 				transitions: [],
 				section: LEVEL_SECTION.Caves,
 				
-				mapOffsetPos: vec2(),
+				mapOffsetPos: new Vec2(),
 				mapTileColor: c_aqua,
 			};
 		},
@@ -75,7 +75,7 @@ function level_init(){
 		
 		transitions: [
 			LEVEL.transitionAdd("up", 0, 0, rmLevel_Cave_SpikeCorridor),
-			LEVEL.transitionAdd("left", 0, 0, rmLevel_Cave_Hidden_1, vec2(), true),
+			LEVEL.transitionAdd("left", 0, 0, rmLevel_Cave_Hidden_1, new Vec2(), true),
 			LEVEL.transitionAdd("right", 2, 1, rmLevel_Cave_Corridor0),
 		],
 		
@@ -118,11 +118,11 @@ function level_init(){
 		
 		backgroundSong: snd_forgottenSpace,
 		
-		mapOffsetPos: vec2(3, 3),
+		mapOffsetPos: new Vec2(3, 3),
 		mapTileColor: c_red,
 		
 		transition: [
-			LEVEL.transitionAdd("up", 0, 0, rmLevel_Cave_DumpYard, vec2(-1, 0)),
+			LEVEL.transitionAdd("up", 0, 0, rmLevel_Cave_DumpYard, new Vec2(-1, 0)),
 		],
 		
 		create: function() {
@@ -138,7 +138,7 @@ function level_init(){
 		darkness: 0.00,
 		playerVision: 0.33,
 		
-		mapOffsetPos: vec2(-1, 0),
+		mapOffsetPos: new Vec2(-1, 0),
 		
 		transitions: [
 			LEVEL.transitionAdd("right", 0, 0, rmLevel_Cave_Entrance),
@@ -149,7 +149,7 @@ function level_init(){
 		darkness: 0.00,
 		playerVision: 0.33,
 		
-		mapOffsetPos: vec2(0, -1),
+		mapOffsetPos: new Vec2(0, -1),
 		
 		transitions: [
 			LEVEL.transitionAdd("down", 0, 1, rmLevel_Cave_Entrance),
@@ -160,12 +160,12 @@ function level_init(){
 		darkness: 0.00,
 		playerVision: 0.33,
 		
-		mapOffsetPos: vec2(3, 0),
+		mapOffsetPos: new Vec2(3, 0),
 		
 		transitions: [
 			LEVEL.transitionAdd("left", 0, 1, rmLevel_Cave_Entrance),
 			LEVEL.transitionAdd("right", 1, 1, rmLevel_Cave_Elevator),
-			LEVEL.transitionAdd("down", 1, 2, rmLevel_Cave_DumpYard, vec2(2, 2)),
+			LEVEL.transitionAdd("down", 1, 2, rmLevel_Cave_DumpYard, new Vec2(2, 2)),
 		],
 	});
 	

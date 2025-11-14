@@ -26,7 +26,7 @@ spd = defaultSpd;
 hsp = 0;
 hspLast = 0;
 vsp = 0;
-knockback = vec2();
+knockback = new Vec2();
 applyGravity = true;
 applyGroundCollisions = true;
 drawOnSurface = true;
@@ -46,7 +46,7 @@ movement = function() {
 	}
 	
 	// Knockback
-	apply_knockback();
+	knockback_apply();
 	
 	x += (hsp + knockback.x) * GameSpeed;
 	y += (vsp + knockback.y) * GameSpeed;
@@ -125,7 +125,7 @@ hitFog = 0;
 
 
 onHit = false;
-onHitCallbacks = new Callback();
+onHitCallback = new Callback();
 
 setHp = function(value) {
 	defaultHp = value;
@@ -144,7 +144,7 @@ handleHealth = function() {
 	}
 	
 	if (onHit) {
-		onHitCallbacks.run(self);
+		onHitCallback.Run(self);
 		onHit = false;
 	}
 	

@@ -24,6 +24,7 @@ enum ITEM_ID {
 	FreezeSpell,
 	KnockbackSpell,
 	StrengthSpell,
+	PoisonSpell,
 	
 	DevStick,
 	

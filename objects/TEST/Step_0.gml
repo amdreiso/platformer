@@ -10,5 +10,5 @@ Debug.debug = true;
 room_goto(rmLevel_Cave_DumpYard);
 
 camera_set_zoom(2);
-player_set_position(vec2(492, 80));
+player_set_position(new Vec2(492, 80));
 

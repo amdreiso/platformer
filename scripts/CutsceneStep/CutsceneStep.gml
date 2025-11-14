@@ -11,7 +11,7 @@ function CutsceneStep(event) {
 	cs.dialogue = [];
 	cs.dialogueSound = -1;
 	cs.dialoguePitch = 1;
-	cs.offset = vec2(0, -20);
+	cs.offset = new Vec2(0, -20);
 	
 	cs.onStart			= function(){ };
 	cs.onUpdate			= function(){ };
@@ -56,7 +56,7 @@ function CutsceneStep(event) {
 	}
 	
 	methods.setPosition = function(x, y) {
-		cs.pos = vec2(x, y);
+		cs.pos = new Vec2(x, y);
 		return methods;
 	}
 	
@@ -66,7 +66,7 @@ function CutsceneStep(event) {
 	}
 	
 	methods.setOffset = function(x, y) {
-		cs.offset = vec2(x, y);
+		cs.offset = new Vec2(x, y);
 		return methods;
 	}
 	

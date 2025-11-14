@@ -1,3 +1,3 @@
 
 alarm[0] = 1;
-range = vec2(10, 25);
+range = new Vec2(10, 25);
