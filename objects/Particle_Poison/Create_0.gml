@@ -3,7 +3,7 @@ event_inherited();
 
 sprite = sParticle_Poison;
 
-getRandomSprite = false;
+randomSprite = false;
 gravityApply = false;
 
 lifetime = 120;

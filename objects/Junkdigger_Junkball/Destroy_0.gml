@@ -11,7 +11,7 @@ repeat (15) {
 		vsp -= random_range(0.5, 7.0);
 		
 		sprite = sParticle_DumpYard;
-		getRandomSprite = true;
+		randomSprite = true;
 		
 		scale = random_range(0.50, 2.00);
 		

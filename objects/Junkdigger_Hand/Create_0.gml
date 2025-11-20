@@ -33,7 +33,7 @@ chooseState = function() {
 
 
 // Change to random State when hit
-onHitCallbacks.register(function(){
+onHitCallback.Register(function(){
 	if (state == JUNKEEPER_HAND_STATE.Idling) {
 		chooseState();
 	}
@@ -69,7 +69,7 @@ createJunkParticles = function(x, y, value) {
 			vsp -= random_range(0.5, 7.0);
 			
 			sprite = sParticle_DumpYard;
-			getRandomSprite = true;
+			randomSprite = true;
 			
 			scale = random_range(0.50, 2.00);
 			

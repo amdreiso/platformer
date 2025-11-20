@@ -1,5 +1,5 @@
 
-language_set(LANGUAGE_ID.Brazilian);
+language_set(LANGUAGE_ID.English);
 
 //Debug.debug = true;
 

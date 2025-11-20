@@ -74,7 +74,7 @@ drawBossbar = function() {
 	draw_set_font(fnt_console);
 	
 	var hbHeight = 50;
-	var hbSprite = sHealthbar;
+	var hbSprite = sHealthBar;
 	var hbScale = 2;
 	var hbXscale = 1;
 	var hbColor = c_white;
@@ -84,7 +84,7 @@ drawBossbar = function() {
 	var hpPart = (Boss.hp / Boss.defaultHp);
 	
 	for (var i = 0; i < maximumHp; i++) {
-		hbSprite = sHealthbar;
+		hbSprite = sHealthBar;
 		
 		if (i == maximumHp - 1) {
 			hbSprite = sHealthbar_end;

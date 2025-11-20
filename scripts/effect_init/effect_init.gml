@@ -84,7 +84,7 @@ function effect_init(){
 					
 					if (instance_exists(p)) {
 						p.sprite = sParticle_Flames;
-						p.getRandomSprite = true;
+						p.randomSprite = true;
 						p.lifetime = irandom_range(3, 6) * 60;
 						p.gravityApply = false;
 						p.color = choose(c_white, c_ltgray);
@@ -153,7 +153,7 @@ function effect_init(){
 					var angleshift = 20;
 					
 					p.sprite = sParticle_Ice;
-					p.getRandomSprite = true;
+					p.randomSprite = true;
 					p.lifetime = irandom_range(3, 6) * 60;
 					p.gravityApply = false;
 					p.color = choose(c_white, c_ltgray);

@@ -28,7 +28,9 @@ color = c_white;
 image_angle = irandom(360);
 
 sprite = -1;
-getRandomSprite = false;
+
+randomSprite = false;
+randomSpriteCallback = new Callback();
 
 alpha = 1;
 

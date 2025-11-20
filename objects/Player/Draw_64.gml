@@ -9,7 +9,18 @@ drawDeathScreen();
 
 draw_debug_gui();
 
-drawMenu();
+
+
+if (Keymap.player.inventory) {
+	inventoryOpen = !inventoryOpen;
+}
+
+if (inventoryOpen) {
+	inventory.Draw();
+}
+
+
+
 
 
 //if (Keymap.player.map && (!busy || map.open)) {

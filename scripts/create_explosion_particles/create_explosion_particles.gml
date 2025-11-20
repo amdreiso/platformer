@@ -13,7 +13,7 @@ repeat (val * 3) {
 		vsp = random_range(-dir, 0) * 1;
 		
 		sprite = sParticle_Explosion;
-		getRandomSprite = true;
+		randomSprite = true;
 		
 		var r = 0.33;
 		theta = random_range(-r, r);

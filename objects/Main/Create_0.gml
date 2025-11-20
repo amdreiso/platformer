@@ -113,6 +113,8 @@ globalvar Screen; Screen = {
 };
 
 
+callback = new Callback();
+
 
 // Sound
 globalvar Sound; Sound = {};

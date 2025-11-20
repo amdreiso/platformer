@@ -9,10 +9,10 @@ Quest = function(title, objective=function(){ return true }) {
 }
 
 quests = [
-	Quest($"find scrap electronics", function() {
-		if (!instance_exists(Player)) return;
-		return (Player.inventory.hasItem(ITEM_ID.ScrapElectronics));
-	}),
+	//Quest($"find scrap electronics", function() {
+	//	if (!instance_exists(Player)) return;
+	//	return (Player.inventory.hasItem(ITEM_ID.ScrapElectronics));
+	//}),
 ];
 
 add = function(title, objective=function(){ return true }) {

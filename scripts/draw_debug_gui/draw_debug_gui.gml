@@ -10,7 +10,7 @@ function draw_debug_gui(){
 	draw_set_halign(fa_left);
 	draw_set_valign(fa_top);
 	
-	var version = $"{ GameInfo.version[0] }.{ GameInfo.version[1] }";
+	var version = $"{ GameInfo.version[0]}.{ GameInfo.version[1]}";
 	
 	draw_text_outline(0, 0 * height, $"{GameInfo.name} {version}v made by {GameInfo.author}", scale, scale, 0, 1, fnt_console, back, fore);
 	draw_text_outline(0, 1 * height, $"fps {fps}", scale, scale, 0, 1, fnt_console, back, fore);
@@ -28,5 +28,8 @@ function draw_debug_gui(){
 		draw_text(WIDTH - margin, HEIGHT - margin, Player.attackCommandInput);
 		draw_set_halign(fa_center);
 	}
+	
+	draw_line(WIDTH / 2, 0, WIDTH / 2, HEIGHT);
+	draw_line(0, HEIGHT / 2, WIDTH, HEIGHT / 2);
 	
 }

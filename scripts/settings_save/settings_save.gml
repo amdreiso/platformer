@@ -1,6 +1,6 @@
 
 function settings_get() {
-	var stt = {
+	var settings = {
 		graphics: {
 			maxParticlesOnScreen: 200,
 			cameraShakeIntensity: 1.0,
@@ -29,9 +29,11 @@ function settings_get() {
 		},
 	};
 	
-	stt.graphics.playerTrail = false;
+	settings.graphics.playerTrail = true;
 	
-	return stt;
+	
+	
+	return settings;
 }
 
 function settings_save(){

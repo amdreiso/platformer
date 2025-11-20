@@ -9,7 +9,7 @@ with (instance_create_depth(x, y, depth, Particle)) {
 	
 	image_angle = irandom(360);
 	
-	getRandomSprite = true;
+	randomSprite = true;
 	hsp = random_range(-1.00, 1.00) * force;
 	vsp -= random(1.30) * force;
 	destroyTime = irandom_range(10, 40) * 2;

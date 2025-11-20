@@ -18,9 +18,9 @@ if (isFixed) {
 	];
 	
 	dialogue = [
-		TRANSLATION.get("cave_entrance_robot_fixed_0"),
-		TRANSLATION.get("cave_entrance_robot_fixed_1"),
-		TRANSLATION.get("cave_entrance_robot_fixed_2"),
+		TRANSLATION.Get("cave_entrance_robot_fixed_0"),
+		TRANSLATION.Get("cave_entrance_robot_fixed_1"),
+		TRANSLATION.Get("cave_entrance_robot_fixed_2"),
 	];
 			
 	dialogueEnd = function(obj) {

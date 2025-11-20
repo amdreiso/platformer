@@ -28,7 +28,7 @@ ableToAttack = false;
 
 
 // Particles when hit
-onHitCallbacks.register(function(){
+onHitCallback.Register(function(){
 	var num = 3;
 	var spr = sParticle_Bones;
 	var dir = player_get_hdir();
@@ -40,7 +40,7 @@ onHitCallbacks.register(function(){
 		
 		var p = instance_create_depth(pos.x, pos.y, depth, Particle);
 		p.sprite = spr;
-		p.getRandomSprite = true;
+		p.randomSprite = true;
 		
 		p.angle = angle;
 		p.theta = random_range(0.05, 1.05) * -dir;

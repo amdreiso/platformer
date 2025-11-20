@@ -2,12 +2,12 @@
 function ToolSpells() constructor {
 	self.list = [];
 	
-	static add = function(spellID) {
+	static Add = function(spellID) {
 		array_push(self.list, spellID);
 		
 	}
 	
-	static apply = function(obj) {
+	static Apply = function(obj) {
 		if (!instance_exists(obj)) return;
 		
 		// Loop through list of spells, run the attackApplyModifiers on the obj, and apply the effect IDs, all from SpellData
@@ -25,7 +25,7 @@ function ToolSpells() constructor {
 		}
 	}
 	
-	static has = function(spellID) {
+	static Has = function(spellID) {
 		for (var i = 0; i < array_length(self.list); i++) {
 			if (self.list[i] == spellID) return true;
 		}
@@ -39,15 +39,15 @@ function Tool(itemID) constructor {
 	self.itemID = itemID;
 	self.spell = new ToolSpells();
 	
-	static set = function(itemID) {
+	static Set = function(itemID) {
 		self.itemID = itemID;
 	}
 	
-	static get = function() {
+	static Get = function() {
 		return ITEM.Get(self.itemID);
 	}
 	
-	static getType = function() {
+	static GetType = function() {
 		return ITEM.GetType(self.itemID);
 	}
 }
@@ -55,15 +55,15 @@ function Tool(itemID) constructor {
 function Armor(itemID) constructor {
 	self.itemID = itemID;
 	
-	static set = function(itemID) {
+	static Set = function(itemID) {
 		self.itemID = itemID;
 	}
 	
-	static get = function() {
+	static Get = function() {
 		return ITEM.Get(self.itemID);
 	}
 	
-	static getDefense = function() {
+	static GetDefense = function() {
 		return ITEM.Get(self.itemID).components.defense;
 	}
 }

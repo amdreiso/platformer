@@ -5,110 +5,146 @@ function item_init(){
 	globalvar ItemData; ItemData = ds_map_create();
 	globalvar ITEM;
 	
-	var defaultComponents = function(type) {
-		var components = {
-			update: function(){},
-			sprite: -1,
-		};
+	//var defaultComponents = function() {
+	//	var components = {
 			
-		var newComponents = {};
+	//		// Default
+	//		update : function(){},
+	//		sprite : -1,
 			
-		switch(type) {
-			case ITEM_TYPE.Blank:
-				break;
-					
-			case ITEM_TYPE.Armor:
-				newComponents = {
-					defense : 1.25,					// 25% defense example
-				}
-				break;
-					
-			case ITEM_TYPE.Sword:
-				newComponents = {
-					damage : 1,
-					attackSprite : sPlayer_Attack1,
-						
-				};
-					
-				break;
-				
-			case ITEM_TYPE.Spell:
-				newComponents = {
-					spellID: undefined,
-						
-				};
-					
-				break;
-		}
+	//		// Armor
+	//		defense : 1.00,
 			
-		struct_merge(components, newComponents);
-		return components;
+	//		// Sword
+	//		damage : 1,
+	//		attackSprite : sPlayer_Attack1,
+			
+	//		// Spell
+	//		spellID : undefined,
+			
+	//	};
+			
+	//	return components;
+	//};
+	
+	
+	defaultComponents = {
+		update : function(){},
+		sprite: -1,
+		canUseSpell: false,
 	};
 	
+	var swordComponents = function(components={}) {
+		var final = {};
+		
+		// Apply defaults
+		struct_merge(final, defaultComponents);
+		
+		// Unique components
+		var unique = {
+			type : ITEM_TYPE.Sword,
+			canUseSpell : true,
+			damage: 1,
+		};
+		
+		// Apply new components
+		struct_merge(final, unique);
+		
+		return final;
+	}
+	var spellComponents = function(components={}) {
+		var final = {};
+		
+		// Apply defaults
+		struct_merge(final, defaultComponents);
+		
+		// Unique components
+		var unique = {
+			spellID : undefined,
+			type : ITEM_TYPE.Spell,
+		};
+		
+		// Apply new components
+		struct_merge(final, unique);
+		
+		return final;
+	}
+	var armorComponents = function(components={}) {
+		var final = {};
+		
+		// Apply defaults
+		struct_merge(final, defaultComponents);
+		
+		// Unique components
+		var unique = {
+			type : ITEM_TYPE.Armor,
+			defense : 1,
+		};
+		
+		// Apply new components
+		struct_merge(final, unique);
+		
+		return final;
+	}
+	
+	
 	ITEM = new Registry();
-	ITEM.SetDefaultComponents(defaultComponents);
-	
-	print(json_stringify(ITEM.defaultComponents));
-	
-	// Blanks
-	ITEM.Register(ITEM_ID.ScrapElectronics, {
-		type: ITEM_TYPE.Blank,
-	});
+	ITEM.SetDefaultComponents( defaultComponents );
 	
 	
-	// Spells
-	ITEM.Register(ITEM_ID.FlameSpell, {
-		type: ITEM_TYPE.Spell,
-		spellID: SPELL_ID.Flames,
-	});
+	#region Blanks
 	
-	ITEM.Register(ITEM_ID.FreezeSpell, {
-		type: ITEM_TYPE.Spell,
+	ITEM.Register(ITEM_ID.ScrapElectronics);
+	
+	#endregion
+	
+	#region Spells
+	
+	ITEM.Register(ITEM_ID.FlameSpell, spellComponents({
+		spellID : SPELL_ID.Flames,
+	}));
+	
+	ITEM.Register(ITEM_ID.FreezeSpell, spellComponents({
 		spellID: SPELL_ID.Freeze,
-	});
+	}));
 	
-	ITEM.Register(ITEM_ID.PoisonSpell, {
-		type: ITEM_TYPE.Spell,
+	ITEM.Register(ITEM_ID.PoisonSpell, spellComponents({
 		spellID: SPELL_ID.Poison,
-	});
+	}));
 	
-	ITEM.Register(ITEM_ID.KnockbackSpell, {
-		type: ITEM_TYPE.Spell,
+	ITEM.Register(ITEM_ID.KnockbackSpell, spellComponents({
 		spellID: SPELL_ID.Knockback,
-	});
+	}));
 	
-	ITEM.Register(ITEM_ID.StrengthSpell, {
-		type: ITEM_TYPE.Spell,
+	ITEM.Register(ITEM_ID.StrengthSpell, spellComponents({
 		spellID: SPELL_ID.Strength,
-	});
+	}));
 	
+	#endregion
 	
-	// Armor
-	ITEM.Register(ITEM_ID.Jetpack, {
-		type: ITEM_TYPE.Armor,
-	});
+	#region Armor
 	
-	ITEM.Register(ITEM_ID.Armor, {
-		type: ITEM_TYPE.Armor,
+	ITEM.Register(ITEM_ID.Jetpack, armorComponents());
+	
+	ITEM.Register(ITEM_ID.Armor, armorComponents({
 		defense: 1.50,
-	});
+	}));
 	
+	#endregion
 	
-	// Swords
-	ITEM.Register(ITEM_ID.BaseballBat, {
-		type: ITEM_TYPE.Sword,
-		damage: 8,
-		
+	#region Swords
+	
+	ITEM.Register(ITEM_ID.BaseballBat, swordComponents({
+		damage: 2,
 		sprite: sItem_BaseballBat,
-	});
+	}));
 	
-	ITEM.Register(ITEM_ID.DevStick, {
-		type: ITEM_TYPE.Sword,
+	ITEM.Register(ITEM_ID.DevStick, swordComponents({
 		damage: infinity,
-		
 		sprite: sItem_DevStick,
-	});
+	}));
 	
+	#endregion
 	
 }
 

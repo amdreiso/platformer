@@ -6,8 +6,8 @@ busy = (Paused
 		|| instance_exists(Textbox) 
 		|| Paused
 		|| Debug.console
-		|| menu
 		|| resetPosition
+		|| inventoryOpen
 );
 
 
@@ -43,11 +43,11 @@ viewDistance = viewDistanceDefault * LevelData[? room].components.playerVision;
 
 
 // Upgrades
-upgrade.update();
+upgrade.update(self);
 
 
-// Inventory
-inventory.update();
+// Carriables
+applyCarriable();
 
 
 // Audio
@@ -63,7 +63,6 @@ if (!instance_exists(Camera)) {
 // Effects
 effect_run(self, "update");
 effect_apply();
-
 
 
 

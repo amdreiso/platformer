@@ -13,7 +13,7 @@ draw_debug();
 
 
 // Upgrades
-upgrade.draw();
+upgrade.draw(self);
 
 
 // Effects

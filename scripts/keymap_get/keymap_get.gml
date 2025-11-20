@@ -13,12 +13,14 @@ function keymap_get(){
 			jump: (keyboard_check_pressed(ord("Z")) || keyboard_check_pressed(vk_space) || gamepad_button_check_pressed(Gamepad.ID, gp_face1)),
 			jumpHold: (keyboard_check(ord("Z")) || keyboard_check(vk_space) || gamepad_button_check(Gamepad.ID, gp_face1)),
 			
-			interact: (keyboard_check_pressed(ord("C")) || gamepad_button_check_pressed(Gamepad.ID, gp_face2)),
+			interact: (keyboard_check_pressed(vk_up) || gamepad_button_check_pressed(Gamepad.ID, gp_face2)),
 			interactDoor: (keyboard_check_pressed(ord("C")) || gamepad_button_check_pressed(Gamepad.ID, gp_face2)),
 			attack: (keyboard_check_pressed(ord("X")) || gamepad_button_check(Gamepad.ID, gp_face3)),
 			specialAttack: (keyboard_check_pressed(ord("X")) || gamepad_button_check(Gamepad.ID, gp_face3)),
 			
-			map: (keyboard_check_pressed(ord("Q")) || gamepad_button_check_pressed(Gamepad.ID, gp_face4)),
+			useItem: (keyboard_check(ord("S"))),
+			
+			inventory: (keyboard_check_pressed(ord("V")) || gamepad_button_check_pressed(Gamepad.ID, gp_face4)),
 			
 			swapWeapon: (keyboard_check_pressed(ord("C"))),
 		},

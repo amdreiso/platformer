@@ -93,6 +93,14 @@ collisions = function() {
 		hitByPlayer = true;
 		hit(a.damage);
 		
+		
+		// Spawn attack particle
+		var pos = randvec2(x, y, 6);
+		var part = instance_create_depth(pos.x, pos.y, depth, Particle_Attack);
+		
+		camera_shake(5, 1);
+		
+		// Transfer effects from players attack to the enemy
 		effect_transfer(a.effects, self);
 	});
 	

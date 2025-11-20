@@ -23,7 +23,7 @@
   ],
   "name":"sPlayer_DoubleJumpFire",
   "nineSlice":null,
-  "origin":9,
+  "origin":1,
   "parent":{
     "name":"Player",
     "path":"folders/Sprites/Player.yy",
@@ -70,13 +70,15 @@
     "timeUnits":1,
     "tracks":[
       {"$GMSpriteFramesTrack":"","builtinName":0,"events":[],"inheritsTrackColour":true,"interpolation":1,"isCreationTrack":false,"keyframes":{"$KeyframeStore<SpriteFrameKeyframe>":"","Keyframes":[
-            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{"0":{"$SpriteFrameKeyframe":"","Id":{"name":"984debbc-ca04-4fe8-b860-7c314fa8a84c","path":"sprites/sPlayer_DoubleJumpFire/sPlayer_DoubleJumpFire.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},},"Disabled":false,"id":"1ca2986f-0738-4e73-af0b-69161b98fed3","IsCreationKey":false,"Key":0.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
+            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
+                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"984debbc-ca04-4fe8-b860-7c314fa8a84c","path":"sprites/sPlayer_DoubleJumpFire/sPlayer_DoubleJumpFire.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
+              },"Disabled":false,"id":"1ca2986f-0738-4e73-af0b-69161b98fed3","IsCreationKey":false,"Key":0.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
           ],"resourceType":"KeyframeStore<SpriteFrameKeyframe>","resourceVersion":"2.0",},"modifiers":[],"name":"frames","resourceType":"GMSpriteFramesTrack","resourceVersion":"2.0","spriteId":null,"trackColour":0,"tracks":[],"traits":0,},
     ],
     "visibleRange":null,
     "volume":1.0,
     "xorigin":10,
-    "yorigin":4,
+    "yorigin":0,
   },
   "swatchColours":null,
   "swfPrecision":0.5,

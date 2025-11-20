@@ -146,7 +146,7 @@ upgrade.register(
 		static fuelDefault = 200;
 		static fuel = fuelDefault;
 		
-		var takeoff = 0.526;
+		var takeoff = 0.126;
 		var key = keyboard_check(ord("S"));
 		var keyPressed = keyboard_check_pressed(ord("S"));
 		var keyReleased = keyboard_check_released(ord("S"));
@@ -177,7 +177,11 @@ upgrade.register(
 		
 	},
 	
-	function(){
+	function(obj){
+		
+		if (obj.flying) {
+			//draw_sprite_ext(sPlayer_DoubleJumpFire, 0, x, bbox_bottom, 1, 1, 0, c_white, 1);
+		}
 		
 	}
 );
@@ -311,14 +315,16 @@ map = {
 
 luck = 1;
 intelligence = 1;
-mana = 100;
+
+mana = new Stat(10);
+manaDisplay = mana.defaultValue;
 
 #endregion
 
 
 #region HEALTH
 
-hp = new Stat(200);
+hp = new Stat(100);
 hpDisplay = hp.defaultValue;
 
 hitCooldown = 0;
@@ -329,7 +335,7 @@ isDead = false;
 isHit = false;
 
 setHp = function(value) {
-	hp.updateValue(value);
+	hp.UpdateValue(value);
 }
 
 handleHealth = function() {
@@ -356,13 +362,12 @@ hit = function(damage, xscale=1, applyKnockback = true, stun = true) {
 	if (!stun) then cooldown = 1;
 	
 	var defense = 1;
-	if (inventory.equipment[PLAYER_EQUIPMENT_ID.Armor].itemID != -1) {
-		
-	}
+	//if (inventory.equipment[PLAYER_EQUIPMENT_ID.Armor].itemID != -1) {
+	//}
 	
 	var damageValue = ceil(damage * defense);
 	
-	hp.sub( damageValue );					// Always round up so taking 0.0001 damage isn't possible
+	hp.Sub( damageValue );					// Always round up so taking 0.0001 damage isn't possible
 	isHit = true;
 	hitCooldown = cooldown;
 	
@@ -374,9 +379,12 @@ hit = function(damage, xscale=1, applyKnockback = true, stun = true) {
 	}
 	
 	if (applyKnockback) {
-		knockback.y -= (jumpForce * 4) * !onAir;
+		var multiplier = new Vec2(0.5, 1);
+		
+		knockback.y -= (jumpForce * multiplier.y) * !onAir;
+		
 		if (xscale == 0) xscale = choose(-1, 1);
-		knockback.x = xscale * 2;
+		knockback.x = xscale * multiplier.x;
 	}
 	
 	
@@ -440,6 +448,7 @@ lastChunk								= { roomID: -1, x: 0, y: 0 };
 secondJumpTick					= 0;
 flying									= false;
 tilePosition						= new Vec2();
+
 
 getPosition = function() {
 	return new Vec2(x, y);
@@ -573,13 +582,11 @@ movement = function() {
 	}
 	 
 	
-	
 	if (hsp != 0) {
 		if (keyboard_check_pressed(ord("B"))) {
 			knockback.x += 4 * sign(hsp);
 		}
 	}
-	
 	
 	
 	// if on cutscene disable movement
@@ -628,6 +635,7 @@ movement = function() {
 		
 		if (jumpCount == jumpCountDefault) {
 			secondJumpTick = 0;
+			flip();
 		}
 		
 		jumpCount --;
@@ -635,7 +643,7 @@ movement = function() {
 	}
 	
 	// Relative jump
-	if (vsp < 0 && !map.jumpHold) {
+	if (vsp < 0 && !map.jumpHold && !map.useItem) {
 		vsp = max(vsp, -0.25);
 	}
 	
@@ -680,7 +688,7 @@ createDustParticles = function(val, range, spd = 0.15) {
 			vsp = random_range(-dir, dir);
 			
 			sprite = sParticle_Dust;
-			getRandomSprite = true;
+			randomSprite = true;
 			
 			scale = random_range(1.00, 1.50);
 			scaleFactor = random_range(-0.01, -0.10) / 4;
@@ -703,6 +711,7 @@ createDustParticles = function(val, range, spd = 0.15) {
 
 collisionMask = instance_create_depth(x, y, depth, PlayerCollision);
 
+collision = new Callback();
 
 applyCollisions = function() {
 	if (noclip) return;
@@ -721,7 +730,6 @@ applyCollisions = function() {
 			self.y = other.y;
 			
 			if (place_meeting(x, y, Collision_Death)) {
-				
 				Player.dieByContact();
 				
 			}
@@ -752,8 +760,9 @@ applyCollisions = function() {
 				
 				if (enemy.attackOnContact && enemy.ableToAttack) other.hit(enemy.damage, xdir);
 			}
+			
+			other.collision.Run(other);
 		}
-	
 	}
 	
 	
@@ -787,11 +796,54 @@ applyCollisions = function() {
 #endregion
 
 
+#region CARRYING
+
+isCarrying = false;
+carrying = noone;
+
+pickCarriable = function(obj) {
+	if (isCarrying) return;
+	carrying = obj;
+}
+
+dropCarriable = function() {
+	if (!isCarrying) return;
+	
+	carrying.vsp -= 1;
+	carrying = noone;
+}
+
+applyCarriable = function() {
+	isCarrying = (carrying != noone);
+	
+	if (!isCarrying) return;
+	
+	carrying.y = bbox_top;
+	carrying.x = x;
+	
+	carrying.vsp = 0;
+	
+	if (Keymap.player.interact) {
+		dropCarriable();
+	}
+}
+
+// Collision
+collision.Register(function(obj){
+	if (place_meeting(x, y, Carriable)) {
+		if (Keymap.player.interact) {
+			Player.carrying = instance_nearest(x, y, Carriable);
+		}
+	}
+});
+
+#endregion
+
+
 #region ATTACK
 
 subitem_init();
 subitem = SUBITEM_ID.WaterBucket;
-
 
 isAttacking = false;
 
@@ -827,36 +879,10 @@ attackCommandCreate("left+down+right+up+down+jump", "", function(){
 	if (!onGround) return;
 });
 
-#region front-flip
-
-attackCommandCreate("left+jump+up+jump", "front flip", function(){
-	if (onGround && hasFlipped) return;
-	flip();
-	return true;
-});
-
-attackCommandCreate("right+jump+up+jump", "front flip", function(){
-	if (onGround && hasFlipped) return;
-	flip();
-	return true;
-});
-
-attackCommandCreate("jump+up+jump", "front flip", function(){
-	if (onGround && hasFlipped) return;
-	flip();
-	return true;
-});
-
-attackCommandCreate("up+jump", "front flip", function(){
-	if (onGround && hasFlipped) return;
-	flip();
-	return true;
-});
 
 #endregion
 
 
-#endregion
 
 // ↑ ↓ → ←
 
@@ -865,14 +891,14 @@ analogPressed = false;
 attack = function() {
 	if (busy || isAttacking) return;
 	
-	var handID = inventory.equipment[handIndex].itemID;
-	var hand = inventory.equipment[handIndex].get();
-	var handType = inventory.equipment[handIndex].getType();
+	var handID = inventory.equipment.sword.itemID;
+	var hand = inventory.equipment.sword.Get();
+	var handType = inventory.equipment.sword.GetType();
 	
 	// Sword attack
 	if (Keymap.player.attack && handType == ITEM_TYPE.Sword) {
 		
-		print($"Player attacked with '{TRANSLATION.get(handID, -1)}'");
+		print($"Player attacked with '{TRANSLATION.Get(handID, -1)}'");
 		
 		/*
 		TODO: 
@@ -887,7 +913,7 @@ attack = function() {
 		
 		atk.damage = hand.components.damage;
 		
-		inventory.equipment[handIndex].spell.apply(atk);
+		inventory.equipment.sword.spell.Apply(atk);
 		
 		var hdir = image_xscale;
 		var vdir = (Keymap.player.jumpHold && onGround);
@@ -1011,10 +1037,18 @@ attack = function() {
 
 #macro ITEM_STACK 10
 
-inventory = {};
+inventory = new Inventory(8, 4);
+inventoryOpen = false;
 
-inventory.content = [];
-inventory.slots = [];
+inventory.Add(ITEM_ID.BaseballBat);
+inventory.Add(ITEM_ID.DevStick);
+inventory.Add(ITEM_ID.FlameSpell);
+inventory.Add(ITEM_ID.FreezeSpell);
+inventory.Add(ITEM_ID.Jetpack);
+inventory.Add(ITEM_ID.KnockbackSpell);
+inventory.Add(ITEM_ID.PoisonSpell);
+inventory.Add(ITEM_ID.ScrapElectronics);
+inventory.Add(ITEM_ID.StrengthSpell);
 
 enum PLAYER_EQUIPMENT_ID {
 	Hand,
@@ -1029,118 +1063,9 @@ enum PLAYER_EQUIPMENT_ID {
 //	armor: new Armor(ITEM_ID.Armor),
 //};
 
-inventory.equipment = array_create(PLAYER_EQUIPMENT_ID.Count);
-inventory.equipment[PLAYER_EQUIPMENT_ID.Hand] = new Tool(ITEM_ID.DevStick);
-inventory.equipment[PLAYER_EQUIPMENT_ID.Offhand] = new Tool(ITEM_ID.BaseballBat);
-inventory.equipment[PLAYER_EQUIPMENT_ID.Armor] = new Armor(-1);
+inventory.equipment.sword.Set(ITEM_ID.DevStick);
+inventory.equipment.sword.spell.Add(SPELL_ID.Flames);
 
-handIndex = PLAYER_EQUIPMENT_ID.Hand;
-
-inventory.equipment[handIndex].spell.add(SPELL_ID.Flames);
-
-inventory.update = function() {
-	
-	if (Keymap.player.swapWeapon) {
-		if (handIndex == PLAYER_EQUIPMENT_ID.Hand) handIndex = PLAYER_EQUIPMENT_ID.Offhand else handIndex = PLAYER_EQUIPMENT_ID.Hand; 
-		
-	}
-	
-}
-
-inventory.getItemSlot = function(itemID, quantity) {
-	var item = {}
-	
-	item.itemID = itemID;
-	item.quantity = quantity;
-	
-	return item;
-}
-
-inventory.getCurrentSlot = function() {
-	return inventory.slots[inventory.slotIndex];
-}
-
-inventory.setSlot = function(slotID, itemID) {
-	inventory.slots[slotID].itemID = itemID;
-}
-
-inventory.hasItem = function(itemID) {
-	for (var i = 0; i < array_length(inventory.content); i++) {
-		if (inventory.content[i].itemID == itemID) {
-			return true;
-		}
-	}
-	return false;
-};
-
-inventory.add = function(itemID, quantity = 1) {
-	var found = false;
-	for (var i = 0; i < array_length(inventory.content); i++) {
-		var c = inventory.content[i];
-		
-		// found existing item on inventory
-		if (c.itemID == itemID) {
-			
-			if (c.quantity < ITEM_STACK - quantity) {
-				c.quantity += quantity;
-			
-			} else {
-				array_push(inventory.content, inventory.getItemSlot(itemID, quantity));
-				
-			}
-			
-			found = true;
-		}
-	}
-	
-	if (!found) array_push(inventory.content, inventory.getItemSlot(itemID, quantity));
-};
-
-inventory.removeItem = function() {
-};
-
-
-///////////       HARDCODE ALERT        /////////////
-repeat(10) {
-	array_push( inventory.content, inventory.getItemSlot(-1, 0) );
-}
-
-repeat(2) {
-	array_push( inventory.slots, inventory.getItemSlot(-1, 0) );
-}
-
-
-inventory.slotIndex = 0;
-
-drawInventorySlotsGUI = function() {
-	var height = sprite_get_height(sItemSlot);
-	var scale = Style.guiScale;
-	var padding = 1.25 * scale;
-	var alpha = 0.5;
-	
-	for (var i = 0; i < array_length(inventory.slots); i++) {
-		if (i == inventory.slotIndex) {
-			scale = Style.guiScale * 1.15;
-			alpha = 1;
-			
-			// Draw item names
-			var item = ITEM.Get( inventory.slots[i].itemID );
-			if (item) {
-				draw_set_halign(fa_left);
-				draw_set_valign(fa_middle);
-				draw_text_transformed(100, (HEIGHT - 64) - i * height * padding, item.name, 1, 1, 0);
-			}
-		} else {
-			scale = Style.guiScale; 
-			alpha = 0.5;
-		}
-		
-		draw_sprite_ext(sItemSlot, 0, 64, (HEIGHT - 64) - i * height * padding, scale, scale, 0, c_white, alpha);
-	}
-	
-	if (mouse_wheel_down() && inventory.slotIndex > 0) inventory.slotIndex --;
-	if (mouse_wheel_up() && inventory.slotIndex < array_length(inventory.slots) - 1) inventory.slotIndex ++;
-}
 
 #endregion
 
@@ -1288,103 +1213,53 @@ drawGUI = function() {
 	if (Paused) return;
 	
 	var guiScale = Style.guiScale / 2;
-	var guiScale = 2;
+	var guiScale = 3;
 	
-	{
-		var centerRange = 150;
-		var center = new Vec2(centerRange, HEIGHT - centerRange * 0.75);
+	
+	var margin = 10 * guiScale;
+	
+	
+	if (hpDisplay > hp.value) {
+		hpDisplay = lerp(hpDisplay, hp.value, 0.25);
+	}
+	
+	var maxHpDisplay = 20;
+	var hpPart = (hpDisplay / hp.defaultValue);
+	var manaPart = (manaDisplay / mana.defaultValue);
+	
+	for (var i = 0; i < maxHpDisplay; i++) {
+		var xoffset = margin;
+		var width = (sprite_get_width(sHealthBar) * guiScale);
 		
-		var padding = 1.5;
-		var offset = new Vec2(sprite_get_width(sItemSlot) * 1.75 * padding, sprite_get_height(sItemSlot) * padding);
+		var color = c_white;
 		
-		var color = c_gray;
-		var scale = 1;
+		var sprite = sHealthBar;
+		var index = 0;
+		if (i == 0) index = 2;
+		if (i == maxHpDisplay - 1) index = 1;
 		
-		var slot0 = (center.x - offset.x);
-		var slot1 = (center.x - offset.x) + 1 * offset.x;
+		if (i >= ceil(maxHpDisplay * hpPart)) color = c_dkgray;
 		
-		var yy = center.y + offset.y;
+		draw_sprite_ext(sprite, index, xoffset + i * width, margin, guiScale, guiScale, 0, color, 1);
+	}
+	
+	for (var i = 0; i < maxHpDisplay; i++) {
+		var xoffset = margin;
+		var width = (sprite_get_width(sManaBar) * guiScale);
 		
-		var colorHand = c_gray;
-		var colorOffhand = c_gray;
+		var color = c_white;
 		
-		if (handIndex == PLAYER_EQUIPMENT_ID.Hand) {
-			colorHand = c_white;
-		}
+		var sprite = sManaBar;
+		var index = 0;
+		if (i == 0) index = 2;
+		if (i == maxHpDisplay - 1) index = 1;
 		
-		if (handIndex == PLAYER_EQUIPMENT_ID.Offhand) {
-			colorOffhand = c_white;
-		}
+		if (i >= ceil(maxHpDisplay * manaPart)) color = c_dkgray;
 		
-		draw_sprite_ext(
-			sItemSlot, 0, 
-			slot0,
-			center.y + offset.y,
-			guiScale * scale, guiScale * scale, 0, colorHand, 1
-		);
-		
-		draw_sprite_ext(
-			sItemSlot, 0, 
-			slot1,
-			center.y + offset.y,
-			guiScale * scale, guiScale * scale, 0, colorOffhand, 1
-		);
-		
-		
-		var item0 = inventory.equipment[PLAYER_EQUIPMENT_ID.Hand].itemID;
-		if (item0 != -1) {
-			var item = ITEM.Get(item0);
-			
-			if (!is_undefined(item)) {
-				var sprite = item.components.sprite;
-				if (sprite != -1) draw_sprite_ext(sprite, 0, slot0, yy, guiScale * scale, guiScale * scale, 0, c_white, 1);
-			}
-		}
-		
-		var item1 = inventory.equipment[PLAYER_EQUIPMENT_ID.Offhand].itemID;
-		if (item1 != -1) {
-			var item = ITEM.Get(item1);
-			
-			if (!is_undefined(item)) {
-				var sprite = item.components.sprite;
-				if (sprite != -1) draw_sprite_ext(sprite, 0, slot1, yy, guiScale * scale, guiScale * scale, 0, c_white, 1);
-			}
-		}
-		
+		draw_sprite_ext(sprite, index, xoffset + i * width, margin + sprite_get_height(sManaBar) * guiScale * 1.25, guiScale, guiScale, 0, color, 1);
 	}
 	
 	
-	//var margin = 20 * guiScale;
-	
-	//// SubItem display
-	//draw_sprite_ext(sItemDisplay, 0, margin, margin, guiScale, guiScale, 0, c_white, 1);
-	
-	//if (subitem != undefined) {
-	//	var si = SUBITEM.get(subitem);
-	//	draw_sprite_ext(si.sprite, 0, margin, margin, guiScale, guiScale, 0, c_white, 1);
-	//}
-	
-	
-	//if (hpDisplay > hp.value) {
-	//	hpDisplay = lerp(hpDisplay, hp.value, 0.25);
-	//}
-	
-	//var maxHpDisplay = 100;
-	//var hpPart = (hpDisplay / hp.defaultValue);
-	
-	//for (var i = 0; i < maxHpDisplay; i++) {
-	//	var xoffset = (sprite_get_width(sItemDisplay) * guiScale) / 2 + margin;
-	//	var width = (sprite_get_width(sHealthbar) * guiScale);
-		
-	//	var color = c_white;
-		
-	//	var sprite = sHealthbar;
-	//	if (i == maxHpDisplay - 1) sprite = sHealthbar_end;
-		
-	//	if (i >= ceil(maxHpDisplay * hpPart)) color = c_dkgray;
-		
-	//	draw_sprite_ext(sprite, 0, xoffset + i * width, margin, guiScale, guiScale, 0, color, 1);
-	//}
 }
 
 
@@ -1467,98 +1342,14 @@ drawDeathScreen = function() {
 	
 	var messageScale = 2;
 	
-	draw_text_transformed(WIDTH / 2, HEIGHT / 2, TRANSLATION.get("gui_death_screen_message"), messageScale, messageScale, 0);
+	draw_text_transformed(WIDTH / 2, HEIGHT / 2, TRANSLATION.Get("gui_death_screen_message"), messageScale, messageScale, 0);
 	
 	draw_set_alpha(1);
 	
 }
 
-
-menu = false;
-menuStyle = {
-	background: 0x080808,
-	border: c_green,
-}
-
-MenuPage = function(name) constructor {
-	self.name = name;
-}
-
-menuPages = [
-	new MenuPage("Home"),
-	new MenuPage("Map"),
-	new MenuPage("Upgrades"),
-]
-
-menuIndex = 0;
-
-drawMenu = function() {
-	
-	if (Keymap.player.map && !(busy * !menu)) {
-		menu = !menu;
-	}
-	
-	
-	if (!menu) return;
-	
-	var x0 = 400;
-	var y0 = HEIGHT / 2;
-	
-	var scale = 1;
-	
-	var width = 30 * scale;
-	var height = 20 * scale;
-	
-	var fw = 8 * scale;
-	var fh = 12 * scale;
-	
-	var bg = menuStyle.background;
-	var br = menuStyle.border;
-	
-	// draw background
-	rect(x0, y0, width * fw, height * fh, bg);
-	
-	var borderx = 0;
-	var bordery = 0;
-	
-	draw_set_halign(fa_left);
-	draw_set_valign(fa_bottom);
-	
-	// horizontal borders
-	for (borderx = 0; borderx < width; borderx++) {
-		if (borderx != 0 && borderx != width - 1) {
-			draw_text_transformed_color((x0 - (width * fw) / 2) + (borderx * fw), y0 - ((height - 2) * fh) / 2, "-", scale, scale, 0, br, br, br, br, 1);
-			draw_text_transformed_color((x0 - (width * fw) / 2) + (borderx * fw), y0 + ((height) * fh) / 2, "-", scale, scale, 0, br, br, br, br, 1);
-		
-		}
-	}
-	
-	// vertical borders
-	for (bordery = 1; bordery < height + 1; bordery++) {
-		draw_text_transformed_color((x0 - (width * fw) / 2), (y0 - (height * fh) / 2) + bordery * fh, "|", scale, scale, 0, br, br, br, br, 1);
-		draw_text_transformed_color((x0 + ((width - 2) * fw) / 2), (y0 - (height * fh) / 2) + bordery * fh, "|", scale, scale, 0, br, br, br, br, 1);
-		
-	}
-	
-	var pageLen = array_length(menuPages);
-	
-	for (var i = 0; i < pageLen; i++) {
-		var page = menuPages[i];
-		var bw = 150;
-		var bh = 30;
-		var color = bg;
-		var color2 = bg;
-	}
-	
-	
-	menuIndex -= (keyboard_check_pressed(vk_left) && menuIndex > 0) ? 1 : 0;
-	menuIndex += (keyboard_check_pressed(vk_right) && menuIndex < pageLen - 1) ? 1 : 0;
-	
-	
-	draw_set_halign(fa_center);
-	draw_set_valign(fa_middle);
-	
-}
-
 #endregion
+
+
+
 

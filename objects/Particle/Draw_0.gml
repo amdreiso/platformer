@@ -1,11 +1,12 @@
 
 if (sprite == -1) return;
 
-if (getRandomSprite) {
+if (randomSprite) {
 	image_speed = 0;
 	image_index = irandom(sprite_get_number(sprite));
 	
-	getRandomSprite = false;
+	randomSpriteCallback.Run(self);
+	randomSprite = false;
 }
 
 image_blend = color;

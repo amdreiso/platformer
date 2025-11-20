@@ -1,6 +1,6 @@
 
 if (LanguageReset) {
 	dialogue = [
-		TRANSLATION.get("cave_entrance_flowerstatue_0"),
+		TRANSLATION.Get("cave_entrance_flowerstatue_0"),
 	];
 }

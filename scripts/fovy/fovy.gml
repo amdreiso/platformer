@@ -87,19 +87,19 @@ function Stat(_value) constructor {
 	value = _value;
 	defaultValue = _value;
 	
-	static sub = function(val) {
+	static Sub = function(val) {
 		value -= val;
 	}
 	
-	static add = function(val) {
+	static Add = function(val) {
 		value += val;
 	}
 	
-	static getPercentage = function() {
+	static GetPercentage = function() {
 		return (value / defaultValue) * 100;
 	}
 	
-	static updateValue = function(val) {
+	static UpdateValue = function(val) {
 		value = val;
 		defaultValue = val;
 	}

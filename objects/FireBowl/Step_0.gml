@@ -12,7 +12,7 @@ if (active) {
 					var pos = irandvec2(x, y - sprite_height, 5);
 					var p = instance_create_depth(pos.x, pos.y, depth, Particle);
 					p.sprite = choose(sParticle_Flames, sParticle_Smoke);
-					p.getRandomSprite = true;
+					p.randomSprite = true;
 					p.color = choose(c_white, c_ltgray);
 					p.lifetime = irandom_range(120, 140);
 					var h = 0.3, v = 0.55;
@@ -23,7 +23,7 @@ if (active) {
 					p.scaleFactor = -0.005;
 					p.gravityApply = false;
 					p.theta = random_range(-0.05, 0.05);
-					p.updateCallback.register(function(p){
+					p.updateCallback.Register(function(p){
 						var falloff = 0.005;
 						if (p.hsp != 0) p.hsp += falloff * -sign(p.hsp);
 						if (p.vsp != 0) p.vsp += falloff * -sign(p.vsp);

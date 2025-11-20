@@ -13,7 +13,7 @@ repeat (val) {
 		vsp = random_range(-dir, dir);
 			
 		sprite = sParticle_Dust;
-		getRandomSprite = true;
+		randomSprite = true;
 			
 		scale = random_range(1.00, 1.50);
 			

@@ -2,7 +2,7 @@
 event_inherited();
 
 sprite = sParticle_WaterFoam;
-getRandomSprite = true;
+randomSprite = true;
 
 gravityApply = false;
 

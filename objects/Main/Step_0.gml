@@ -138,3 +138,8 @@ if (keyboard_check_pressed(vk_anykey)) {
 #endregion
 
 
+
+// Callbacks
+callback.Run(self);
+
+

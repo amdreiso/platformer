@@ -2,7 +2,7 @@
 event_inherited();
 
 sprite = sParticle_Waterdrop;
-getRandomSprite = true;
+randomSprite = true;
 
 gravityForce = 0.05;
 gravityApply = true;

@@ -170,6 +170,25 @@ COMMAND.register("webhook", -1, function(args) {
 	
 });
 
+COMMAND.register("run", -1, function(args) {
+	
+	str = "";
+	for (var i = 0; i < array_length(args); i++) {
+		str += args[i] + " ";
+		
+	}
+	
+	Main.callback.Register(function(obj){
+		Main.runCommand(str);
+		
+	});
+	
+});
+
+COMMAND.register("hi", 0, function(args) {
+	log("Hello there!");
+});
+
 
 }
 
