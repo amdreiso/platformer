@@ -10,6 +10,16 @@ newRoom = true;
 isCutscene = false;
 
 hasBoss = false;
+showLevelName = false;
+
+room_goto(rmLevel_Cave_Entrance);
+
+//if (CurrentChapter.beggining_cutscene.played) {
+//	//room_goto(rmLevel_Cave_DumpYard);
+//} else {
+//	room_goto(rmBegginingCutscene);
+//}
+
 
 
 tilePos = function(val) {
@@ -36,7 +46,6 @@ backgroundSong						= -1;
 backgroundSongGain				= 1;
 backgroundSongGainTime		= 1;
 setBackgroundSong					= function(snd, loop=false, gain=1, gaintime=1) {
-	
 	// Stop current song if playing
 	if (!is_undefined(backgroundSong)) {
 		audio_stop_sound(backgroundSong);
@@ -46,12 +55,14 @@ setBackgroundSong					= function(snd, loop=false, gain=1, gaintime=1) {
 	backgroundSong = audio_play_sound(snd, 0, loop);
 	backgroundSongGain = gain;
 	backgroundSongGainTime = gaintime;
+	
 }
 
 setBackgroundSongGain = function(gain, gaintime) {
 	// Stop current song if playing
 	backgroundSongGain = gain;
 	backgroundSongGainTime = gaintime;
+	
 }
 
 
@@ -116,7 +127,7 @@ checkPlayerTransitions = function(level) {
 	var find = function(side) {
 		if (Main.transition) return;
 		
-		var level = LEVEL.get(room);
+		var level = LEVEL.Get(room);
 		var len = array_length(level.components.transitions);
 		
 		for (var i = 0; i < len; i++) {
@@ -175,8 +186,6 @@ checkPlayerTransitions = function(level) {
 	}
 	
 }
-
-
 
 
 screenlogs = [];

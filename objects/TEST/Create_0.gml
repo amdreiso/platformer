@@ -6,3 +6,6 @@ language_set(LANGUAGE_ID.English);
 //room_goto(rmLevel_Garden_Entrance);
 
 //player_set_position(vec2(170, 100));
+
+hsp = 0; 
+vsp = 0;

@@ -1,6 +1,6 @@
 
 
-var level = LEVEL.get(room);
+var level = LEVEL.Get(room);
 if (level == -1) return;
 
 checkPlayerTransitions(level);
@@ -8,6 +8,8 @@ checkPlayerTransitions(level);
 hasBoss = (instance_exists(Boss));
 
 if (newRoom) {
+	
+	screenlog($"Level: entered room {level.components.name}");
 	
 	STORY.load();
 	
@@ -40,7 +42,7 @@ if (newRoom) {
 	
 	roomCode = level.components.roomCode;
 	
-	level.components.create();
+	level.components.load();
 	
 	
 	// move player on transition
@@ -77,6 +79,7 @@ if (newRoom) {
 			break;
 	}
 	
+	showLevelName = 5 * 60;
 	newRoom = false;
 }
 

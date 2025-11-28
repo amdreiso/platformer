@@ -9,6 +9,10 @@ function fovy(){
 	show_debug_message("Loaded fovy!");
 }
 
+function sleep(val) {
+	Sleep = val;
+}
+
 function approach(value, target, amount) {
   if (value < target) return min(value + amount, target)
   if (value > target) return max(value - amount, target)
@@ -220,7 +224,7 @@ function on_last_frame(fn) {
 }
 
 function knockback_apply() {
-	var knockbackFallout = 0.20;
+	var knockbackFallout = 0.01;
 	
 	//if (round(knockback.x) != 0) knockback.x += ( -sign(knockback.x) * knockbackFallout * GameSpeed ); else knockback.x = 0;
 	//if (round(knockback.y) != 0) knockback.y += ( -sign(knockback.y) * knockbackFallout * GameSpeed ); else knockback.y = 0;
@@ -672,15 +676,15 @@ function random_array_argument(array){
 }
 
 
-function opt(base, value) {
-	var f = 60;
+//function opt(base, value) {
+//	var f = 60;
 	
-  if (value > f) value = f;
-  else if (value < 0) value = 0;
+//  if (value > f) value = f;
+//  else if (value < 0) value = 0;
     
-  var factor = value / f;
-  return base * factor;
-}
+//  var factor = value / f;
+//  return base * factor;
+//}
 
 
 function slider(val, x, y, width, height, handleWidth, color = c_white) {

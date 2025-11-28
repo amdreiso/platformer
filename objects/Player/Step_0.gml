@@ -1,6 +1,8 @@
 
 //collisionTilemap = layer_tilemap_get_id("Collision_Map");
 
+if (Sleep) return;
+
 busy = (Paused 
 		|| isDead
 		|| instance_exists(Textbox) 
@@ -39,7 +41,7 @@ levelTransitionCooldown = max(0, levelTransitionCooldown - GameSpeed);
 
 
 // Lighting
-viewDistance = viewDistanceDefault * LevelData[? room].components.playerVision;
+//viewDistance = viewDistanceDefault * LevelData[? room].components.playerVision;
 
 
 // Upgrades
@@ -79,5 +81,8 @@ if (keyboard_check(vk_control)) {
 }
 
 bound_to_room();
+
+
+
 
 

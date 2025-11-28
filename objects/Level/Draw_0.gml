@@ -3,7 +3,7 @@ with (Player) {
 
 	if (Debug.debug) {
 
-		var level = LEVEL.get(room);
+		var level = LEVEL.Get(room);
 		var len = array_length(level.components.transitions);
 		
 		for (var i = 0; i < len; i++) {

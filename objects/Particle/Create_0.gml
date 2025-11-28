@@ -6,11 +6,16 @@ if (instance_number(Particle) >= Settings.graphics.maxParticlesOnScreen) {
 hsp = 0;
 vsp = 0;
 
+knockback = new Vec2();
+
+collisions = [];
+
 gravityApply = false;
 gravityForce = 0.1;
 
 angle = 0;
 theta = 0;
+roll = false;
 
 tick = 0;
 lifetime = 1000;
@@ -35,6 +40,4 @@ randomSpriteCallback = new Callback();
 alpha = 1;
 
 fadein = false; fadeinSpeed = 0.01;
-fadeout = false; fadeoutSpeed = 0.01;
-
-
+fadeout = false; fadeoutSpeed = 0.01; fadeoutCooldown = 0;

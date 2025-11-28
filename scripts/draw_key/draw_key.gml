@@ -11,14 +11,14 @@ function draw_key(indicator){
 	
 	switch (indicator) {
 		case KEY_INDICATOR.Interact:
-			kb = sButton_C;
+			kb = sButton_UP_keyboard;
 			gp = sButton_Circle;
 			break;
 		
 		case KEY_INDICATOR.InteractDoor:
 			//kb = sButton_UP_keyboard;
 			//gp = sButton_UP;
-			kb = sButton_C;
+			kb = sButton_UP_keyboard;
 			gp = sButton_Circle;
 			break;
 		

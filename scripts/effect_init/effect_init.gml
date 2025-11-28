@@ -27,6 +27,7 @@ function effect_init(){
 		function(obj) {
 			if (!instance_exists(obj)) return;
 			
+			// Removes Frozen effect when hit with flames
 			effect_remove(obj, EFFECT_ID.Frozen);
 		},
 		
@@ -35,11 +36,11 @@ function effect_init(){
 			
 			// for every second that passes, the player takes damage
 			static time = 0;
-			var damage = 15;
+			var damage = 3;
 			
 			time += GameSpeed;
 			
-			if (time > 60) {
+			if (time > 30) {
 				time = 0;
 				
 				// Only take damage if function hit exists

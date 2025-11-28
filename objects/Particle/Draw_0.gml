@@ -11,8 +11,6 @@ if (randomSprite) {
 
 image_blend = color;
 
-image_angle = angle;
-
 image_xscale = xscale * scale;
 image_yscale = yscale * scale;
 
@@ -20,6 +18,8 @@ sprite_index = sprite;
 image_alpha = alpha;
 
 if (surface_exists(SurfaceHandler.surface)) surface_set_target(SurfaceHandler.surface);
-draw_self();
+
+draw_sprite_ext(sprite_index, image_index, x, y, image_xscale, image_yscale, angle, image_blend, image_alpha);
+
 if (surface_exists(SurfaceHandler.surface)) surface_reset_target();
 

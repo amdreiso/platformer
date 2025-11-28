@@ -6,6 +6,11 @@ enum LEVEL_SECTION {
 	Garden,
 }
 
+enum DIMENSION_ID {
+	Main,
+	Neptune,
+}
+
 enum ITEM_TYPE {
 	Blank,
 	Key,
@@ -13,6 +18,7 @@ enum ITEM_TYPE {
 	Ring,
 	Sword,
 	Spell,
+	Module,
 }
 
 enum ITEM_ID {
@@ -29,6 +35,9 @@ enum ITEM_ID {
 	DevStick,
 	
 	Armor,
+	
+	DoubleJumpModule,
+	HighJumpModule,
 }
 
 enum SPELL_ID {

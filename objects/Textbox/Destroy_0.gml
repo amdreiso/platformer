@@ -1,6 +1,8 @@
 
 dialogueEnd(npc);
 
+Level.screenlog("Textbox: destroyed Textbox");
+
 if (npc == noone) return;
 
 camera_focus(Player);

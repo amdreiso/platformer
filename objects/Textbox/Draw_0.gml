@@ -75,7 +75,10 @@ if (charCount < array_length(text)) {
 } else {
 	
 	if (advance) {
-		if (index < array_length(dialogue)-1) {
+		var len = array_length(dialogue) - 1;
+		Level.screenlog("Textbox: " + string(index) + " / " + string(len) + " texts");
+		
+		if (index < len) {
 			index ++;
 			text = parse_rich_text(dialogue[index]);
 			charCount = 0;
@@ -91,6 +94,4 @@ if (charCount < array_length(text)) {
 	draw_sprite_ext(spr, current_time * 0.005, x + xoffset + magicnumber0, y + magicnumber0, spacebarScale, spacebarScale, sin(current_time * 0.01) * 4, spacebarColor, 1);
 	
 }
-
-
 

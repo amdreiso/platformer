@@ -1,6 +1,7 @@
 
 
 Gravity = 0.07;
+Sleep = max(0, Sleep - GameSpeed);
 
 
 #region Globals

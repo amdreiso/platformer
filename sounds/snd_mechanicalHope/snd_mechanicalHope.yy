@@ -6,11 +6,11 @@
     "path":"audiogroups/audiogroup_songs",
   },
   "bitDepth":1,
-  "channelFormat":0,
+  "channelFormat":1,
   "compression":0,
   "compressionQuality":4,
   "conversionMode":0,
-  "duration":42.94737,
+  "duration":58.0,
   "exportDir":"",
   "name":"snd_mechanicalHope",
   "parent":{
@@ -22,5 +22,5 @@
   "resourceVersion":"2.0",
   "sampleRate":44100,
   "soundFile":"snd_mechanicalHope.wav",
-  "volume":1.0,
+  "volume":0.39,
 }

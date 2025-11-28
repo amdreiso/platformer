@@ -1,6 +1,17 @@
 
-x += hsp * GameSpeed;
-y += vsp * GameSpeed;
+x += hsp + knockback.x * GameSpeed;
+y += vsp + knockback.y * GameSpeed;
+
+knockback_apply();
+
+if (roll) {
+	var vel = (hsp + knockback.x);
+	var r = sprite_width / 2;
+	var circumference = r * 2 * pi;
+	var change = (vel / circumference) * 360;
+
+	angle -= change / 1.5;
+}
 
 scale += scaleFactor * GameSpeed;
 scale = max(0, scale);
@@ -10,6 +21,13 @@ angle += theta * GameSpeed;
 if (gravityApply) {
 	vsp += gravityForce;
 }
+
+
+for (var i = 0; i < array_length(collisions); i++) {
+	collision_set(collisions[i]);
+	
+}
+
 
 tick += GameSpeed;
 
@@ -24,7 +42,8 @@ if (fadein && !destroy) {
 	alpha = clamp(alpha + fadeinSpeed * GameSpeed, 0, 1);
 }
 
-if (fadeout) {
+fadeoutCooldown = max(0, fadeoutCooldown - GameSpeed);
+if (fadeout && fadeoutCooldown == 0) {
 	alpha = clamp(alpha - fadeoutSpeed * GameSpeed, 0, 1);
 	
 	if (alpha == 0) destroy = true;

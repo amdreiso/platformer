@@ -1,4 +1,6 @@
 
+if (Sleep) return;
+
 if (Player.busy) return;
 
 movement();

@@ -25,6 +25,5 @@ function macros_load(){
 	
 	// existing functions
 	#macro print show_debug_message
-	#macro quit game_end
 	
 }

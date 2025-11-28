@@ -45,10 +45,12 @@ function item_init(){
 			type : ITEM_TYPE.Sword,
 			canUseSpell : true,
 			damage: 1,
+			attackSprite: sPlayer_Attack1,
 		};
 		
 		// Apply new components
 		struct_merge(final, unique);
+		struct_merge(final, components);
 		
 		return final;
 	}
@@ -66,6 +68,7 @@ function item_init(){
 		
 		// Apply new components
 		struct_merge(final, unique);
+		struct_merge(final, components);
 		
 		return final;
 	}
@@ -83,6 +86,25 @@ function item_init(){
 		
 		// Apply new components
 		struct_merge(final, unique);
+		struct_merge(final, components);
+		
+		return final;
+	}
+	var moduleComponents = function(components={}) {
+		var final = {};
+		
+		// Apply defaults
+		struct_merge(final, defaultComponents);
+		
+		// Unique components
+		var unique = {
+			type : ITEM_TYPE.Module,
+			icon : -1,
+		};
+		
+		// Apply new components
+		struct_merge(final, unique);
+		struct_merge(final, components);
 		
 		return final;
 	}
@@ -135,13 +157,23 @@ function item_init(){
 	#region Swords
 	
 	ITEM.Register(ITEM_ID.BaseballBat, swordComponents({
-		damage: 2,
-		sprite: sItem_BaseballBat,
+		damage : 2,
+		sprite : sItem_BaseballBat,
 	}));
 	
 	ITEM.Register(ITEM_ID.DevStick, swordComponents({
-		damage: infinity,
-		sprite: sItem_DevStick,
+		damage : infinity,
+		sprite : sItem_DevStick,
+		damage : infinity,
+	}));
+	
+	#endregion
+	
+	#region Modules
+	
+	ITEM.Register(ITEM_ID.HighJumpModule, moduleComponents({
+		name : "High Jump Module",
+		icon : sModule_HighJump,
 	}));
 	
 	#endregion

@@ -20,6 +20,8 @@ cutscene_init();
 story_progression();
 
 
+
+
 // Game info
 globalvar GameInfo;
 GameInfo = {
@@ -42,6 +44,7 @@ globalvar Debug; Debug = {
 	drawAttackCommandInput: false,
 };
 
+globalvar Sleep; Sleep = 0;
 
 globalvar Settings; Settings = settings_get();
 settings_load();
@@ -136,33 +139,6 @@ rainbowSpeed = 1;
 rainbowSaturation = 220;
 rainbowValue = 220;
 
-
-if (!instance_exists(Player)) {
-	instance_create_layer(190, 232, "Init", Player);
-	//instance_create_layer(600, 300, "Init", Player);
-}
-
-if (!instance_exists(Level)) {
-	instance_create_layer(0, 0, "Init", Level);
-	//instance_create_layer(600, 300, "Init", Player);
-}
-
-if (!instance_exists(QuestHandler)) {
-	instance_create_layer(190, 500, "Init", QuestHandler);
-}
-
-if (!instance_exists(PauseMenu)) {
-	instance_create_layer(0, 0, "Init", PauseMenu);
-}
-
-
-
-if (CurrentChapter.beggining_cutscene.played) {
-	room_goto(rmLevel_Cave_Entrance);
-	//room_goto(rmLevel_Cave_DumpYard);
-} else {
-	room_goto(rmBegginingCutscene);
-}
 
 
 
@@ -446,6 +422,30 @@ instance_create_depth(0, 0, -999999, TEST);
 //modloader.load();
 
 
+
+
+if (!instance_exists(Player)) {
+	instance_create_layer(190, 232, "Init", Player);
+	//instance_create_layer(600, 300, "Init", Player);
+}
+
+if (!instance_exists(TEST)) {
+	instance_create_layer(190, 232, "Init", TEST);
+	//instance_create_layer(600, 300, "Init", Player);
+}
+
+if (!instance_exists(Level)) {
+	instance_create_layer(0, 0, "Init", Level);
+	//instance_create_layer(600, 300, "Init", Player);
+}
+
+if (!instance_exists(QuestHandler)) {
+	instance_create_layer(190, 500, "Init", QuestHandler);
+}
+
+if (!instance_exists(PauseMenu)) {
+	instance_create_layer(0, 0, "Init", PauseMenu);
+}
 
 
 

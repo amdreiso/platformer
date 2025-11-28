@@ -61,6 +61,7 @@ collisions = function() {
 	if (applyGroundCollisions) {
 		collision_set(Collision);
 		collision_set(Collision_Slope);
+		collision_set(Fakewall);
 		
 	}
 	
@@ -227,6 +228,9 @@ weaponDraw = function() {
 
 draw = function() {
 	var sprite = setSpriteStates();
+	
+	image_speed = 1;
+	if (Sleep) image_speed = 0;
 	
 	sprite_index = sprite;
 	

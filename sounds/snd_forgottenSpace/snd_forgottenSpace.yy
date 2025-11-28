@@ -6,7 +6,7 @@
     "path":"audiogroups/audiogroup_songs",
   },
   "bitDepth":1,
-  "channelFormat":0,
+  "channelFormat":1,
   "compression":0,
   "compressionQuality":4,
   "conversionMode":0,
@@ -22,5 +22,5 @@
   "resourceVersion":"2.0",
   "sampleRate":44100,
   "soundFile":"snd_forgottenSpace.wav",
-  "volume":0.84,
+  "volume":1.0,
 }

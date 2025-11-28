@@ -10,7 +10,11 @@ hit = function(){
 	hitCooldown = 2 * 60;
 	hp --;
 	if (hp <= 0) {
+		
+		
+
 		instance_destroy();
 	}
 };
 
+surface = -1;

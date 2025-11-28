@@ -71,6 +71,24 @@ spriteStates = {
 }
 
 
+#region MODULES
+
+modules = {};
+modules.list = [];
+modules.has = function(val) {
+	return array_contains(modules.list, val);
+}
+modules.add = function(val) {
+	if (ITEM.GetType(val) == ITEM_TYPE.Module) {
+		array_push(modules.list, val);
+	}
+}
+
+modules.add(ITEM_ID.HighJumpModule);
+
+#endregion
+
+
 #region UPGRADE
 
 PlayerUpgradeData = ds_map_create();
@@ -205,7 +223,7 @@ function MapTile(roomID, x, y, color, passages = {}) constructor {
 		left: false,
 	};
 	
-	var transitions = LEVEL.get(roomID).components.transitions;
+	var transitions = LEVEL.Get(roomID).components.transitions;
 	var len = array_length(transitions);
 	
 	for (var i = 0; i < len; i++) {
@@ -249,7 +267,7 @@ map = {
 			var g = grid[i];
 			var size = Player.map.size;
 			
-			var level = LEVEL.get(g.roomID);
+			var level = LEVEL.Get(g.roomID);
 			var roomOffsetX = level.components.mapOffsetPos.x;
 			var roomOffsetY = level.components.mapOffsetPos.y;
 			
@@ -379,7 +397,7 @@ hit = function(damage, xscale=1, applyKnockback = true, stun = true) {
 	}
 	
 	if (applyKnockback) {
-		var multiplier = new Vec2(0.5, 1);
+		var multiplier = new Vec2(0.15, 1);
 		
 		knockback.y -= (jumpForce * multiplier.y) * !onAir;
 		
@@ -449,6 +467,11 @@ secondJumpTick					= 0;
 flying									= false;
 tilePosition						= new Vec2();
 
+halt = function() {
+	hsp = 0;
+	vsp = 0;
+	knockback = new Vec2();
+}
 
 getPosition = function() {
 	return new Vec2(x, y);
@@ -782,7 +805,7 @@ applyCollisions = function() {
 	collision_set(Collision, spd);
 	collision_set(Collision_Slope, spd);
 	collision_set(Collision_Rayblock, spd);
-	collision_set(FakeWall, spd);
+	collision_set(Fakewall, spd);
 	
 	
 	if (instance_exists(DoorSideways)) {
@@ -867,9 +890,11 @@ attackCommandGet = function(key) {
 // controls:
 // down up right left attack jump
 
-// Big Jump
+// High Jump
 attackCommandCreate("down+up+jump", "big jump!", function(){
 	if (!onGround) return false;
+	if (!modules.has(ITEM_ID.HighJumpModule)) return false;
+	
 	vsp = 0;
 	vsp -= 3;
 	return true;
@@ -890,6 +915,7 @@ analogPressed = false;
 
 attack = function() {
 	if (busy || isAttacking) return;
+	if (instance_exists(Cutscene)) return;
 	
 	var handID = inventory.equipment.sword.itemID;
 	var hand = inventory.equipment.sword.Get();
@@ -1181,6 +1207,9 @@ draw = function() {
 		}
 	}
 	
+	if (Sleep) {
+		image_speed = 0;
+	}
 	
 	// Draw player sprite
 	if (hitCooldown == 0 || !blink) {

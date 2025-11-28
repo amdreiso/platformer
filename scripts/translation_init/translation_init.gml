@@ -89,8 +89,8 @@ function translation_init(){
 		.finalize();
 	
 	
+	#region BOSS Waste Reaper
 	
-	// Junkeeper Cutscene
 	TRANSLATION.Add("cutscene_junkeeper_0")
 		.set(LANGUAGE_ID.English, $"[scale=1.25][shake=1]YOU SHOULDN'T HAVE COME HERE![/shake][/scale]")
 		.set(LANGUAGE_ID.Brazilian, $"[scale=1.25][shake=1]VOCÊ NÃO DEVIA TER VINDO AQUI![/shake][/scale]")
@@ -120,6 +120,15 @@ function translation_init(){
 		.set(LANGUAGE_ID.English, $"[scale=1.55][shake=0.5][color=red][speed=20]BOOT YOURSELF![/speed][/color][/shake][/scale]")
 		.set(LANGUAGE_ID.Brazilian, $"[scale=1.55][shake=0.5][color=red][speed=20]SE LIGUE![/speed][/color][/shake][/scale]")
 		.finalize();
+		
+	TRANSLATION.Add("cutscene_junkeeper_nohands")
+		.set(LANGUAGE_ID.English, $"[scale=1.45][shake=0.5][speed=20]MY HANDS!!![/speed][/shake][/scale]")
+		.set(LANGUAGE_ID.Brazilian, $"[scale=1.45][shake=0.5][speed=20]MINHAS MÃOS!!![/speed][/shake][/scale]")
+		.finalize();
+	
+	#endregion
+	
+	
 	
 	
 	#endregion
