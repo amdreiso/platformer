@@ -2,7 +2,6 @@
 
 function item_init(){
 	
-	globalvar ItemData; ItemData = ds_map_create();
 	globalvar ITEM;
 	
 	//var defaultComponents = function() {
@@ -44,8 +43,8 @@ function item_init(){
 		var unique = {
 			type : ITEM_TYPE.Sword,
 			canUseSpell : true,
-			damage: 1,
-			attackSprite: sPlayer_Attack1,
+			damage : 1,
+			attackSprite : sPlayer_Attack1,
 		};
 		
 		// Apply new components
@@ -116,7 +115,9 @@ function item_init(){
 	
 	#region Blanks
 	
-	ITEM.Register(ITEM_ID.ScrapElectronics);
+	ITEM.Register(ITEM_ID.ScrapElectronics, {
+		sprite : sItem_ScrapElectronics,
+	});
 	
 	#endregion
 	
@@ -164,7 +165,6 @@ function item_init(){
 	ITEM.Register(ITEM_ID.DevStick, swordComponents({
 		damage : infinity,
 		sprite : sItem_DevStick,
-		damage : infinity,
 	}));
 	
 	#endregion

@@ -26,7 +26,7 @@
   "origin":4,
   "parent":{
     "name":"Player",
-    "path":"folders/Sprites/Player.yy",
+    "path":"folders/Sprites/Player/Player.yy",
   },
   "preMultiplyAlpha":false,
   "resourceType":"GMSprite",
@@ -70,7 +70,9 @@
     "timeUnits":1,
     "tracks":[
       {"$GMSpriteFramesTrack":"","builtinName":0,"events":[],"inheritsTrackColour":true,"interpolation":1,"isCreationTrack":false,"keyframes":{"$KeyframeStore<SpriteFrameKeyframe>":"","Keyframes":[
-            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{"0":{"$SpriteFrameKeyframe":"","Id":{"name":"a52476d2-d0fe-4947-b149-dec3e0ec03fe","path":"sprites/sPlayerOneEye_Idle/sPlayerOneEye_Idle.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},},"Disabled":false,"id":"449bf439-b141-4ce6-8dbb-d77bd8c4f8a4","IsCreationKey":false,"Key":0.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
+            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
+                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"a52476d2-d0fe-4947-b149-dec3e0ec03fe","path":"sprites/sPlayerOneEye_Idle/sPlayerOneEye_Idle.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
+              },"Disabled":false,"id":"449bf439-b141-4ce6-8dbb-d77bd8c4f8a4","IsCreationKey":false,"Key":0.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
           ],"resourceType":"KeyframeStore<SpriteFrameKeyframe>","resourceVersion":"2.0",},"modifiers":[],"name":"frames","resourceType":"GMSpriteFramesTrack","resourceVersion":"2.0","spriteId":null,"trackColour":0,"tracks":[],"traits":0,},
     ],
     "visibleRange":null,

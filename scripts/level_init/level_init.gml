@@ -249,7 +249,7 @@ function level_init() {
 	}
 	
 	
-	#region MAIN
+	#region CAVE
 	
 	LEVEL.Register(rmLevel_Cave_Entrance, {
 		name : "Cave Entrance",
@@ -332,6 +332,19 @@ function level_init() {
 		}
 	});
 	
+	#endregion
+	
+	
+	#region GARDEN
+	
+	LEVEL.Register(rmLevel_Garden_Entrance, {
+		name : "Garden Entrance",
+		dimension : DIMENSION_ID.Main,
+		
+		transitions : [
+			TransitionSet("down", 0, 1, rmLevel_Cave_Entrance),
+		],
+	});
 	
 	
 	#endregion

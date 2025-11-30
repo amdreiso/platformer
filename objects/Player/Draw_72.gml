@@ -1,0 +1,3 @@
+
+// Upgrades
+upgrade.drawBegin(self);

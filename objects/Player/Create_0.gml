@@ -114,12 +114,13 @@ upgrade.add = function(upgradeID) {
 	return true;
 }
 
-upgrade.register = function(upgradeID, name, icon, update, draw) {
+upgrade.register = function(upgradeID, name, icon, update, draw, drawBegin) {
 	var upg = {};
 	upg.name = name;
 	upg.icon = icon;
 	upg.update = update;
 	upg.draw = draw;
+	upg.drawBegin = drawBegin;
 	
 	PlayerUpgradeData[? upgradeID] = upg;
 }
@@ -129,25 +130,36 @@ upgrade.get = function(key) {
 	return PlayerUpgradeData[? key];
 }
 
-upgrade.update = function() {
+upgrade.update = function(obj) {
 	var len = array_length(upgrade.list);
 	if (len == 0) return;
 	
 	for (var i = 0; i < len; i++) {
 		var upgradeID = upgrade.list[i];
 		var update = upgrade.get(upgradeID).update;
-		update(Player);
+		update(obj);
 	}
 }
 
-upgrade.draw = function() {
+upgrade.draw = function(obj) {
 	var len = array_length(upgrade.list);
 	if (len == 0) return;
 	
 	for (var i = 0; i < len; i++) {
 		var upgradeID = upgrade.list[i];
 		var draw = upgrade.get(upgradeID).draw;
-		draw(Player);
+		draw(obj);
+	}
+}
+
+upgrade.drawBegin = function(obj) {
+	var len = array_length(upgrade.list);
+	if (len == 0) return;
+	
+	for (var i = 0; i < len; i++) {
+		var upgradeID = upgrade.list[i];
+		var draw = upgrade.get(upgradeID).drawBegin;
+		draw(obj);
 	}
 }
 
@@ -159,6 +171,7 @@ enum PLAYER_UPGRADE_ID {
 upgrade.register(
 	PLAYER_UPGRADE_ID.Jetpack, "Jetpack", -1,
 	
+	// Update
 	function(obj){
 		
 		static fuelDefault = 200;
@@ -195,13 +208,20 @@ upgrade.register(
 		
 	},
 	
+	// Draw
 	function(obj){
-		
 		if (obj.flying) {
 			//draw_sprite_ext(sPlayer_DoubleJumpFire, 0, x, bbox_bottom, 1, 1, 0, c_white, 1);
 		}
+	},
+	
+	// Draw begin
+	function(obj){
+		var spr = sPlayerUpgrade_Jetpack;
+		draw_sprite_ext(spr, 0, x, y, image_xscale, image_yscale, angle, c_white, 1);
 		
-	}
+	},
+	
 );
 
 

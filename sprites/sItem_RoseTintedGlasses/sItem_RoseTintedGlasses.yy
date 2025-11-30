@@ -1,6 +1,6 @@
 {
   "$GMSprite":"v2",
-  "%Name":"sRoseTintedGlasses_Item",
+  "%Name":"sItem_RoseTintedGlasses",
   "bboxMode":0,
   "bbox_bottom":2,
   "bbox_left":0,
@@ -21,7 +21,7 @@
   "layers":[
     {"$GMImageLayer":"","%Name":"e99f21cb-f50a-4e57-b639-ec9fc9dcb364","blendMode":0,"displayName":"default","isLocked":false,"name":"e99f21cb-f50a-4e57-b639-ec9fc9dcb364","opacity":100.0,"resourceType":"GMImageLayer","resourceVersion":"2.0","visible":true,},
   ],
-  "name":"sRoseTintedGlasses_Item",
+  "name":"sItem_RoseTintedGlasses",
   "nineSlice":null,
   "origin":4,
   "parent":{
@@ -33,7 +33,7 @@
   "resourceVersion":"2.0",
   "sequence":{
     "$GMSequence":"v1",
-    "%Name":"sRoseTintedGlasses_Item",
+    "%Name":"sItem_RoseTintedGlasses",
     "autoRecord":true,
     "backdropHeight":768,
     "backdropImageOpacity":0.5,
@@ -57,7 +57,7 @@
       "resourceType":"KeyframeStore<MomentsEventKeyframe>",
       "resourceVersion":"2.0",
     },
-    "name":"sRoseTintedGlasses_Item",
+    "name":"sItem_RoseTintedGlasses",
     "playback":1,
     "playbackSpeed":30.0,
     "playbackSpeedType":0,
@@ -70,7 +70,9 @@
     "timeUnits":1,
     "tracks":[
       {"$GMSpriteFramesTrack":"","builtinName":0,"events":[],"inheritsTrackColour":true,"interpolation":1,"isCreationTrack":false,"keyframes":{"$KeyframeStore<SpriteFrameKeyframe>":"","Keyframes":[
-            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{"0":{"$SpriteFrameKeyframe":"","Id":{"name":"672e6a53-9329-4e9b-9076-3141189a1e47","path":"sprites/sRoseTintedGlasses_Item/sRoseTintedGlasses_Item.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},},"Disabled":false,"id":"e93c23a9-60c8-4e25-baa3-ab8643f4a7ee","IsCreationKey":false,"Key":0.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
+            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
+                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"672e6a53-9329-4e9b-9076-3141189a1e47","path":"sprites/sItem_RoseTintedGlasses/sItem_RoseTintedGlasses.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
+              },"Disabled":false,"id":"e93c23a9-60c8-4e25-baa3-ab8643f4a7ee","IsCreationKey":false,"Key":0.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
           ],"resourceType":"KeyframeStore<SpriteFrameKeyframe>","resourceVersion":"2.0",},"modifiers":[],"name":"frames","resourceType":"GMSpriteFramesTrack","resourceVersion":"2.0","spriteId":null,"trackColour":0,"tracks":[],"traits":0,},
     ],
     "visibleRange":null,

@@ -8,6 +8,7 @@ enum LEVEL_SECTION {
 
 enum DIMENSION_ID {
 	Main,
+	Garden,
 	Neptune,
 }
 
