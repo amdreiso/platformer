@@ -14,16 +14,19 @@ repeat (val) {
 			
 		sprite = sParticle_Dust;
 		randomSprite = true;
+		
+		lifetime = irandom_range(3, 6) * 60;
 			
 		scale = random_range(1.00, 1.50);
+		
+		alpha = random_range(0.44, 0.77);
 			
 		image_angle = irandom(360);
 		image_xscale = choose(-1, 1);
 		image_yscale = choose(-1, 1);
 			
-		fadeout = true;
-		fadeoutSpeed = random_range(0.05, 0.15) / 5;
-			
+		fadeout = false;
+		
 	}
 }
 

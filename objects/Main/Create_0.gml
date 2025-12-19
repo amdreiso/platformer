@@ -21,7 +21,6 @@ story_progression();
 
 
 
-
 // Game info
 globalvar GameInfo;
 GameInfo = {
@@ -115,6 +114,12 @@ globalvar Screen; Screen = {
 	}
 };
 
+globalvar Occasion; Occasion = {
+	christmas : false,
+	easter : false,
+	halloween : false,
+}
+
 
 callback = new Callback();
 
@@ -158,240 +163,19 @@ transitionCooldownTime = 0;
 
 
 // console
-logs = [];
-commands = [];
-logRewind = -1;
+console_init();
 
 // TODO:
 // Fix this
 // instead of using array, use map for CommandData
 // way better to set keys for the commands to not flood the array with the same commands
 
-runCommand = function(input, showHistory = false) {
-	if (input == "") return;
-	
-	var args = string_split(input, " ", true);
-	var command = args[0];
-	array_delete(args, 0, 1);
-	
-	var found = false;
-	
-	if (showHistory)
-		log("- "+input);
-	
-	// Run Actual Command
-	for (var i = 0; i < array_length(CommandData); i++) {
-		if (string_lower(command) == CommandData[i].name) {
-			var argc = CommandData[i].argc;
-			var argl = array_length(args);
-			
-			if (argc != argl && argc != -1) {
-				err($"Missing {argc} arguments.");
-				return;
-			}
-			
-			CommandData[i].fn(args);
-			found = true;
-		}
-	}
-	
-	for (var obj = 0; obj < instance_count; obj++) {
-		if (string_starts_with(command, object_get_name(obj))) {
-			var str = command;
-			var slices = string_split(str, ".");
-			var arguments = string_split(str, "=");
-			
-			if (array_length(slices) < 2) {
-				err("Usage is 'Object.variable = value'");
-				found = true;
-				break;
-			}
-			
-			var arglen = array_length(arguments);
-			if (arglen < 2) {
-				err("Not enough arguments!");
-				found = true;
-				break;
-			}
-			
-			var value = arguments[1];
-			var asset = asset_get_index(slices[0]);
-			
-			var sliceofslice = string_split(slices[1], "=");
-			var name = sliceofslice[0];
-			
-			log($"{asset}.{name} set to {value}");
-			
-			var variable = variable_struct_get(asset, name);
-			log(typeof(variable));
-			
-			switch (typeof(variable)) {
-				case "number":
-					variable_struct_set(asset, name, real(value));
-					break;
-				
-				case "string":
-					variable_struct_set(asset, name, value);
-					break;
-			}
-			
-			found = true;
-		}
-	}
-	
-	if (!found) {
-		err("Invalid command!");
-	}
-}
 
-consoleScroll = 0;
-consoleScrollSpeed = 3;
 
-clearConsole = function() {
-	consoleScroll = 0;
-	commands = [];
-	logs = [];
-}
 
-drawConsole = function() {
-	if (!Debug.console) return;
-	
-	var input = keyboard_string;
-	static pastCommand = 0;
-	
-	if (keyboard_check_pressed(vk_enter)) {
-		runCommand(input, true);
-		array_push(commands, input);
-		keyboard_string = "";
-		pastCommand = 0;
-	}
-	
-	if (keyboard_check(vk_control) && keyboard_check_pressed(ord("V")) && clipboard_has_text()) {
-		keyboard_string += clipboard_get_text();
-	}
-	
-	if (keyboard_check(vk_control) && keyboard_check_pressed(ord("C")) && keyboard_string != "") {
-		clipboard_set_text(keyboard_string);
-	}
-	
-	if (keyboard_check(vk_control) && keyboard_check_pressed(vk_backspace)) {
-		var s = keyboard_string;
-    var specials = ".=/ ";
-    var found = false;
-		
-    for (var i = string_length(s); i > 0; --i) {
-      var ch = string_char_at(s, i);
-      if (string_pos(ch, specials) > 0) {
-        keyboard_string = string_copy(s, 1, i);
-        found = true;
-        break;
-      }
-    }
-    
-		if (!found) keyboard_string = "";
-	}
-	
-	if (keyboard_check_pressed(vk_tab)) {
-		var partial = string_lower(input);
-		var matches = [];
-	
-		for (var i = 0; i < array_length(CommandData); i++) {
-			var cmd_name = string_lower(CommandData[i].name);
-			if (string_pos(partial, cmd_name) == 1) {
-				array_push(matches, CommandData[i].name);
-			}
-		}
-		
-		if (array_length(matches) == 1) {
-			keyboard_string = matches[0] + " ";
-		}
-		
-		else if (array_length(matches) > 1) {
-			for (var i = 0; i < array_length(matches); i++) {
-				log(matches[i], c_ltgray);
-			}
-			log("");
-		}
-	}
-	
-	
-	var len = array_length(commands);
-	
-	if (keyboard_check_pressed(vk_up) && pastCommand < len) {
-		pastCommand += 1;
-		keyboard_string = commands[len - pastCommand];
-	}
-	
-	if (keyboard_check_pressed(vk_down) && pastCommand > 1) {
-		pastCommand -= 1;
-		keyboard_string = commands[len - pastCommand];
-	}
-	
-	// Draw the actual console
-	var width = 700;
-	var height = 412;
-	var xx = width * 1.05;
-	var yy = 0;
-	var c0 = $080808;
-	var c1 = Style.rainbow;
-	
-	draw_set_alpha(0.95);
-	
-	draw_rectangle_color(
-		xx - width, 200, xx, 200 + height, 
-		c0, c0, c0, c0, false
-	);
-	
-	draw_set_alpha(1);
-	
-	draw_rectangle_color(
-		xx - width, 200, xx, 200 + height, 
-		c1, c1, c1, c1, true
-	);
-	
-	draw_set_halign(fa_left);
-	
-	// Draw logs
-	var count = array_length(logs);
-	var maxcount = 26;
-	if (array_length(logs) > maxcount) {
-		count = maxcount;
-	}
-	
-	consoleScroll += (mouse_wheel_up() && consoleScroll < array_length(logs) - maxcount - consoleScrollSpeed) ? consoleScrollSpeed : 0;
-	consoleScroll -= (mouse_wheel_down() && consoleScroll > 0) ? consoleScrollSpeed : 0;
-	
-	for (var i = consoleScroll; i < count + consoleScroll; i++) {
-		var sep = 14;
-	
-		draw_set_font(logs[i].font);
-		
-		draw_text_color(
-			xx - width + 5, 
-			(150 + height) - (i - consoleScroll) * sep, 
-			
-			logs[i].str, 
-			logs[i].color, logs[i].color, logs[i].color, logs[i].color, 1
-		);
-	}
-	
-	draw_set_font(fnt_console);
-		
-	var bar = "█";
-	draw_text(xx - width + 5, 180 + height, "> " + input + bar);
-	
-	draw_set_font(fnt_console);
-	
-	var scale = 0.10;
-	var yyy = 201;
-	
-	// KITTIESSSS
-	draw_sprite_ext(sKitty, 0, xx, yyy + height, scale, scale, 0, c_white, 1);
-	draw_sprite_ext(sKitty3, 0, xx - (sprite_get_width(sKitty) * scale), yyy + height, scale, scale, 0, c_white, 1);
-	draw_sprite_ext(sKitty2, 0, xx - (sprite_get_width(sKitty3) * scale), yyy + height, scale, scale, 0, c_white, 1);
-}
 
-runCommand("start");
+
+CONSOLE.Run("start");
 
 
 // For testing snippets of code

@@ -5,7 +5,7 @@ sprite = sParticle_Explosion;
 index = irandom(sprite_get_number(sprite) - 1);
 
 gravityApply = false;
-lifetime = random_range(0.10, 1.00) * 60;
+lifetime = random_range(0.10, 1.00) * 10;
 
 image_angle = 0;
 

@@ -1,5 +1,5 @@
 
-var item = ITEM.get(itemID);
+var item = ITEM.Get(itemID);
 
 if (place_meeting(x, y, Player)) {
 	if (!picked && item.sprite != -1) {

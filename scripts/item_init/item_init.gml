@@ -99,6 +99,9 @@ function item_init(){
 		var unique = {
 			type : ITEM_TYPE.Module,
 			icon : -1,
+			use : function(){},
+			update : function(){},
+			draw : function(){},
 		};
 		
 		// Apply new components
@@ -114,6 +117,11 @@ function item_init(){
 	
 	
 	#region Blanks
+	
+	// Currency
+	ITEM.Register(ITEM_ID.Gold, {
+		sprite : sItem_Gold,
+	});
 	
 	ITEM.Register(ITEM_ID.ScrapElectronics, {
 		sprite : sItem_ScrapElectronics,
@@ -159,12 +167,12 @@ function item_init(){
 	
 	ITEM.Register(ITEM_ID.BaseballBat, swordComponents({
 		damage : 2,
-		sprite : sItem_BaseballBat,
+		icon : sItem_BaseballBat,
 	}));
 	
 	ITEM.Register(ITEM_ID.DevStick, swordComponents({
 		damage : infinity,
-		sprite : sItem_DevStick,
+		icon : sItem_DevStick,
 	}));
 	
 	#endregion
@@ -174,6 +182,94 @@ function item_init(){
 	ITEM.Register(ITEM_ID.HighJumpModule, moduleComponents({
 		name : "High Jump Module",
 		icon : sModule_HighJump,
+		
+		use : function(obj){
+			
+		},
+		
+		update : function(){
+			
+		},
+		
+		draw : function(){
+			
+		},
+		
+	}));
+	
+	ITEM.Register(ITEM_ID.PortalCasterModule, moduleComponents({
+		name : "Portal Caster Module",
+		icon : sModule_HighJump,
+		
+		use : function(obj){
+			obj.modulePortalCasterPrompt = true;
+		},
+		
+		update : function(obj){
+			
+		},
+		
+		draw : function(obj){
+			
+			if (!obj.modulePortalCasterPrompt) return;
+			
+			// Choose prompt
+			
+			// Make portal
+			if (Keymap.player.upPressed) {
+				obj.modulePortalCasterPrompt = false;
+				
+				obj.modulePortalCasterPortal.roomID = room;
+				obj.modulePortalCasterPortal.pos = new Vec2(obj.x, obj.y);
+				
+				// Remove previous portal
+				Level.roomInstanceDestroy( PlayerPortal );
+				
+				// Create portal object
+				var p = instance_create_layer(obj.x, obj.y, "Background_Instances", PlayerPortal);
+				Level.roomInstanceAdd( new Instance(PlayerPortal, obj.x, obj.y, {
+					depth : p.depth,
+				}) );
+			}
+			
+			// Go to portal
+			if (Keymap.player.downPressed) {
+				obj.modulePortalCasterPrompt = false;
+					
+				var portal = obj.modulePortalCasterPortal;
+				if (room_exists(portal.roomID)) {
+					if (room != portal.roomID) Level.goto( portal.roomID );
+					
+					obj.x = portal.pos.x;
+					obj.y = portal.pos.y;
+				}
+			}
+			
+			if (Keymap.player.cancel) {
+				obj.modulePortalCasterPrompt = false;
+				// Do nothing
+			}
+				
+			// Draw prompt
+			var multiplier = 0.75;
+			var xoff = 32 * multiplier, yoff = -48 * multiplier;
+			var ydiv = 1.5;
+			var bsize = 0.5;
+			
+			// Left option
+			draw_sprite_ext(sPrompt_PortalCaster, 0, obj.x - xoff, obj.y + yoff, 1, 1, 0, c_white, 1);
+			draw_key(KEY_INDICATOR.Up, new Vec2(obj.x - xoff * 1.25, obj.y + yoff / ydiv), bsize);
+			
+			// Right option
+			var color1 = c_white;
+			
+			if (obj.modulePortalCasterPortal.roomID == -1) then color1 = c_dkgray;
+			
+			draw_sprite_ext(sPrompt_PortalCaster, 1, obj.x + xoff, obj.y + yoff, 1, 1, 0, color1, 1);
+			draw_key(KEY_INDICATOR.Down, new Vec2(obj.x + xoff * 1.25, obj.y + yoff / ydiv), bsize);
+			
+		},
+		
 	}));
 	
 	#endregion

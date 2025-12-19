@@ -12,5 +12,7 @@ draw_set_alpha(1);
 // Room transition stuff
 draw_room_transition();
 
-drawConsole();
+if (instance_exists(Level)) then Level.drawScreenlog();
+
+CONSOLE.Draw();
 

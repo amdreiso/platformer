@@ -11,8 +11,8 @@
   "name":"NPC_Robot1",
   "overriddenProperties":[],
   "parent":{
-    "name":"npcs",
-    "path":"folders/Levels/caves/entrance/npcs.yy",
+    "name":"NPCs",
+    "path":"folders/Objects/NPCs.yy",
   },
   "parentObjectId":{
     "name":"NPC",

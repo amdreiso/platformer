@@ -13,10 +13,10 @@ function CutsceneStep(event) {
 	cs.dialoguePitch = 1;
 	cs.offset = new Vec2(0, -20);
 	
-	cs.onStart			= function(){ };
-	cs.onUpdate			= function(){ };
-	cs.onEnd				= function(){ };
-	cs.waitFor			= function(){ };
+	cs.onStart			= function(){};
+	cs.onUpdate			= function(){};
+	cs.onEnd				= function(){};
+	cs.waitFor			= function(){};
 	
 	
 	// Functions

@@ -3,9 +3,7 @@ function InventorySlot(itemID) constructor {
 }
 
 function Inventory(w = 5, h = 5) constructor {
-	self.width = w;
-	self.height = h;
-	
+
 	// Content
 	self.content = [];
 	self.slotIndex = 0;
@@ -23,7 +21,7 @@ function Inventory(w = 5, h = 5) constructor {
 		armor: {
 		},
 		sword: new Tool(-1),
-		shield: new Tool(-1),
+		//shield: new Tool(-1),
 	};
 	
 	
@@ -45,6 +43,14 @@ function Inventory(w = 5, h = 5) constructor {
 	
 	static Add = function(itemID) {
 		var item = new Tool(itemID);
+		
+		// Add gold to player's gold count instead of Tool
+		if (itemID == ITEM_ID.Gold) {
+			Player.gold ++;
+			return;
+		}
+		
+		print($"Inventory: added { itemID}");
 		array_push(self.content, item);
 	}
 	
@@ -70,7 +76,8 @@ function Inventory(w = 5, h = 5) constructor {
 			draw_sprite_ext(sprite, index, xx + sw, yy, scale, scale, 0, color, 1);
 		}
 		
-		var name = TRANSLATION.Get(self.content[slotPointer].itemID, Language);
+		var key = "item_" + string(self.content[slotPointer].itemID);
+		var name = TRANSLATION.Get(key, Language);
 		
 		draw_set_halign(fa_left);
 		var textScale = scale / 1.5;
@@ -163,36 +170,36 @@ function Inventory(w = 5, h = 5) constructor {
 		
 		
 		// Draw modules
-		with (Player) {
-			var x2 = other.sectionItemRight + (slotSize / 2.44 * sw); 
-			var scale = 2;
+		//with (Player) {
+		//	var x2 = other.sectionItemRight + (slotSize / 2.44 * sw); 
+		//	var scale = 2;
 			
-			draw_text_outline(x2, 50, "MODULES", scale, scale, 0, 1, fnt_console, c_black, c_white);
+		//	draw_text_outline(x2, 50, "MODULES", scale, scale, 0, 1, fnt_console, c_black, c_white);
 			
-			for (var i = 0; i < array_length(modules.list); i++) {
-				var moduleID = modules.list[i];
-				var item = ITEM.Get(moduleID).components;
-				var icon = item.icon;
-				var hh = sprite_get_height(icon) * scale;
-				var ww = sprite_get_width(icon) * scale;
-				var padding = 1.15;
+		//	for (var i = 0; i < array_length(modules.list); i++) {
+		//		var moduleID = modules.list[i];
+		//		var item = ITEM.Get(moduleID).components;
+		//		var icon = item.icon;
+		//		var hh = sprite_get_height(icon) * scale;
+		//		var ww = sprite_get_width(icon) * scale;
+		//		var padding = 1.15;
 				
-				draw_sprite_ext(
-					icon, 0, 
-					other.sectionItemRight + ww + 10, 150 + i * hh * padding, 
-					1.5, 1.5, 0, c_white, 1
-				);
+		//		draw_sprite_ext(
+		//			icon, 0, 
+		//			other.sectionItemRight + ww + 10, 150 + i * hh * padding, 
+		//			1.5, 1.5, 0, c_white, 1
+		//		);
 				
-				draw_set_halign(fa_left);
+		//		draw_set_halign(fa_left);
 				
-				draw_text_outline(
-					other.sectionItemRight + ww * 2, 150 + i * hh + padding, 
-					item.name, 1.25, 1.25, 0, 1, fnt_console, c_black, c_white
-				);
+		//		draw_text_outline(
+		//			other.sectionItemRight + ww * 2, 150 + i * hh + padding, 
+		//			item.name, 1.25, 1.25, 0, 1, fnt_console, c_black, c_white
+		//		);
 				
-				draw_set_halign(fa_center);
-			}
-		}
+		//		draw_set_halign(fa_center);
+		//	}
+		//}
 		
 		
 		// Draw item selection options

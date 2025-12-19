@@ -2,7 +2,7 @@ function draw_debug_gui(){
 	
 	if (!Debug.debug) return;
 	
-	var scale = 1;
+	var scale = 0.44;
 	var height = 18 * scale;
 	var fore = c_white;
 	var back = c_black;
@@ -10,13 +10,6 @@ function draw_debug_gui(){
 	
 	draw_set_halign(fa_left);
 	draw_set_valign(fa_top);
-	
-	
-	draw_set_alpha(0.88);
-	
-	draw_rectangle_colour(0, 0, 800, 300, c_black, c_black, c_black, c_black, false);
-	
-	draw_set_alpha(1);
 	
 	
 	var version = $"{ GameInfo.version[0]}.{ GameInfo.version[1]}";

@@ -15,6 +15,7 @@ function keymap_get(){
 			
 			interact: (keyboard_check_pressed(vk_up) || gamepad_button_check_pressed(Gamepad.ID, gp_face2)),
 			interactDoor: (keyboard_check_pressed(ord("C")) || gamepad_button_check_pressed(Gamepad.ID, gp_face2)),
+			cancel: (keyboard_check_pressed(ord("C")) || gamepad_button_check_pressed(Gamepad.ID, gp_face2)),
 			attack: (keyboard_check_pressed(ord("X")) || gamepad_button_check(Gamepad.ID, gp_face3)),
 			specialAttack: (keyboard_check_pressed(ord("X")) || gamepad_button_check(Gamepad.ID, gp_face3)),
 			
@@ -23,6 +24,11 @@ function keymap_get(){
 			inventory: (keyboard_check_pressed(ord("V")) || gamepad_button_check_pressed(Gamepad.ID, gp_face4)),
 			
 			swapWeapon: (keyboard_check_pressed(ord("C"))),
+			
+			module0: (keyboard_check_pressed(ord("1")) || gamepad_button_check_pressed(Gamepad.ID, gp_shoulderl)),
+			module1: (keyboard_check_pressed(ord("2")) || gamepad_button_check_pressed(Gamepad.ID, gp_shoulderlb)),
+			module2: (keyboard_check_pressed(ord("3")) || gamepad_button_check_pressed(Gamepad.ID, gp_shoulderr)),
+			module3: (keyboard_check_pressed(ord("4")) || gamepad_button_check_pressed(Gamepad.ID, gp_shoulderrb)),
 		},
 		
 		select:								(keyboard_check_pressed(vk_space) || gamepad_button_check_pressed(Gamepad.ID, gp_face1)),

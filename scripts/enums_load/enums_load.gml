@@ -23,6 +23,8 @@ enum ITEM_TYPE {
 }
 
 enum ITEM_ID {
+	Gold,
+	
 	ScrapElectronics,
 	Jetpack,
 	BaseballBat,
@@ -39,6 +41,9 @@ enum ITEM_ID {
 	
 	DoubleJumpModule,
 	HighJumpModule,
+	PortalCasterModule,
+	
+	Count,
 }
 
 enum SPELL_ID {

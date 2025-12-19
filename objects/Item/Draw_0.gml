@@ -2,18 +2,19 @@
 if (itemID == -1) return;
 
 // Draw item
-var item = ITEM.get(itemID);
-if (item.sprite != -1) {
-	sprite_index = item.sprite;
-	draw_sprite_ext(item.sprite, 0, x, y, xscale, 1, angle, color, alpha);
+var item = ITEM.Get(itemID);
+var sprite = item.components.sprite;
+if (sprite != -1) {
+	sprite_index = sprite;
+	draw_sprite_ext(sprite, 0, x, y, xscale, 1, angle, color, alpha);
 }
 
 if (place_meeting(x, y, Player)) {
+	// Add item to player's inventory
+	if (!picked) Player.inventory.Add( itemID );
+
 	picked = true;
 	applyGravity = false;
-	
-	// Add item to player's inventory
-	Player.inventory.add( itemID );
 }
 
 // Animation when picked

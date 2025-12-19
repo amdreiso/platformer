@@ -1,6 +1,6 @@
 
-x += hsp + force.x;
-y += vsp + force.y;
+x += hsp + knockback.x;
+y += vsp + knockback.y;
 
 if (applyGravity) {
 	vsp += Gravity;

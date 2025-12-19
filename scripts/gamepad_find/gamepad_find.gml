@@ -4,6 +4,8 @@ function gamepad_find(){
 			Gamepad.ID = i;
 			//GamepadWasFound = "found!";
 			
+			gamepad_set_axis_deadzone(Gamepad.ID, Gamepad.deadzone);
+			
 			Keymap = keymap_get();
 			
 			show_debug_message($"Device {i} was connected as a gamepad!");

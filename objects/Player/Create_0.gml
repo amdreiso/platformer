@@ -30,24 +30,30 @@ COMMAND.register("player_add_effect", 2, function(args) {
 });
 
 COMMAND.register("player_set_item", 1, function(args) {
-	var val = real(args[0]);
-	var item = ITEM.Get(val);
+	var itemID = real(args[0]);
+	var item = ITEM.Get(itemID);
 	
 	if (is_undefined(item)) {
 		err("Item ID does not exist!");
 		return;
 	}
 	
+	Player.inventory.equipment.sword.Set(itemID);
+});
+
+COMMAND.register("player_add_all", 0, function(args) {
+	for (var i = 0; i < ITEM_ID.Count; i++) {
+		Player.inventory.Add(i);
+		
+	}
 	
 });
 
 #endregion
 
 
-name = "player";
-
-
 // Player
+name = "player";
 busy = false;
 god = false;
 children = [];
@@ -70,21 +76,33 @@ spriteStates = {
 	attack: sPlayerOneEye_Attack,
 }
 
+gold = 0;
 
 #region MODULES
 
-modules = {};
-modules.list = [];
-modules.has = function(val) {
-	return array_contains(modules.list, val);
-}
-modules.add = function(val) {
-	if (ITEM.GetType(val) == ITEM_TYPE.Module) {
-		array_push(modules.list, val);
-	}
-}
+//modules = {};
+//modules.list = [];
+//modules.has = function(val) {
+//	return array_contains(modules.list, val);
+//}
+//modules.add = function(val) {
+//	if (ITEM.GetType(val) == ITEM_TYPE.Module) {
+//		array_push(modules.list, val);
+//	}
+//}
 
-modules.add(ITEM_ID.HighJumpModule);
+//modules.add(ITEM_ID.HighJumpModule);
+
+
+modules = new PlayerModules();
+modules.Set(0, ITEM_ID.PortalCasterModule);
+
+modulePortalCasterPrompt = false;
+modulePortalCasterPortal = {
+	roomID : -1,
+	pos : new Vec2(),
+};
+
 
 #endregion
 
@@ -229,7 +247,6 @@ upgrade.add(PLAYER_UPGRADE_ID.Jetpack);
 
 #endregion
 
-
 #region MAP
 
 function MapTile(roomID, x, y, color, passages = {}) constructor {
@@ -348,7 +365,6 @@ map = {
 
 #endregion
 
-
 #region STATS
 
 luck = 1;
@@ -358,7 +374,6 @@ mana = new Stat(10);
 manaDisplay = mana.defaultValue;
 
 #endregion
-
 
 #region HEALTH
 
@@ -417,12 +432,12 @@ hit = function(damage, xscale=1, applyKnockback = true, stun = true) {
 	}
 	
 	if (applyKnockback) {
-		var multiplier = new Vec2(0.15, 1);
+		var multiplier = new Vec2(0.15, 0.7);
 		
-		knockback.y -= (jumpForce * multiplier.y) * !onAir;
+		vsp -= (jumpForce * multiplier.y) * !onAir;
 		
 		if (xscale == 0) xscale = choose(-1, 1);
-		knockback.x = xscale * multiplier.x;
+		hsp = xscale * multiplier.x;
 	}
 	
 	
@@ -453,11 +468,10 @@ dieByContact = function() {
 
 #endregion
 
-
 #region MOVEMENT
 
 allowMovement						= true;
-defaultSpd							= 1.44;
+defaultSpd							= 2;
 spd											= defaultSpd;
 hsp											= 0;
 vsp											= 0;
@@ -714,7 +728,6 @@ movement = function() {
 
 #endregion
 
-
 #region PARTICLES
 
 createDustParticles = function(val, range, spd = 0.15) {
@@ -733,21 +746,22 @@ createDustParticles = function(val, range, spd = 0.15) {
 			sprite = sParticle_Dust;
 			randomSprite = true;
 			
+			lifetime = random_range(2.00, 4.00) * 60;
+			
 			scale = random_range(1.00, 1.50);
 			scaleFactor = random_range(-0.01, -0.10) / 4;
+			
+			alpha = 0.77;
 			
 			image_angle = irandom(360);
 			image_xscale = choose(-1, 1);
 			image_yscale = choose(-1, 1);
 			
-			fadeout = true;
-			fadeoutSpeed = random_range(0.05, 0.15) / 5;
 		}
 	}
 }
 
 #endregion
-
 
 #region COLLISIONS
 
@@ -758,7 +772,6 @@ collision = new Callback();
 
 applyCollisions = function() {
 	if (noclip) return;
-	
 	
 	// Player Collision Mask
 	if (!instance_exists(PlayerCollision)) {
@@ -781,8 +794,8 @@ applyCollisions = function() {
 				instance_destroy(instance_nearest(x, y, Trigger));
 			}
 	
-			if (place_meeting(x, y, ProjectileEnemy)) {
-				var proj = instance_nearest(x, y, ProjectileEnemy);
+			if (place_meeting(x, y, Projectile_Enemy)) {
+				var proj = instance_nearest(x, y, Projectile_Enemy);
 				
 				if (!proj.used) {
 					var xdir = sign(x - proj.shooter.x);
@@ -838,7 +851,6 @@ applyCollisions = function() {
 
 #endregion
 
-
 #region CARRYING
 
 isCarrying = false;
@@ -882,7 +894,6 @@ collision.Register(function(obj){
 
 #endregion
 
-
 #region ATTACK
 
 subitem_init();
@@ -913,7 +924,7 @@ attackCommandGet = function(key) {
 // High Jump
 attackCommandCreate("down+up+jump", "big jump!", function(){
 	if (!onGround) return false;
-	if (!modules.has(ITEM_ID.HighJumpModule)) return false;
+	if (!modules.Has(ITEM_ID.HighJumpModule)) return false;
 	
 	vsp = 0;
 	vsp -= 3;
@@ -921,7 +932,7 @@ attackCommandCreate("down+up+jump", "big jump!", function(){
 });
 
 attackCommandCreate("left+down+right+up+down+jump", "", function(){
-	if (!onGround) return;
+	print("gay");
 });
 
 
@@ -937,24 +948,28 @@ attack = function() {
 	if (busy || isAttacking) return;
 	if (instance_exists(Cutscene)) return;
 	
-	var handID = inventory.equipment.sword.itemID;
-	var hand = inventory.equipment.sword.Get();
-	var handType = inventory.equipment.sword.GetType();
+	var handID		= inventory.equipment.sword.itemID;
+	var hand			= inventory.equipment.sword.Get();
+	var handType	= inventory.equipment.sword.GetType();
 	
 	// Sword attack
+	var angle = 0;
+	
+	if (Keymap.player.down) angle = 35;
+	if (Keymap.player.up) angle = -35;
+	
 	if (Keymap.player.attack && handType == ITEM_TYPE.Sword) {
 		
-		print($"Player attacked with '{TRANSLATION.Get(handID, -1)}'");
-		
 		/*
-		TODO: 
-		make every sword attack sprite unique
+			TODO: 
+			make every sword attack sprite unique 
 		*/
 		
 		var atk = instance_create_depth(x, y, depth, PlayerAttack);
 		
 		atk.sprite_index = hand.components.attackSprite;
 		atk.image_xscale = image_xscale;
+		atk.angle = -angle * image_xscale;
 		atk.initialDirection = image_xscale;
 		
 		atk.damage = hand.components.damage;
@@ -1086,16 +1101,6 @@ attack = function() {
 inventory = new Inventory(8, 4);
 inventoryOpen = false;
 
-inventory.Add(ITEM_ID.BaseballBat);
-inventory.Add(ITEM_ID.DevStick);
-inventory.Add(ITEM_ID.FlameSpell);
-inventory.Add(ITEM_ID.FreezeSpell);
-inventory.Add(ITEM_ID.Jetpack);
-inventory.Add(ITEM_ID.KnockbackSpell);
-inventory.Add(ITEM_ID.PoisonSpell);
-inventory.Add(ITEM_ID.ScrapElectronics);
-inventory.Add(ITEM_ID.StrengthSpell);
-
 enum PLAYER_EQUIPMENT_ID {
 	Hand,
 	Offhand,
@@ -1103,14 +1108,8 @@ enum PLAYER_EQUIPMENT_ID {
 	Count,
 }
 
-//inventory.equipment = {
-//	hand: new Tool(ITEM_ID.DevStick),
-//	offhand: new Tool(ITEM_ID.BaseballBat),
-//	armor: new Armor(ITEM_ID.Armor),
-//};
-
-inventory.equipment.sword.Set(ITEM_ID.DevStick);
-inventory.equipment.sword.spell.Add(SPELL_ID.Flames);
+inventory.equipment.sword.Set(ITEM_ID.BaseballBat);
+//inventory.equipment.sword.spell.Add(SPELL_ID.Flames);
 
 
 #endregion
@@ -1239,10 +1238,19 @@ draw = function() {
 		var yoffset = 1 * image_yscale;
 		
 		draw_sprite_ext(sprite_index, image_index, x, y, image_xscale, image_yscale, angle, color, 1);
+		
+		if (Occasion.christmas) {
+			var angle0 = angle;
+			var xoff = 0, yoff = 5;
+			var x0 = x + lengthdir_x(yoff, angle0 + 90) + lengthdir_x(xoff, angle0);
+			var y0 = y + lengthdir_y(yoff, angle0 + 90) + lengthdir_y(xoff, angle0);
+			
+			draw_sprite_ext(sChristmas_Hat, 0, x0, y0, image_xscale, 1, angle, color, 1);
+		}
 	}
 	
 	//if (jumpCount < jumpCountDefault) {
-	//	draw_sprite_ext(sPlayer_DoubleJumpFireы, -1, x, y + sprite_height / 2, image_xscale, 1, sin(current_time * 0.001) * 0.5, c_white, 1);
+	//	draw_sprite_ext(sPlayer_DoubleJumpFire, -1, x, y + sprite_height / 2, image_xscale, 1, sin(current_time * 0.001) * 0.5, c_white, 1);
 	//}
 	
 	if (surface_exists(SurfaceHandler.surface)) surface_reset_target();

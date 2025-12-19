@@ -48,39 +48,52 @@ if (newRoom) {
 	// move player on transition
 	var offset = Main.transitionPlayerOffset;
 	
-	switch (Main.transitionSide) {
-		case "left":
-			var p = new Vec2(room_width - PLAYER_BUFFER_ROOM_WIDTH, Main.transitionPlayerPosition.y);
-			p.x += offset.x * ROOM_TILE_WIDTH;
-			p.y += offset.y * ROOM_TILE_HEIGHT;
+	if (doPlayerTransition) {
+		switch (Main.transitionSide) {
+			case "left":
+				var p = new Vec2(room_width - PLAYER_BUFFER_ROOM_WIDTH, Main.transitionPlayerPosition.y);
+				p.x += offset.x * ROOM_TILE_WIDTH;
+				p.y += offset.y * ROOM_TILE_HEIGHT;
 			
-			player_set_position(p);
-			break;
+				player_set_position(p);
+				break;
 					
-		case "right":
-			var p = new Vec2(PLAYER_BUFFER_ROOM_WIDTH, Main.transitionPlayerPosition.y);
-			p.x += offset.x * ROOM_TILE_WIDTH;
-			p.y += offset.y * ROOM_TILE_HEIGHT;
+			case "right":
+				var p = new Vec2(PLAYER_BUFFER_ROOM_WIDTH, Main.transitionPlayerPosition.y);
+				p.x += offset.x * ROOM_TILE_WIDTH;
+				p.y += offset.y * ROOM_TILE_HEIGHT;
 			
-			player_set_position(p);
-			break;
+				player_set_position(p);
+				break;
 					
-		case "up":
-			var p = new Vec2(Main.transitionPlayerPosition.x, room_height - PLAYER_BUFFER_ROOM_WIDTH - 8);
-			p.x += offset.x * ROOM_TILE_WIDTH;
-			p.y += offset.y * ROOM_TILE_HEIGHT;
+			case "up":
+				var p = new Vec2(Main.transitionPlayerPosition.x, room_height - PLAYER_BUFFER_ROOM_WIDTH - 8);
+				p.x += offset.x * ROOM_TILE_WIDTH;
+				p.y += offset.y * ROOM_TILE_HEIGHT;
 			
-			player_set_position(p);
-			break;
+				player_set_position(p);
+				break;
 					
-		case "down":
-			var p = new Vec2(Main.transitionPlayerPosition.x, PLAYER_BUFFER_ROOM_WIDTH);
-			player_set_position(p);
-			break;
+			case "down":
+				var p = new Vec2(Main.transitionPlayerPosition.x, PLAYER_BUFFER_ROOM_WIDTH);
+				player_set_position(p);
+				break;
+		}
+	}
+	
+	// Create persistent instances
+	var instances = roomInstances[? room];
+	var len = array_length(instances);
+		
+	if (len != 0) {
+		for (var i = 0; i < len; i++) {
+			instances[i].Create();
+		}
 	}
 	
 	showLevelName = 5 * 60;
 	newRoom = false;
+	doPlayerTransition = false;
 }
 
 if (audio_is_playing(backgroundSong)) {

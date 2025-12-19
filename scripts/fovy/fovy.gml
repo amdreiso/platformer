@@ -6,7 +6,103 @@ enum BUTTON_ORIGIN {
 }
 
 function fovy(){
-	show_debug_message("Loaded fovy!");
+}
+
+function Instance(obj, x, y, components = {}) constructor {
+	self.object = obj;
+	self.pos = new Vec2(x, y);
+	self.components = components;
+	
+	static Create = function() {
+		var instance = instance_create_depth(self.pos.x, self.pos.y, 0, self.object);
+		struct_merge(instance, self.components);
+	}
+}
+
+function mouse_collision(orientation, x, y, width, height) {
+	
+	var mx = window_mouse_get_x();
+	var my = window_mouse_get_y();
+	
+	switch (orientation) {
+		case "top left":
+			return (
+				mx > x && 
+				my > y &&
+				mx < x + width && 
+				my < y + height
+			);
+		
+		case "center" :
+			return (
+				mx > x - width / 2 && 
+				my > y - height / 2 &&
+				mx < x + width / 2 && 
+				my < y + height / 2
+			);
+	}
+}
+
+function signabs(x) {
+  return (x < 0) ? -1 : 1;
+}
+
+function DropTable() constructor {
+	self.table = [];
+	
+	static Add = function(itemID, chance, quantity) {
+		var drop = {};
+		drop.itemID = itemID;
+		drop.chance = chance;
+		drop.quantity = random_array_argument(quantity);
+		array_push(self.table, drop);
+	}
+	
+	static Get = function() {
+		for (var i = 0; i < array_length(self.table); i++) {
+			var drop = self.table[i];
+			var rand = random(1.00);
+			if (drop.chance < rand) {
+				return {
+					itemID : drop.itemID,
+					quantity : drop.quantity,
+				}
+			}
+		}
+		
+		return undefined;
+	}
+	
+}
+
+function SpriteStates() constructor {
+	self.states = ds_map_create();
+	self.currentState = "";
+	
+	static Set = function(name, sprite, condition) {
+		var state = {};
+		state.name = name;
+		state.sprite = sprite;
+		state.condition = condition;
+		
+		self.states[? name] = state;
+	}
+	
+	static Get = function() {
+		var value = ds_map_find_first(self.states);
+
+		while (value != undefined) {
+		  var state = ds_map_find_value(self.states, value);
+
+		  if (state.condition) {
+		    self.currentState = state.name;
+		    return state.sprite;
+		  }
+
+		  value = ds_map_find_next(self.states, value);
+		}
+	}
+	
 }
 
 function sleep(val) {
@@ -44,7 +140,7 @@ function Registry() constructor {
 		self.defaultComponents = components;
 	}
 	
-	static Register = function(val, components = {}) {
+	static Register = function(val, components = {}, onRegister = function(){}) {
 		var entry = {};
 		entry.components = {};
 		
@@ -52,6 +148,8 @@ function Registry() constructor {
 		struct_merge(entry.components, components);
 		
 		self.entries[? val] = entry;
+		
+		onRegister( val );
 	}
 	
 	static Get = function(val) {

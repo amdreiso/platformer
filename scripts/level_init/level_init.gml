@@ -342,7 +342,6 @@ function level_init() {
 		dimension : DIMENSION_ID.Main,
 		
 		transitions : [
-			TransitionSet("down", 0, 1, rmLevel_Cave_Entrance),
 		],
 	});
 	

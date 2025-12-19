@@ -1,6 +1,8 @@
 
 event_inherited();
 
+drops.Add(ITEM_ID.Gold, 0.5, 1);
+
 spd = 0.66;
 hasSeenPlayer = false;
 
@@ -13,7 +15,7 @@ projdamage = 5;
 
 radius = 70;
 
-setHp(20);
+setHp(5);
 
 throwTime = 70;
 thrown = false;

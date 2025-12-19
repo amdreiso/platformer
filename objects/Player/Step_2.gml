@@ -1,0 +1,3 @@
+
+// Apply all collisions
+applyCollisions();

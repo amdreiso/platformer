@@ -12,6 +12,15 @@ function translation_init(){
 			methods = {};
 			methods.set = function(languageID, str) {
 				token[? languageID] = str;
+				
+				var lang = "ENGLISH";
+				
+				switch (languageID) {
+					case LANGUAGE_ID.English: lang = "ENGLISH"; break;
+					case LANGUAGE_ID.Brazilian: lang = "BRAZILIAN"; break;
+				}
+				
+				print($"Translation: KEY: {_key} | {lang} : {str}");
 				return methods;
 			}
 			
@@ -25,7 +34,11 @@ function translation_init(){
 		Get: function(key, lang=undefined) {
 			// tries to get translation, if undefined, returns english
 			if (lang == undefined) return TranslationData[? key][? Language] ?? TranslationData[? key][? LANGUAGE_ID.English];
-			return TranslationData[? key][? LANGUAGE_ID.English];
+			try {
+				return TranslationData[? key][? LANGUAGE_ID.English];
+			} catch(e) {
+				return "Missing Translation";
+			}
 		},
 	};
 	
@@ -170,61 +183,74 @@ function translation_init(){
 	
 	#region Items
 	
+	var prefixItem = "item_";
 	
-	TRANSLATION.Add(ITEM_ID.ScrapElectronics)
+	
+	TRANSLATION.Add(prefixItem + string(ITEM_ID.ScrapElectronics))
 		.set(LANGUAGE_ID.English, "scrap electronics")
 		.set(LANGUAGE_ID.Brazilian, "resto de eletrônicos")
 		.finalize();
 	
-	TRANSLATION.Add(ITEM_ID.Jetpack)
+	TRANSLATION.Add(prefixItem + string(ITEM_ID.Jetpack))
 		.set(LANGUAGE_ID.English, "jetpack")
 		.set(LANGUAGE_ID.Brazilian, "mochila a jato")
 		.finalize();
 	
-	TRANSLATION.Add(ITEM_ID.BaseballBat)
+	TRANSLATION.Add(prefixItem + string(ITEM_ID.BaseballBat))
 		.set(LANGUAGE_ID.English, "baseball bat")
 		.set(LANGUAGE_ID.Brazilian, "taco de beisebol")
 		.finalize();
 	
-	TRANSLATION.Add(ITEM_ID.DevStick)
+	TRANSLATION.Add(prefixItem + string(ITEM_ID.DevStick))
 		.set(LANGUAGE_ID.English, "dev stick")
 		.set(LANGUAGE_ID.Brazilian, "dev stick")
 		.finalize();
 		
-	TRANSLATION.Add(ITEM_ID.FlameSpell)
+	TRANSLATION.Add(prefixItem + string(ITEM_ID.FlameSpell))
 		.set(LANGUAGE_ID.English, "flame spell")
 		.set(LANGUAGE_ID.Brazilian, "encantamento de chamas")
 		.finalize();
 		
-	TRANSLATION.Add(ITEM_ID.FreezeSpell)
+	TRANSLATION.Add(prefixItem + string(ITEM_ID.FreezeSpell))
 		.set(LANGUAGE_ID.English, "ice spell")
 		.set(LANGUAGE_ID.Brazilian, "encantamento de gelo")
 		.finalize();
 		
-	TRANSLATION.Add(ITEM_ID.KnockbackSpell)
+	TRANSLATION.Add(prefixItem + string(ITEM_ID.KnockbackSpell))
 		.set(LANGUAGE_ID.English, "knockback spell")
 		.set(LANGUAGE_ID.Brazilian, "encantamento de impulso")
 		.finalize();
 		
-	TRANSLATION.Add(ITEM_ID.StrengthSpell)
+	TRANSLATION.Add(prefixItem + string(ITEM_ID.StrengthSpell))
 		.set(LANGUAGE_ID.English, "strength spell")
 		.set(LANGUAGE_ID.Brazilian, "encantamento de força")
 		.finalize();
 		
-	TRANSLATION.Add(ITEM_ID.PoisonSpell)
+	TRANSLATION.Add(prefixItem + string(ITEM_ID.PoisonSpell))
 		.set(LANGUAGE_ID.English, "poison spell")
 		.set(LANGUAGE_ID.Brazilian, "encantamento de veneno")
 		.finalize();
 		
-	TRANSLATION.Add(ITEM_ID.DevStick)
+	TRANSLATION.Add(prefixItem + string(ITEM_ID.DevStick))
 		.set(LANGUAGE_ID.English, "dev")
 		.set(LANGUAGE_ID.Brazilian, "dev")
 		.finalize();
 		
-	TRANSLATION.Add(ITEM_ID.Armor)
+	TRANSLATION.Add(prefixItem + string(ITEM_ID.Armor))
 		.set(LANGUAGE_ID.English, "armor")
 		.set(LANGUAGE_ID.Brazilian, "armadura")
 		.finalize();
+		
+	TRANSLATION.Add(prefixItem + string(ITEM_ID.DoubleJumpModule))
+		.set(LANGUAGE_ID.English, "Double Jump Module")
+		.set(LANGUAGE_ID.Brazilian, "Módulo de Pulo Duplo")
+		.finalize();
+		
+	TRANSLATION.Add(prefixItem + string(ITEM_ID.HighJumpModule))
+		.set(LANGUAGE_ID.English, "High Jump Module")
+		.set(LANGUAGE_ID.Brazilian, "Módulo de Pulo Alto")
+		.finalize();
+		
 		
 		
 		

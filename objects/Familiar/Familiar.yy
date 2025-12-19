@@ -12,8 +12,8 @@
   "name":"Familiar",
   "overriddenProperties":[],
   "parent":{
-    "name":"Objects",
-    "path":"folders/Objects.yy",
+    "name":"Familiars",
+    "path":"folders/Objects/Familiars.yy",
   },
   "parentObjectId":null,
   "persistent":false,

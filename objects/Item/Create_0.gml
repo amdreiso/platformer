@@ -6,7 +6,7 @@ picked = false;
 applyGravity = true;
 hsp = 0;
 vsp = 0;
-force = new Vec2();
+knockback = new Vec2();
 
 // draw
 alpha = 1;

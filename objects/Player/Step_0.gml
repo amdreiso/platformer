@@ -68,11 +68,6 @@ effect_apply();
 
 
 
-// Apply all collisions
-applyCollisions();
-
-
-
 // Debug thingies
 if (!Debug) return;
 
@@ -83,6 +78,16 @@ if (keyboard_check(vk_control)) {
 bound_to_room();
 
 
+modules.Update( self );
 
+
+
+if (keyboard_check_pressed(ord("G"))) {
+	var instance = new Instance(Switch, x + 32, y, {
+		active : true,
+	});
+	
+	instance.Create();
+}
 
 

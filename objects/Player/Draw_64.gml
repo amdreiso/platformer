@@ -9,7 +9,7 @@ drawDeathScreen();
 
 draw_debug_gui();
 
-if (Keymap.player.inventory) {
+if (Keymap.player.inventory && !(busy && !inventoryOpen)) {
 	inventoryOpen = !inventoryOpen;
 }
 

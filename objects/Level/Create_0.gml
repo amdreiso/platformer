@@ -1,7 +1,47 @@
 
 surface = surface_create(room_width, room_height);
 
+
+
+// Room
 roomCode = function(){};
+
+roomInstances = ds_map_create();
+
+var value = ds_map_find_first(LEVEL.entries);
+
+while (value != undefined) {
+	var state = ds_map_find_value(LEVEL.entries, value);
+	
+	roomInstances[? value] = [];
+	print($"Level: roomInstances created: '{value}'");
+	
+	value = ds_map_find_next(LEVEL.entries, value);
+}
+
+roomInstanceAdd = function(inst) {
+	array_push(Level.roomInstances[? room], inst);
+}
+
+roomInstanceDestroy = function(inst) {
+	var value = ds_map_find_first(roomInstances);
+
+	while (value != undefined) {
+		var instances = ds_map_find_value(roomInstances, value);
+		var len = array_length(instances);
+		
+		for (var i = 0; i < len; i++) {
+			if (instances[i].object == inst) {
+				if (instance_exists(inst)) then instance_destroy(inst);
+				array_delete(instances, i, 1);
+				print($"deleted instance {object_get_name(inst)}");
+			}
+		}
+		
+		value = ds_map_find_next(roomInstances, value);
+	}
+}
+
 
 darkness = 0;
 
@@ -11,6 +51,13 @@ isCutscene = false;
 
 hasBoss = false;
 showLevelName = false;
+
+doPlayerTransition = true;
+
+goto = function(roomID) {
+	room_goto(roomID);
+	newRoom = true;
+}
 
 room_goto(rmLevel_Cave_Entrance);
 
@@ -154,7 +201,10 @@ checkPlayerTransitions = function(level) {
 		var transition = find("left");
 		if (transition) {
 			var roomID = transition.roomID;
-			if (!is_undefined(roomID)) room_transition(roomID, "left", transition.playerOffset);
+			if (!is_undefined(roomID)) {
+				doPlayerTransition = true;
+				room_transition(roomID, "left", transition.playerOffset);
+			}
 		}
 	}
 	
@@ -163,7 +213,10 @@ checkPlayerTransitions = function(level) {
 		var transition = find("right");
 		if (transition) {
 			var roomID = transition.roomID;
-			if (!is_undefined(roomID)) room_transition(roomID, "right", transition.playerOffset);
+			if (!is_undefined(roomID)) {
+				doPlayerTransition = true; 
+				room_transition(roomID, "right", transition.playerOffset);
+			}
 		}
 	}
 	
@@ -172,7 +225,10 @@ checkPlayerTransitions = function(level) {
 		var transition = find("up");
 		if (transition) {
 			var roomID = transition.roomID;
-			if (!is_undefined(roomID)) room_transition(roomID, "up", transition.playerOffset);
+			if (!is_undefined(roomID)) {
+				doPlayerTransition = true; 
+				room_transition(roomID, "up", transition.playerOffset);
+			}
 		}
 	}
 	
@@ -181,7 +237,10 @@ checkPlayerTransitions = function(level) {
 		var transition = find("down");
 		if (transition) {
 			var roomID = transition.roomID;
-			if (!is_undefined(roomID)) room_transition(roomID, "down", transition.playerOffset);
+			if (!is_undefined(roomID)) {
+				doPlayerTransition = true; 
+				room_transition(roomID, "down", transition.playerOffset);
+			}
 		}
 	}
 	

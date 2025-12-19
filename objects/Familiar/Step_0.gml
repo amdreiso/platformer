@@ -6,3 +6,8 @@ var time = 0.001;
 
 x = lerp(x, Player.x + playerOffset.x + sin(current_time * time) * amp, 0.01);
 y = lerp(y, Player.y - playerOffset.y + cos(current_time * time / 1.25) * amp, 0.1);
+
+x += hsp;
+y += vsp;
+
+vsp += sin(current_time * time) * 2;

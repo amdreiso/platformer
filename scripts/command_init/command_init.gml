@@ -84,13 +84,13 @@ COMMAND.register("help", 0, function(args) {
 });
 
 COMMAND.register("clear", 0, function(args) {
-	Main.clearConsole();
+	CONSOLE.Clear();
 });
 
 COMMAND.register("spawn", 3, function(args) {
 	var enemy = args[0];
-	var x0 = real(args[1]);
-	var y0 = real(args[2]);
+	var x0 = real(args[1]) ?? 0;
+	var y0 = real(args[2]) ?? 0;
 	
 	var obj = asset_get_index(enemy);
 	
@@ -104,7 +104,6 @@ COMMAND.register("spawn", 3, function(args) {
 
 COMMAND.register("goto", 1, function(args) {
 	var rm = args[0];
-	
 	var asset = asset_get_index(rm);
 	
 	if (!room_exists(asset)) {
@@ -149,7 +148,6 @@ COMMAND.register("instance_value", 2, function(args) {
 	}
 	
 	log(r);
-	
 });
 
 COMMAND.register("webhook", -1, function(args) {
@@ -171,7 +169,6 @@ COMMAND.register("webhook", -1, function(args) {
 });
 
 COMMAND.register("run", -1, function(args) {
-	
 	str = "";
 	for (var i = 0; i < array_length(args); i++) {
 		str += args[i] + " ";
@@ -182,13 +179,19 @@ COMMAND.register("run", -1, function(args) {
 		Main.runCommand(str);
 		
 	});
-	
 });
 
-COMMAND.register("hi", 0, function(args) {
-	log("Hello there!");
+COMMAND.register("christmas", 0, function(args) {
+	Occasion.christmas = !Occasion.christmas;
 });
 
+COMMAND.register("easter", 0, function(args) {
+	Occasion.easter = !Occasion.easter;
+});
+
+COMMAND.register("halloween", 0, function(args) {
+	Occasion.halloween = !Occasion.halloween;
+});
 
 }
 

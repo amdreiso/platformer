@@ -1,13 +1,5 @@
 
-if (sprite_index == -1) return;
-
-if (talking) {
-	sprite_index = talkingSprite;
-} else {
-	sprite_index = idleSprite;
-}
-
-draw_self();
+draw();
 
 reach = (point_distance_3d(x, y, 0, Player.x, Player.y, 0) < sprite_width * 1.5);
 

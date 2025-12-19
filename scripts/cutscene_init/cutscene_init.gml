@@ -2,16 +2,18 @@ function cutscene_init(){
 
 }
 
-
-
 function cutscene_create() {
-	var cutscene = {
+	cutscene = {
 		step: 0,
 		load: true,
 		tick: 0,
 		nodes: [],
 		moveSpeed: 0,
 		stop: false,
+	}
+	
+	cutscene.HasNodes = function() {
+		return (array_length(cutscene.nodes) > 0);
 	}
 	
 	return cutscene;
@@ -49,7 +51,8 @@ function cutscene_next(cutscene, onEnd=function(){}, loop = true) {
 }
 
 function cutscene_play(cutscene, loop = false, onEnd=function(){}) {
-	if (cutscene.stop) onEnd();
+	if (!cutscene.HasNodes()) return;
+	if (cutscene.stop) then onEnd();
 	
 	var step = cutscene.step;
 	var nodes = cutscene.nodes;

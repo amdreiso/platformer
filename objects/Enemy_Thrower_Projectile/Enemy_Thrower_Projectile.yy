@@ -14,8 +14,8 @@
     "path":"folders/Objects/Enemies/Thrower.yy",
   },
   "parentObjectId":{
-    "name":"ProjectileEnemy",
-    "path":"objects/ProjectileEnemy/ProjectileEnemy.yy",
+    "name":"Projectile_Enemy",
+    "path":"objects/Projectile_Enemy/Projectile_Enemy.yy",
   },
   "persistent":false,
   "physicsAngularDamping":0.1,

@@ -18,6 +18,8 @@ deathSound = choose(snd_explosion1, snd_explosion3, snd_explosion4);
 
 invincible = false;
 
+hitbox = new Dim(sprite_width, sprite_height);
+drops = new DropTable();
 
 
 // Movement
@@ -34,6 +36,7 @@ onSlope = false;
 stun = 0;
 stunWhenHit = 0;
 attacking = false;
+onGround = false;
 
 knockbackResistence = 1;
 
@@ -53,23 +56,21 @@ movement = function() {
 	
 	if (applyGravity) vsp += Gravity;
 	
-}
-
-
-// Collisions
-collisions = function() {
-	if (applyGroundCollisions) {
-		collision_set(Collision);
-		collision_set(Collision_Slope);
-		collision_set(Fakewall);
-		
+	onGround = (
+		place_meeting(x, y + 1, Collision) ||
+		place_meeting(x, y + 1, Collision_Slope) || 
+		place_meeting(x, y + 1, Collision_JumpThrough) || 
+		place_meeting(x, y + 1, Collision_Rayblock)
+	);
+	
+	if (onGround) {
+		onSlope = false;
 	}
 	
 	if (place_meeting(x, y + 1, Collision_Slope)) {
 		onSlope = true;
 	}
 	
-	// Push the player's y position up by a pixel so it doesnt get stuck on turns on slopes
 	if (hsp != hspLast && hsp != 0) {
 		hspLast = hsp;
 		if (onSlope) {
@@ -81,6 +82,32 @@ collisions = function() {
 		hsp = round(hsp);
 	}
 	
+	static freeSlopeTimer = 0;
+	if (onSlope) {
+		// check if is walking
+		if (hsp != 0) {
+			freeSlopeTimer += GameSpeed;
+			
+			if (hsp == 0 && freeSlopeTimer > 1) {
+				print("Enemy: avoiding getting stuck on slope");
+				y -= 1;
+				freeSlopeTimer = 0;
+			}
+		}
+	}
+	
+}
+
+
+// Collisions
+collisions = function() {
+	
+	if (applyGroundCollisions) {
+		collision_set(Collision);
+		collision_set(Collision_Slope);
+		collision_set(Fakewall);
+	}
+	
 	// Player attack 
 	player_attack_check(function(a){
 		if (isHit) return;
@@ -88,22 +115,32 @@ collisions = function() {
 		var k = (0.54 * a.knockback) * knockbackResistence;
 		knockback.x = a.initialDirection * (k);
 		
+		var critical = false;
+		var criticalAmount = 1;
+		//critical = (irandom(10) == 10);
+		
+		if (Player.vsp > 0.2) then critical = true;
+		
 		vsp = 0;
 		vsp -= a.dir.y * k;
 		
 		hitByPlayer = true;
-		hit(a.damage);
+		hit(a.damage * (critical + criticalAmount));
 		
 		
 		// Spawn attack particle
 		var pos = randvec2(x, y, 6);
 		var part = instance_create_depth(pos.x, pos.y, depth, Particle_Attack);
+		with (part) { self.critical = critical; }
 		
 		camera_shake(5, 1);
 		
 		// Transfer effects from players attack to the enemy
 		effect_transfer(a.effects, self);
 	});
+	
+	
+	
 	
 	bound_to_room();
 	

@@ -44,6 +44,8 @@ if (fadein && !destroy) {
 
 fadeoutCooldown = max(0, fadeoutCooldown - GameSpeed);
 if (fadeout && fadeoutCooldown == 0) {
+	if (round(tick) < lifetime) return;
+	
 	alpha = clamp(alpha - fadeoutSpeed * GameSpeed, 0, 1);
 	
 	if (alpha == 0) destroy = true;

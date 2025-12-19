@@ -5,8 +5,8 @@
   "isDnD":false,
   "name":"fovy",
   "parent":{
-    "name":"global",
-    "path":"folders/Scripts/global.yy",
+    "name":"libs",
+    "path":"folders/Scripts/libs.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

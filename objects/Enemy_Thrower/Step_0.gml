@@ -10,8 +10,8 @@ thrownCooldown = max(0, thrownCooldown - GameSpeed);
 tick += GameSpeed + distance_to_object(Player) / 10;
 
 var phdir = player_get_hdir();
-var throwTimeArray = [10, 30, 40, 50, 70];
-	
+var throwTimeArray = [ 10, 30, 40, 50, 70 ];
+
 if (distance_to_object(Player) < radius) {
 	
 	hasSeenPlayer = true;
@@ -47,6 +47,8 @@ if (distance_to_object(Player) < radius) {
 	if (hasSeenPlayer && tick > 7 * 60) {
 		hsp = spd / 2.5 * phdir;
 		image_xscale = phdir;
+		
+		print("Thrower is following player");
 		
 	} else {
 		hsp = 0;

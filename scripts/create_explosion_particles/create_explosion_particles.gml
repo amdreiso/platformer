@@ -29,7 +29,9 @@ repeat (val * 3) {
 		image_angle = irandom(360);
 		image_xscale = choose(-1, 1);
 		image_yscale = choose(-1, 1);
-			
+		
+		lifetime = irandom_range(120, 500) / 2;
+		
 		fadeout = true;
 		fadeoutSpeed = random_range(0.05, 0.15) / 7;
 			

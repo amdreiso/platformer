@@ -16,7 +16,7 @@ if (shootTimer == 0) {
 		burstCount ++;
 		
 		// Projectile
-		with (instance_create_depth(x, y, depth, ProjectileEnemy)) {
+		with (instance_create_depth(x, y, depth, Projectile_Enemy)) {
 			self.direction = point_direction(other.x, other.y, other.target.x, other.target.y);
 			self.speed = 3;
 			self.shooter = other;
