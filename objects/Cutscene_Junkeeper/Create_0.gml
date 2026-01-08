@@ -3,7 +3,7 @@
 var dialogueScale = 1.5;
 
 handDustRange = 20;
-handHeightCharge = 450;
+handHeightCharge = 435;
 handHeightChargeAmount = 0.25;
 handChargeSpeed = 9;
 handShakeValue = 0.35;
@@ -33,7 +33,7 @@ cutscene_append(
 	
 	CutsceneStep(CUTSCENE_EVENT.Move)
 		.setObject(Junkdigger)
-		.setMovePosition(undefined, 520, 0.75)
+		.setMovePosition(undefined, 490, 0.75)
 		.finalize(),
 	
 	
@@ -51,9 +51,10 @@ cutscene_append(
 			TRANSLATION.Get("cutscene_junkeeper_4"),
 			TRANSLATION.Get("cutscene_junkeeper_5"),
 		])
+		.setDialogueVoice(snd_junkkeeper_voice, [0.20, 0.60])
 		.setObject(Junkdigger_Head)
 		.setPosition(Junkdigger_Head.x, Junkdigger_Head.y)
-		.setOffset(0, -150)
+		.setOffset(0, -190)
 		.onStart(function(){
 			camera_focus(Junkdigger_Head);
 			camera_set_zoom(1.25);
@@ -65,7 +66,7 @@ cutscene_append(
 			// This is a hardcoded mess but i don't give a single fuck
 			// my textbox system is garbage so i have to check the dialogue index
 			if (Textbox.index == 2) {
-				Junkdigger_Head.changeFacialExpression(sBoss_Junkdigger_FE_satisfaction);
+				Junkdigger_Head.changeFacialExpression(sBoss_Junkdigger_FE_sophisticated);
 				
 			} else if (Textbox.index == 5) {
 				Junkdigger_Head.changeFacialExpression(sBoss_Junkdigger_FE_cringe);
@@ -83,7 +84,7 @@ cutscene_append(
 	
 	CutsceneStep(CUTSCENE_EVENT.Move)
 		.setObject(Junkdigger.leftHand)
-		.setMovePosition(undefined, handHeightCharge - 5, 2)
+		.setMovePosition(undefined, handHeightCharge, 2)
 		.onUpdate(function(){
 			var xx = handShakeValue;
 			var hand = Junkdigger.leftHand;
@@ -168,7 +169,8 @@ cutscene_append(
 	
 	CutsceneStep(CUTSCENE_EVENT.Textbox)
 		.setDialogue([
-			TRANSLATION.Get("cutscene_junkeeper_nohands"),
+			TRANSLATION.Get("cutscene_junkeeper_nohands_0"),
+			TRANSLATION.Get("cutscene_junkeeper_nohands_1"),
 		])
 		.setObject(Junkdigger_Head)
 		.setPosition(Junkdigger_Head.x, Junkdigger_Head.y)
@@ -180,27 +182,58 @@ cutscene_append(
 		.onUpdate(function(){
 			if (!instance_exists(Textbox)) return;
 			
-			// Change facial expression
-			// This is a hardcoded mess but i don't give a single fuck
-			// my textbox system is garbage so i have to check the dialogue index
-			//if (Textbox.index == 2) {
-			//	Junkdigger_Head.changeFacialExpression(sBoss_Junkdigger_FE_satisfaction);
-				
-			//} else if (Textbox.index == 5) {
-			//	Junkdigger_Head.changeFacialExpression(sBoss_Junkdigger_FE_cringe);
-				
-			//}
+			if (Textbox.index == 1) {
+				camera_set_zoom(1.15);
+			}
 			
 		})
 		.onEnd(function(){
 			camera_set_zoom(1.15);
 			camera_focus(Player);
+			Junkdigger_Head.changeFacialExpression(sBoss_Junkdigger_FE_puto);
+			Junkdigger_Head.defaultFacialExpression = sBoss_Junkdigger_FE_puto;
 			//camera_set_zoom(CAMERA_ZOOM_DEFAULT);
+			
+			Junkdigger.gracePeriod = 60;
 		})
 		.finalize(),
 );
 
 
+// Death
+cutsceneDeath = cutscene_create();
+cutscene_append(
+	cutsceneDeath,
+	
+	CutsceneStep(CUTSCENE_EVENT.Sleep)
+		.setTime(30)
+		.onStart(function(){
+			instance_destroy(Junkdigger_Body);
+			
+			Player.halt();
+		})
+		.finalize(),
+	
+	CutsceneStep(CUTSCENE_EVENT.WaitFor)
+		.waitFor(function(){
+			if (!instance_exists(Junkdigger_Head)) return;
+			return (Junkdigger_Head.y > room_height * 1.5);
+		})
+		.onUpdate(function(){
+			if (!instance_exists(Junkdigger_Head)) return;
+			
+			Junkdigger_Head.vsp += Gravity;
+			Junkdigger_Head.image_alpha += 0.7;
+			Junkdigger_Head.x += 0.07;
+			
+			camera_shake(2, 3);
+			create_explosion_particles(Junkdigger_Head.x, Junkdigger_Head.y, 50, 0.5);
+		})
+		.finalize(),
+	
+	CutsceneStep(CUTSCENE_EVENT.Sleep)
+		.setTime(60)
+		.finalize(),
+);
+
 cutsceneIndex = cutsceneStart;
-
-

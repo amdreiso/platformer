@@ -13,8 +13,6 @@
   "For3D":false,
   "frames":[
     {"$GMSpriteFrame":"v1","%Name":"89992c17-931d-40d6-ab9c-0afbe605244a","name":"89992c17-931d-40d6-ab9c-0afbe605244a","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
-    {"$GMSpriteFrame":"v1","%Name":"17498dd8-1ec8-43f2-bd7f-fd1b3a1d4b0b","name":"17498dd8-1ec8-43f2-bd7f-fd1b3a1d4b0b","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
-    {"$GMSpriteFrame":"v1","%Name":"c19c5ca4-6e07-4c74-8c22-cb1f52b70fb3","name":"c19c5ca4-6e07-4c74-8c22-cb1f52b70fb3","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
     {"$GMSpriteFrame":"v1","%Name":"42e6a4b8-bc12-4922-b44f-b1cfa1492837","name":"42e6a4b8-bc12-4922-b44f-b1cfa1492837","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
     {"$GMSpriteFrame":"v1","%Name":"8fef57f6-bf48-4848-a583-46f01c56f740","name":"8fef57f6-bf48-4848-a583-46f01c56f740","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
     {"$GMSpriteFrame":"v1","%Name":"4e0008b9-927d-477d-808b-aabc5d4ecf9d","name":"4e0008b9-927d-477d-808b-aabc5d4ecf9d","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
@@ -43,7 +41,13 @@
     "resourceType":"GMNineSliceData",
     "resourceVersion":"2.0",
     "right":0,
-    "tileMode":[0,0,0,0,0,],
+    "tileMode":[
+      0,
+      0,
+      0,
+      0,
+      0,
+    ],
     "top":0,
   },
   "origin":9,
@@ -72,7 +76,7 @@
     },
     "eventStubScript":null,
     "eventToFunction":{},
-    "length":7.0,
+    "length":5.0,
     "lockOrigin":false,
     "moments":{
       "$KeyframeStore<MomentsEventKeyframe>":"",
@@ -93,13 +97,21 @@
     "timeUnits":1,
     "tracks":[
       {"$GMSpriteFramesTrack":"","builtinName":0,"events":[],"inheritsTrackColour":true,"interpolation":1,"isCreationTrack":false,"keyframes":{"$KeyframeStore<SpriteFrameKeyframe>":"","Keyframes":[
-            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{"0":{"$SpriteFrameKeyframe":"","Id":{"name":"89992c17-931d-40d6-ab9c-0afbe605244a","path":"sprites/sEndocadaver_Attack_Enemy/sEndocadaver_Attack_Enemy.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},},"Disabled":false,"id":"86b6a206-5e3b-43f9-b09e-264ff98f4c95","IsCreationKey":false,"Key":0.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
-            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{"0":{"$SpriteFrameKeyframe":"","Id":{"name":"17498dd8-1ec8-43f2-bd7f-fd1b3a1d4b0b","path":"sprites/sEndocadaver_Attack_Enemy/sEndocadaver_Attack_Enemy.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},},"Disabled":false,"id":"12b0e6f4-ea89-48ab-96c6-cf49662819f4","IsCreationKey":false,"Key":1.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
-            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{"0":{"$SpriteFrameKeyframe":"","Id":{"name":"c19c5ca4-6e07-4c74-8c22-cb1f52b70fb3","path":"sprites/sEndocadaver_Attack_Enemy/sEndocadaver_Attack_Enemy.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},},"Disabled":false,"id":"919faf82-ffe7-458b-baa2-e8190140efa8","IsCreationKey":false,"Key":2.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
-            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{"0":{"$SpriteFrameKeyframe":"","Id":{"name":"42e6a4b8-bc12-4922-b44f-b1cfa1492837","path":"sprites/sEndocadaver_Attack_Enemy/sEndocadaver_Attack_Enemy.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},},"Disabled":false,"id":"6ade245b-9024-448f-a361-a21aef843326","IsCreationKey":false,"Key":3.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
-            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{"0":{"$SpriteFrameKeyframe":"","Id":{"name":"8fef57f6-bf48-4848-a583-46f01c56f740","path":"sprites/sEndocadaver_Attack_Enemy/sEndocadaver_Attack_Enemy.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},},"Disabled":false,"id":"79e3c5cd-ec23-49f4-8977-87fcaeb0b7a5","IsCreationKey":false,"Key":4.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
-            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{"0":{"$SpriteFrameKeyframe":"","Id":{"name":"4e0008b9-927d-477d-808b-aabc5d4ecf9d","path":"sprites/sEndocadaver_Attack_Enemy/sEndocadaver_Attack_Enemy.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},},"Disabled":false,"id":"27bf911c-90a4-4757-8fc0-c35a3e37e345","IsCreationKey":false,"Key":5.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
-            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{"0":{"$SpriteFrameKeyframe":"","Id":{"name":"5626ddfa-410d-4a4b-87d6-da49f6ffc53d","path":"sprites/sEndocadaver_Attack_Enemy/sEndocadaver_Attack_Enemy.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},},"Disabled":false,"id":"7121a846-84c6-4d71-8520-3e36dabd825e","IsCreationKey":false,"Key":6.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
+            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
+                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"89992c17-931d-40d6-ab9c-0afbe605244a","path":"sprites/sEndocadaver_Attack_Enemy/sEndocadaver_Attack_Enemy.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
+              },"Disabled":false,"id":"86b6a206-5e3b-43f9-b09e-264ff98f4c95","IsCreationKey":false,"Key":0.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
+            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
+                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"42e6a4b8-bc12-4922-b44f-b1cfa1492837","path":"sprites/sEndocadaver_Attack_Enemy/sEndocadaver_Attack_Enemy.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
+              },"Disabled":false,"id":"6ade245b-9024-448f-a361-a21aef843326","IsCreationKey":false,"Key":1.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
+            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
+                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"8fef57f6-bf48-4848-a583-46f01c56f740","path":"sprites/sEndocadaver_Attack_Enemy/sEndocadaver_Attack_Enemy.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
+              },"Disabled":false,"id":"79e3c5cd-ec23-49f4-8977-87fcaeb0b7a5","IsCreationKey":false,"Key":2.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
+            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
+                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"4e0008b9-927d-477d-808b-aabc5d4ecf9d","path":"sprites/sEndocadaver_Attack_Enemy/sEndocadaver_Attack_Enemy.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
+              },"Disabled":false,"id":"27bf911c-90a4-4757-8fc0-c35a3e37e345","IsCreationKey":false,"Key":3.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
+            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
+                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"5626ddfa-410d-4a4b-87d6-da49f6ffc53d","path":"sprites/sEndocadaver_Attack_Enemy/sEndocadaver_Attack_Enemy.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
+              },"Disabled":false,"id":"7121a846-84c6-4d71-8520-3e36dabd825e","IsCreationKey":false,"Key":4.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
           ],"resourceType":"KeyframeStore<SpriteFrameKeyframe>","resourceVersion":"2.0",},"modifiers":[],"name":"frames","resourceType":"GMSpriteFramesTrack","resourceVersion":"2.0","spriteId":null,"trackColour":0,"tracks":[],"traits":0,},
     ],
     "visibleRange":null,

@@ -1,6 +1,8 @@
 
 dialogue = [];
-dialogueEnd = function(npc){}
+dialogueEnd = function(npc) {
+	
+}
 
 textTimer = 0;
 textSpeed = 10;
@@ -18,3 +20,5 @@ scale = 0;
 
 sound = -1;
 pitch = 1;
+voice = snd_textbox1;
+voiceSpeed = 2;

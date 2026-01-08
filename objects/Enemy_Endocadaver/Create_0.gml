@@ -18,11 +18,11 @@ radius = 50;
 
 setHp(50);
 
-stunWhenHit = 23;
+stunWhenHit = 16;
 
 attacking = false;
 attackingDistance = 8;
-attackCooldown = 50;
+attackCooldown = 30;
 
 ableToAttack = false;
 

@@ -9,3 +9,7 @@ hsp = 0;
 vsp = 0;
 
 spd = 1;
+
+gracePeriod = 0;
+
+

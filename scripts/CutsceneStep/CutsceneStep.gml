@@ -9,7 +9,7 @@ function CutsceneStep(event) {
 	cs.moveY = undefined;
 	cs.time = 0;
 	cs.dialogue = [];
-	cs.dialogueSound = -1;
+	cs.dialogueVoice = -1;
 	cs.dialoguePitch = 1;
 	cs.offset = new Vec2(0, -20);
 	
@@ -50,18 +50,14 @@ function CutsceneStep(event) {
 		return methods;
 	}
 	
-	methods.setDialogueSound = function(sound) {
-		cs.dialogueSound = sound;
+	methods.setDialogueVoice = function(voice, pitch) {
+		cs.dialogueVoice = voice;
+		cs.dialoguePitch = pitch;
 		return methods;
 	}
 	
 	methods.setPosition = function(x, y) {
 		cs.pos = new Vec2(x, y);
-		return methods;
-	}
-	
-	methods.setDialoguePitch = function(pitch) {
-		cs.dialoguePitch = pitch;
 		return methods;
 	}
 	

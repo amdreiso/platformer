@@ -29,20 +29,8 @@ COMMAND.register("player_add_effect", 2, function(args) {
 	effect_add(Player, val, time);
 });
 
-COMMAND.register("player_set_item", 1, function(args) {
-	var itemID = real(args[0]);
-	var item = ITEM.Get(itemID);
-	
-	if (is_undefined(item)) {
-		err("Item ID does not exist!");
-		return;
-	}
-	
-	Player.inventory.equipment.sword.Set(itemID);
-});
-
 COMMAND.register("player_add_all", 0, function(args) {
-	for (var i = 0; i < ITEM_ID.Count; i++) {
+	for (var i = 1; i < ITEM_ID.Count - 1; i++) {
 		Player.inventory.Add(i);
 		
 	}
@@ -56,25 +44,18 @@ COMMAND.register("player_add_all", 0, function(args) {
 name = "player";
 busy = false;
 god = false;
-children = [];
+children = new Children();
 lightLevel = 20;
 raycastCount = 180;
 viewDistanceDefault = 50;
-viewDistance = 50;
+viewDistance = 50;	
 isVisible = true;
 soul = SOUL_TYPE.Castoff;
 
 emitter = audio_emitter_create();
 
 effects = [];
-
 levelTransitionCooldown = 0;
-
-spriteStates = {
-	idle: sPlayerOneEye_Idle,
-	move: sPlayerOneEye_Move_1,
-	attack: sPlayerOneEye_Attack,
-}
 
 gold = 0;
 
@@ -95,7 +76,6 @@ gold = 0;
 
 
 modules = new PlayerModules();
-modules.Set(0, ITEM_ID.PortalCasterModule);
 
 modulePortalCasterPrompt = false;
 modulePortalCasterPortal = {
@@ -105,7 +85,6 @@ modulePortalCasterPortal = {
 
 
 #endregion
-
 
 #region UPGRADE
 
@@ -226,7 +205,7 @@ upgrade.register(
 		
 	},
 	
-	// Draw
+	// Draw	
 	function(obj){
 		if (obj.flying) {
 			//draw_sprite_ext(sPlayer_DoubleJumpFire, 0, x, bbox_bottom, 1, 1, 0, c_white, 1);
@@ -237,8 +216,7 @@ upgrade.register(
 	function(obj){
 		var spr = sPlayerUpgrade_Jetpack;
 		draw_sprite_ext(spr, 0, x, y, image_xscale, image_yscale, angle, c_white, 1);
-		
-	},
+	}
 	
 );
 
@@ -408,8 +386,10 @@ handleHealth = function() {
 	}
 }
 
+hitable = true;
+
 hit = function(damage, xscale=1, applyKnockback = true, stun = true) {
-	if (isHit || god || isDead) return;
+	if (isHit || god || isDead || !hitable) return;
 	
 	var cooldown = 50;
 	if (!stun) then cooldown = 1;
@@ -420,7 +400,8 @@ hit = function(damage, xscale=1, applyKnockback = true, stun = true) {
 	
 	var damageValue = ceil(damage * defense);
 	
-	hp.Sub( damageValue );					// Always round up so taking 0.0001 damage isn't possible
+	// Always round up so taking 0.0001 damage isn't possible
+	hp.Sub( damageValue );
 	isHit = true;
 	hitCooldown = cooldown;
 	
@@ -445,14 +426,18 @@ hit = function(damage, xscale=1, applyKnockback = true, stun = true) {
 	var shake = clamp(damage / 0.5, 0, 4);
 	
 	camera_shake(shake);
+	gamepad_set_vibration(Gamepad.ID, 0.25, 0.25);
 	
 	Screen.flash(0.5, 0.05, c_white);
 	
 	
 	// Sounds
 	var hitSound = choose(snd_hit1, snd_hit2);
-	audio_play_sound(hitSound, 0, false, 0.5, 0, random_range(0.80, 1.00));
+	//sound_play(hitSound, false, 0.5, 1, random_range(0.80, 1.00));
+	
+	sound_play(SOUND_TYPE.SFX, hitSound, false, 0.5);
 }
+
 
 
 dieByContact = function() {
@@ -463,6 +448,8 @@ dieByContact = function() {
 	
 	hit(10);
 	
+	hsp = 0;
+	vsp = 0;
 	knockback = new Vec2();
 }
 
@@ -470,36 +457,36 @@ dieByContact = function() {
 
 #region MOVEMENT
 
-allowMovement						= true;
-defaultSpd							= 2;
-spd											= defaultSpd;
-hsp											= 0;
-vsp											= 0;
-hspLast									= 0;
-hspFrac									= 0;
-vspFrac									= 0;
-force										= new Vec2();
-jumpForce								= 1.66;
-jumpCountDefault				= 1;
-jumpCount								= jumpCountDefault;
-isJumping								= false;
-onGround								= false;
-onAir										= false;
-onSlope									= false;
-isMoving								= false;
-isFlipping							= false;
-hasFlipped							= false;
-noclip									= false;
-lastPlaceStanding				= undefined;
-applyGravity						= true;
-jumpThroughGracePeriod	= 0;
-knockback								= new Vec2();
-impact									= false;
-impactTimer							= 0;
-lastChunk								= { roomID: -1, x: 0, y: 0 };
-secondJumpTick					= 0;
-flying									= false;
-tilePosition						= new Vec2();
+allowMovement										= true;
+defaultSpd											= 1.75;
+spd															= defaultSpd;
+hsp															= 0;
+vsp															= 0;
+hspLast													= 0;
+hspFrac													= 0;
+vspFrac													= 0;
+force														= new Vec2();
+jumpForce												= 1.66;
+jumpCountDefault								= 1;
+jumpCount												= jumpCountDefault;
+isJumping												= false;
+onGround												= false;
+onAir														= false;
+onSlope													= false;
+isMoving												= false;
+isFlipping											= false;
+hasFlipped											= false;
+noclip													= false;
+lastPlaceStanding								= undefined;
+applyGravity										= true;
+jumpThroughGracePeriod					= 0;
+knockback												= new Vec2();
+impact													= false;
+impactTimer											= 0;
+lastChunk												= { roomID: -1, x: 0, y: 0 };
+secondJumpTick									= 0;
+flying													= false;
+tilePosition										= new Vec2();
 
 halt = function() {
 	hsp = 0;
@@ -545,7 +532,6 @@ movement = function() {
 	// keymap
 	var map = Keymap.player;
 	
-	
 	// Knockback
 	knockback_apply();
 	
@@ -558,7 +544,7 @@ movement = function() {
 	onGround = (
 		place_meeting(x, y + 1, Collision) ||
 		place_meeting(x, y + 1, Collision_Slope) || 
-		place_meeting(x, y + 1, Collision_JumpThrough) || 
+		(place_meeting(x, y+1, Collision_JumpThrough) && instance_nearest(x, y, Collision_JumpThrough).bbox_top > y && vsp == 0) || 
 		place_meeting(x, y + 1, Collision_Rayblock)
 	);
 	
@@ -572,18 +558,6 @@ movement = function() {
 		impact = true;
 	}
 	
-	if (onGround) {
-		onSlope = false;
-		jumpCount = jumpCountDefault;
-		isFlipping = false;
-		hasFlipped = false;
-		
-		isJumping = false;
-		
-		if (!place_meeting(x, y + 1, Collision_JumpThrough)) {
-			lastPlaceStanding = getLastStandingPosition();
-		}
-	}
 	
 	var wasOnSlope = onSlope;
 	if (place_meeting(x, y + 1, Collision_Slope)) {
@@ -678,30 +652,41 @@ movement = function() {
 		secondJumpTick = 0;
 	}
 	
-	var jumpCondition = (jumpCount > 0 /* && impactTimer == 0 */ && secondJumpTick < 40 && !flying);
+	var jumpCondition = (jumpCount > 0 /* && impactTimer == 0 */ && secondJumpTick < 40 && !flying && !isHit);
 	
 	if (map.jump && jumpCondition) {
+		jumpCount --;
+		
 		vsp = 0;
 		vsp -= jumpForce;
 		
 		onSlope = false;
 		
-		if (onGround) {
-			createDustParticles(10, 5);
-		}
-		
-		if (jumpCount == jumpCountDefault) {
+		// Flip on last jump
+		if (jumpCount == 0) {
 			secondJumpTick = 0;
 			flip();
 		}
 		
-		jumpCount --;
 		isJumping = true;
 	}
 	
 	// Relative jump
 	if (vsp < 0 && !map.jumpHold && !map.useItem) {
 		vsp = max(vsp, -0.25);
+	}
+	
+	if (onGround) {
+		onSlope = false;
+		jumpCount = jumpCountDefault;
+		isFlipping = false;
+		hasFlipped = false;
+		
+		isJumping = false;
+		
+		if (!place_meeting(x, y + 1, Collision_JumpThrough)) {
+			lastPlaceStanding = getLastStandingPosition();
+		}
 	}
 	
 	// Dash
@@ -717,6 +702,7 @@ movement = function() {
 	if (onSlope) {
 		hsp = round(hsp);
 	}
+	
 	
 }
 
@@ -765,9 +751,7 @@ createDustParticles = function(val, range, spd = 0.15) {
 
 #region COLLISIONS
 
-
 collisionMask = instance_create_depth(x, y, depth, PlayerCollision);
-
 collision = new Callback();
 
 applyCollisions = function() {
@@ -787,6 +771,13 @@ applyCollisions = function() {
 			
 			if (place_meeting(x, y, Collision_Death)) {
 				Player.dieByContact();
+				
+			}
+			
+			if (place_meeting(x, y, Collision_Poison)) {
+				if (!effect_has(Player, EFFECT_ID.Poison)) {
+					effect_add(Player, EFFECT_ID.Poison, 5 * 60);
+				}
 				
 			}
 			
@@ -814,7 +805,8 @@ applyCollisions = function() {
 				var xdir = sign(x - enemy.x);
 				if (xdir == 0) xdir = choose(1, -1);
 				
-				if (enemy.attackOnContact && enemy.ableToAttack) other.hit(enemy.damage, xdir);
+				if (enemy.attackOnContact && enemy.ableToAttack) then other.hit(enemy.damage, xdir);
+				if (enemy.destroyOnPlayerContact) then instance_destroy(enemy);
 			}
 			
 			other.collision.Run(other);
@@ -1098,7 +1090,7 @@ attack = function() {
 
 #macro ITEM_STACK 10
 
-inventory = new Inventory(8, 4);
+inventory = new Inventory();
 inventoryOpen = false;
 
 enum PLAYER_EQUIPMENT_ID {
@@ -1108,11 +1100,16 @@ enum PLAYER_EQUIPMENT_ID {
 	Count,
 }
 
-inventory.equipment.sword.Set(ITEM_ID.BaseballBat);
-//inventory.equipment.sword.spell.Add(SPELL_ID.Flames);
+var spells = new ToolSpells();
+spells.Add(SPELL_ID.Poison);
+inventory.Add(ITEM_ID.BaseballBat, spells);
 
+var spells = new ToolSpells();
+spells.Add(SPELL_ID.Flames);
+inventory.Add(ITEM_ID.DevStick, spells);
 
 #endregion
+
 
 
 #region DRAW
@@ -1126,37 +1123,60 @@ color = c_white;
 
 shadow = ds_list_create();
 
+
+//spriteStates = {
+//	idle: sPlayerOneEye_Idle,
+//	move: sPlayerOneEye_Move_1,
+//	attack: sPlayerOneEye_Attack,
+//}
+
+
+spriteStates = new SpriteStates();
+spriteStates.Set(0, "idle", sPlayer_Idle, function(){
+	return (true);
+});
+
+spriteStates.Set(1, "waiting", sPlayer_Waiting_1, function(){
+	return (waitingSprite != -1);
+});
+
+spriteStates.Set(2, "move", sPlayer_Move, function(){
+	if (hsp != 0) {
+		image_xscale = sign(hsp);
+	}
+	return (hsp != 0 && !isAttacking);
+});
+
+spriteStates.Set(3, "busy", sPlayer_Idle, function(){
+	return (busy);
+});
+
+spriteStates.Set(4, "attack", sPlayer_Attack, function(){
+	on_last_frame(function(){
+		if (spriteStates.currentState != "attack") return;
+		isAttacking = false;
+	});
+	
+	return (isAttacking);
+});
+
+spriteStates.Set(5, "impact", sPlayer_Impact, function(){
+	return (impactTimer > 0);
+});
+
+
+
 // Draw Function
+waiting = 0;
+waitingTime = irandom_range(5, 15) * 60;
+waitingSprite = -1;
+
 draw = function() {
 	if (!isVisible) return;
 	
 	// Set sprite speed
 	image_speed = GameSpeed;
 	
-	var sprite = spriteStates.idle;
-	
-	// Move when walking horizontally
-	if (hsp != 0 && !isAttacking) {
-		sprite = spriteStates.move;
-		
-		if (!isHit) image_xscale = sign(hsp);
-	}
-	
-	// If player is busy idle
-	if (busy) {
-		sprite = spriteStates.idle;
-	}
-	
-	// Attack sprite
-	if (isAttacking) {
-		sprite = spriteStates.attack;
-		
-		// Stop attacking sprite when sprite animation ends
-		on_last_frame(function(){
-			if (sprite_index != spriteStates.attack) return;
-			isAttacking = false;
-		});
-	}
 	
 	// Angle if hit
 	if (isHit) {
@@ -1165,16 +1185,45 @@ draw = function() {
 	
 	// Upon impact
 	if (impact) {
-		impactTimer = 15;
+		impactTimer = 19;
 		isAttacking = false;
 	}
 	
-	if (impactTimer > 0 && !onSlope) {
-		impactTimer = max(0, impactTimer - GameSpeed);
-		sprite = sPlayerOneEye_Impact;
+	impactTimer = max(0, impactTimer - GameSpeed);
+	
+	//if (impactTimer > 0 && !onSlope) {
+	//	sprite = sPlayerOneEye_Impact;
+	//}
+	
+	var sprite = spriteStates.Get();
+	
+	if (spriteStates.currentState == "idle" && waitingSprite == -1) {
+		waiting += GameSpeed;
+		
+		if (waiting >= waitingTime) {
+			waitingSprite = choose(sPlayer_Waiting_1, sPlayer_Waiting_2);
+			if (irandom(2000) > 1999) then waitingSprite = sPlayer_Waiting_3;
+			
+			waitingTime = irandom_range(5, 15) * 60;
+		}
+	}
+	
+	if (waitingSprite != -1) { 
+		sprite = waitingSprite;
+	}
+	
+	if (keyboard_check_pressed(ord("P"))) {
+		waitingSprite = sPlayer_Waiting_3;
 	}
 	
 	sprite_index = sprite;
+	
+	if (spriteStates.currentState == "waiting") {
+		on_last_frame(function(){
+			waiting = 0;
+			waitingSprite = -1;
+		});
+	}
 	
 	if (onGround || onSlope) {
 		angle = angle_lerp(angle, 0, 0.25);
@@ -1256,7 +1305,6 @@ draw = function() {
 	if (surface_exists(SurfaceHandler.surface)) surface_reset_target();
 	
 	if (!Settings.graphics.enableSurfaces) {
-		
 		draw_sprite_ext(sprite_index, image_index, x, y, image_xscale, image_yscale, angle, color, 1);
 	}
 }
@@ -1267,14 +1315,12 @@ draw = function() {
 #region DRAW GUI
 
 drawGUI = function() {
-	if (Paused) return;
+	if (Paused || inventoryOpen) return;
 	
 	var guiScale = Style.guiScale / 2;
 	var guiScale = 3;
 	
-	
 	var margin = 10 * guiScale;
-	
 	
 	if (hpDisplay > hp.value) {
 		hpDisplay = lerp(hpDisplay, hp.value, 0.25);
@@ -1402,6 +1448,12 @@ drawDeathScreen = function() {
 	draw_text_transformed(WIDTH / 2, HEIGHT / 2, TRANSLATION.Get("gui_death_screen_message"), messageScale, messageScale, 0);
 	
 	draw_set_alpha(1);
+	
+	if (isDead) {
+		
+		GameSpeed = lerp(GameSpeed, 0.1, 0.1);
+		
+	}
 	
 }
 

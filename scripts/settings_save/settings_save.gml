@@ -2,7 +2,7 @@
 function settings_get() {
 	var settings = {
 		graphics: {
-			maxParticlesOnScreen: 200,
+			maxParticlesOnScreen: 500,
 			cameraShakeIntensity: 1.0,
 			guiScale: 2.0,
 			raycastCount: 500,

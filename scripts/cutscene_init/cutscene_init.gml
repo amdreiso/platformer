@@ -62,7 +62,9 @@ function cutscene_play(cutscene, loop = false, onEnd=function(){}) {
 	
 	var currentStep = nodes[step];
 	
-	log(step);
+	var skip = (keyboard_check(vk_shift) && keyboard_check_pressed(ord("C")));
+	
+	//log(step);
 	
 	switch (currentStep.event) {
 		case CUTSCENE_EVENT.Move:
@@ -102,6 +104,13 @@ function cutscene_play(cutscene, loop = false, onEnd=function(){}) {
 			
 			currentStep.onUpdate();
 			
+			if (skip) {
+				if (currentStep.moveX != undefined) then currentStep.object.x = currentStep.moveX;
+				if (currentStep.moveY != undefined) then currentStep.object.y = currentStep.moveY;
+				
+				cutscene_next(cutscene, currentStep.onEnd(), loop);
+			}
+			
 			break;
 			
 		case CUTSCENE_EVENT.Textbox:
@@ -121,7 +130,7 @@ function cutscene_play(cutscene, loop = false, onEnd=function(){}) {
 				_loop = loop;
 				
 				tb.dialogue = currentStep.dialogue;
-				tb.sound = currentStep.dialogueSound;
+				tb.voice = currentStep.dialogueVoice;
 				tb.pitch = currentStep.dialoguePitch;
 				tb.dialogueEnd = function() {
 					//if (_step < array_length(_nodes) - 1) return;
@@ -130,6 +139,11 @@ function cutscene_play(cutscene, loop = false, onEnd=function(){}) {
 			}
 			
 			currentStep.onUpdate();
+			
+			if (skip) {
+				instance_destroy(Textbox);
+				cutscene_next(cutscene, currentStep.onEnd(), loop);
+			}
 			
 			break;
 		
@@ -148,6 +162,11 @@ function cutscene_play(cutscene, loop = false, onEnd=function(){}) {
 			}
 			
 			currentStep.onUpdate();
+			
+			if (skip) {
+				cutscene_next(cutscene, currentStep.onEnd(), loop);
+				cutscene.tick = 0;
+			}
 			
 			break;
 		

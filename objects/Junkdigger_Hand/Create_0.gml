@@ -8,8 +8,11 @@ drawOnSurface = false;
 attackOnContact = false;
 knockbackResistence = 0;
 
-setHp(200);
+setHp(50);
 
+onHitCallback.Register(function(){
+	Junkdigger_Head.changeFacialExpression( sBoss_Junkdigger_FE_hurt );
+});
 
 defaultY = JUNKKEEPER_HAND_POSITION;
 

@@ -35,14 +35,10 @@ function ToolSpells() constructor {
 }
 
 
-function Tool(itemID) constructor {
+function Tool(itemID, spells = new ToolSpells()) constructor {
 	self.itemID = itemID;
-	self.spell = new ToolSpells();
-	
-	static Set = function(itemID) {
-		self.itemID = itemID;
-	}
-	
+	self.spell = spells;
+		
 	static Get = function() {
 		return ITEM.Get(self.itemID);
 	}

@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"camera_in_bounds",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"camera_in_bounds",
+  "parent":{
+    "name":"camera",
+    "path":"folders/Scripts/camera.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

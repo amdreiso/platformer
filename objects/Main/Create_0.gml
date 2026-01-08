@@ -14,10 +14,11 @@ command_init();
 effect_init();
 spell_init();
 cutscene_init();
+achievement_init();
 
 
-// Story
-story_progression();
+// Save manager init
+save_manager();
 
 
 
@@ -170,11 +171,6 @@ console_init();
 // instead of using array, use map for CommandData
 // way better to set keys for the commands to not flood the array with the same commands
 
-
-
-
-
-
 CONSOLE.Run("start");
 
 
@@ -206,6 +202,15 @@ instance_create_depth(0, 0, -999999, TEST);
 //modloader.load();
 
 
+globalvar COLOR;
+COLOR = {
+	Purple : new Color(0.6, 0.2, 0.9),
+	Red : new Color(1.0, 0.0, 0.0),
+	Green : new Color(0.0, 1.0, 0.0),
+	Blue : new Color(0.0, 0.0, 1.0),
+	Yellow : new Color(1.0, 1.0, 0.0),
+	White : new Color(1.0, 1.0, 1.0),
+};
 
 
 if (!instance_exists(Player)) {

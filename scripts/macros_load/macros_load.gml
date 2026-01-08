@@ -16,11 +16,11 @@ function macros_load(){
 	#macro PLAYER_BUFFER_ROOM_WIDTH 1
 	
 	#macro ROOM_TILE_WIDTH 360
-	#macro ROOM_TILE_HEIGHT 180
+	#macro ROOM_TILE_HEIGHT 192
 	
 	// save files
 	#macro SAVEFILE_SETTINGS "settings.hh"
-	#macro SAVEFILE_CHAPTERS "story.hh"
+	#macro SAVE_FILE "data.hh"
 	
 	
 	// existing functions

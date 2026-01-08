@@ -1,4 +1,7 @@
 
+x += hsp;
+y += vsp;
+
 tick += GameSpeed;
 
 if (face == sBoss_Junkdigger_FE_swap) {
@@ -9,7 +12,11 @@ if (face == sBoss_Junkdigger_FE_swap) {
 	}
 }
 
+if (face == sBoss_Junkdigger_FE_hurt) {
+	if (tick > 60) {
+		changeFacialExpression(defaultFacialExpression)
+		tick = 0;
+	}
+}
 
 if (!Junkdigger.nohands) return;
-
-

@@ -11,7 +11,7 @@ if (newRoom) {
 	
 	screenlog($"Level: entered room {level.components.name}");
 	
-	STORY.load();
+	//SaveManager.Load();
 	
 	// Reset surface size
 	surface = surface_create(room_width, room_height);
@@ -42,34 +42,36 @@ if (newRoom) {
 	
 	roomCode = level.components.roomCode;
 	
+	// On load
 	level.components.load();
 	
 	
 	// move player on transition
 	var offset = Main.transitionPlayerOffset;
+	var cw = 16, ch = 16;
 	
 	if (doPlayerTransition) {
 		switch (Main.transitionSide) {
 			case "left":
 				var p = new Vec2(room_width - PLAYER_BUFFER_ROOM_WIDTH, Main.transitionPlayerPosition.y);
-				p.x += offset.x * ROOM_TILE_WIDTH;
-				p.y += offset.y * ROOM_TILE_HEIGHT;
+				p.x += offset.x * cw;
+				p.y += offset.y * ch;
 			
 				player_set_position(p);
 				break;
 					
 			case "right":
 				var p = new Vec2(PLAYER_BUFFER_ROOM_WIDTH, Main.transitionPlayerPosition.y);
-				p.x += offset.x * ROOM_TILE_WIDTH;
-				p.y += offset.y * ROOM_TILE_HEIGHT;
+				p.x += offset.x * cw;
+				p.y += offset.y * ch;
 			
 				player_set_position(p);
 				break;
 					
 			case "up":
 				var p = new Vec2(Main.transitionPlayerPosition.x, room_height - PLAYER_BUFFER_ROOM_WIDTH - 8);
-				p.x += offset.x * ROOM_TILE_WIDTH;
-				p.y += offset.y * ROOM_TILE_HEIGHT;
+				p.x += offset.x * cw;
+				p.y += offset.y * ch;
 			
 				player_set_position(p);
 				break;
@@ -94,6 +96,12 @@ if (newRoom) {
 	showLevelName = 5 * 60;
 	newRoom = false;
 	doPlayerTransition = false;
+	
+	// Try finding room achievement
+	ACHIEVEMENT.Try(ACHIEVEMENT_TYPE.Location);
+	
+	
+	// Saving Current State
 }
 
 if (audio_is_playing(backgroundSong)) {
@@ -103,44 +111,7 @@ if (audio_is_playing(backgroundSong)) {
 
 roomCode();
 
-
 if (!instance_exists(LevelFX)) {
 	instance_create_depth(0, 0, -99999999, LevelFX);
-}
-
-
-/*
-switch (room) {
-	case rmLevel_CaveEntrance:
-		if (newRoom) {
-			newRoom = false;
-			audio_play_sound(snd_dreamsOfAnElectricMind, 0, false);
-		}
-		
-		darkness = 0.97;
-		break;
-	
-	case rmLevel_CaveVillage:
-		if (newRoom) {
-			newRoom = false;
-			audio_play_sound(snd_mechanicalHope, 0, false);
-		}
-		
-		darkness = 0.80;
-		
-		if (instance_exists(Camera)) {
-			
-			layer_x(layer_get_id("Parallax_2"), lerp(0, Camera.x * 0.44, 0.1));
-			layer_x(layer_get_id("Parallax_3"), lerp(0, Camera.x * 0.38, 0.1));
-			layer_x(layer_get_id("Parallax_4"), lerp(0, Camera.x * 0.90, 0.1));
-			layer_x(layer_get_id("Parallax_5"), lerp(0, Camera.x * 0.96, 0.1));
-			
-			layer_y(layer_get_id("Parallax_1"), lerp(0, Camera.y * 0.62, 0.1));
-			layer_y(layer_get_id("Parallax_2"), lerp(0, Camera.y * 0.44, 0.1));
-			layer_y(layer_get_id("Parallax_3"), lerp(0, Camera.y * 0.38, 0.1));
-			layer_y(layer_get_id("Parallax_4"), lerp(0, Camera.y * 0.80, 0.1));
-			layer_y(layer_get_id("Parallax_5"), lerp(0, Camera.y * 0.96, 0.1));
-		}
-		break;
 }
 

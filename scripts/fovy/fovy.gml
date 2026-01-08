@@ -8,6 +8,23 @@ enum BUTTON_ORIGIN {
 function fovy(){
 }
 
+function Children() constructor {
+	self.list = [];
+	
+	static Append = function(){
+		for (var i = 0; i < argument_count; i++) {
+			array_push(self.list, argument[i]);
+		}
+	}
+	
+	static DestroyAll = function() {
+		for (var i = 0; i < array_length(self.list); i++) {
+			var obj = self.list[i];
+			if (instance_exists(obj)) then instance_destroy(obj);
+		}
+	}
+}
+
 function Instance(obj, x, y, components = {}) constructor {
 	self.object = obj;
 	self.pos = new Vec2(x, y);
@@ -79,13 +96,13 @@ function SpriteStates() constructor {
 	self.states = ds_map_create();
 	self.currentState = "";
 	
-	static Set = function(name, sprite, condition) {
+	static Set = function(stateID, name, sprite, condition) {
 		var state = {};
 		state.name = name;
 		state.sprite = sprite;
 		state.condition = condition;
 		
-		self.states[? name] = state;
+		self.states[? stateID] = state;
 	}
 	
 	static Get = function() {
@@ -94,7 +111,7 @@ function SpriteStates() constructor {
 		while (value != undefined) {
 		  var state = ds_map_find_value(self.states, value);
 
-		  if (state.condition) {
+		  if (state.condition()) {
 		    self.currentState = state.name;
 		    return state.sprite;
 		  }
@@ -128,13 +145,16 @@ function interval_set(obj, time, fn) {
 	
 	if (tick >= time) {
 		tick = 0;
-		fn(obj, alltimetick);
+		var con = true;
+		if (instance_exists(Player)) then con = Player.busy;
+		if (!con) then fn(obj, alltimetick);
 	}
 }
 
 function Registry() constructor {
 	self.entries = ds_map_create();
 	self.defaultComponents = {};
+	self.types = ds_map_create();
 	
 	static SetDefaultComponents = function(components) {
 		self.defaultComponents = components;
@@ -434,7 +454,7 @@ function sound3D(emitter, x, y, snd, loop, gain, pitch, offset = 0){
 	return audio_play_sound_on(emitter, snd, loop, 0, random_array_argument(gain), offset, random_array_argument(pitch));
 }
 
-function rgb(r, g, b) constructor { self.r = r; self.g = g; self.b = b; }
+function Color(r, g, b) constructor { self.r = r; self.g = g; self.b = b; }
 
 function button(
 	x, y, width, height, label = "",
@@ -802,7 +822,6 @@ function slider(val, x, y, width, height, handleWidth, color = c_white) {
 	}, BUTTON_ORIGIN.MiddleCenter);
 	
 }
-
 
 function mkdir(path) {
 	if (directory_exists(path)) {

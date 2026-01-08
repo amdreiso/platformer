@@ -25,12 +25,13 @@ repeat (val * 3) {
 		);
 		
 		scale = random_range(1.00, 3.00);
+		scaleFactor = 0.003;
 			
 		image_angle = irandom(360);
 		image_xscale = choose(-1, 1);
 		image_yscale = choose(-1, 1);
 		
-		lifetime = irandom_range(120, 500) / 2;
+		lifetime = 2.5 * 60;
 		
 		fadeout = true;
 		fadeoutSpeed = random_range(0.05, 0.15) / 7;

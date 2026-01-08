@@ -3,15 +3,20 @@
 
 if (Sleep) return;
 
+
 busy = (Paused 
-		|| isDead
-		|| instance_exists(Textbox) 
-		|| Paused
-		|| Debug.console
-		|| resetPosition
-		|| inventoryOpen
+		 || isDead
+		 || instance_exists(Textbox) 
+		 || Paused
+		 || Debug.console
+		 || resetPosition
+		 || inventoryOpen
 );
 
+if (Paused) {
+	inventoryOpen = false;
+	Debug.console = false;
+}
 
 movement();
 
@@ -67,6 +72,9 @@ effect_run(self, "update");
 effect_apply();
 
 
+// Modules
+modules.Update( self );
+
 
 // Debug thingies
 if (!Debug) return;
@@ -78,16 +86,10 @@ if (keyboard_check(vk_control)) {
 bound_to_room();
 
 
-modules.Update( self );
 
 
 
-if (keyboard_check_pressed(ord("G"))) {
-	var instance = new Instance(Switch, x + 32, y, {
-		active : true,
-	});
-	
-	instance.Create();
-}
+
+
 
 

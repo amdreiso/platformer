@@ -2,10 +2,10 @@
   "$GMSprite":"v2",
   "%Name":"sBoss_Junkdigger_FE_cringe",
   "bboxMode":0,
-  "bbox_bottom":48,
-  "bbox_left":19,
-  "bbox_right":44,
-  "bbox_top":38,
+  "bbox_bottom":59,
+  "bbox_left":0,
+  "bbox_right":64,
+  "bbox_top":0,
   "collisionKind":1,
   "collisionTolerance":0,
   "DynamicTexturePage":false,
@@ -20,7 +20,7 @@
   "HTile":false,
   "layers":[
     {"$GMImageLayer":"","%Name":"963ca71e-6a93-4283-89fa-447129258d37","blendMode":0,"displayName":"Layer 1","isLocked":false,"name":"963ca71e-6a93-4283-89fa-447129258d37","opacity":100.0,"resourceType":"GMImageLayer","resourceVersion":"2.0","visible":true,},
-    {"$GMImageLayer":"","%Name":"6eb6b37d-68e7-486b-a5f4-fed1715e21a9","blendMode":0,"displayName":"default","isLocked":false,"name":"6eb6b37d-68e7-486b-a5f4-fed1715e21a9","opacity":100.0,"resourceType":"GMImageLayer","resourceVersion":"2.0","visible":false,},
+    {"$GMImageLayer":"","%Name":"6eb6b37d-68e7-486b-a5f4-fed1715e21a9","blendMode":0,"displayName":"default","isLocked":false,"name":"6eb6b37d-68e7-486b-a5f4-fed1715e21a9","opacity":100.0,"resourceType":"GMImageLayer","resourceVersion":"2.0","visible":true,},
   ],
   "name":"sBoss_Junkdigger_FE_cringe",
   "nineSlice":null,
@@ -71,7 +71,9 @@
     "timeUnits":1,
     "tracks":[
       {"$GMSpriteFramesTrack":"","builtinName":0,"events":[],"inheritsTrackColour":true,"interpolation":1,"isCreationTrack":false,"keyframes":{"$KeyframeStore<SpriteFrameKeyframe>":"","Keyframes":[
-            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{"0":{"$SpriteFrameKeyframe":"","Id":{"name":"2add69cc-1f6d-4b4e-8733-6e4b0407f07d","path":"sprites/sBoss_Junkdigger_FE_cringe/sBoss_Junkdigger_FE_cringe.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},},"Disabled":false,"id":"db4979d3-536e-4710-ae59-11fa56bc6ba9","IsCreationKey":false,"Key":0.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
+            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
+                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"2add69cc-1f6d-4b4e-8733-6e4b0407f07d","path":"sprites/sBoss_Junkdigger_FE_cringe/sBoss_Junkdigger_FE_cringe.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
+              },"Disabled":false,"id":"db4979d3-536e-4710-ae59-11fa56bc6ba9","IsCreationKey":false,"Key":0.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
           ],"resourceType":"KeyframeStore<SpriteFrameKeyframe>","resourceVersion":"2.0",},"modifiers":[],"name":"frames","resourceType":"GMSpriteFramesTrack","resourceVersion":"2.0","spriteId":null,"trackColour":0,"tracks":[],"traits":0,},
     ],
     "visibleRange":null,

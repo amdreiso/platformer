@@ -1,5 +1,4 @@
 
-
 var breakingPointFrame = 0;
 var xscale = sprite_get_width(sprite) / sprite_get_width(sBreakingPoint);
 var yscale = sprite_get_height(sprite) / sprite_get_height(sBreakingPoint);

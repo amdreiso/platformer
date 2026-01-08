@@ -66,7 +66,7 @@ COMMAND.register("restart", 0, function(args) {
 
 COMMAND.register("help", 0, function(args) {
 	var len = array_length(CommandData);
-	var columns = 3;
+	var columns = 4;
 	var rows = ceil(len / columns);
 	
 	for (var i=0; i<rows; i++) {
@@ -191,6 +191,11 @@ COMMAND.register("easter", 0, function(args) {
 
 COMMAND.register("halloween", 0, function(args) {
 	Occasion.halloween = !Occasion.halloween;
+});
+
+COMMAND.register("language", 1, function(args) {
+	var val = real(args[0]);
+	language_set(val);
 });
 
 }

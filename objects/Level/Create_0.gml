@@ -2,12 +2,12 @@
 surface = surface_create(room_width, room_height);
 
 
-
 // Room
 roomCode = function(){};
 
 roomInstances = ds_map_create();
 
+// Set every room with an array as room instances
 var value = ds_map_find_first(LEVEL.entries);
 
 while (value != undefined) {
@@ -59,14 +59,27 @@ goto = function(roomID) {
 	newRoom = true;
 }
 
-room_goto(rmLevel_Cave_Entrance);
+//room_goto(rmLevel_Cave_SpikeCorridor);
 
-//if (CurrentChapter.beggining_cutscene.played) {
-//	//room_goto(rmLevel_Cave_DumpYard);
-//} else {
-//	room_goto(rmBegginingCutscene);
-//}
-
+if (SaveState.progression.beggining_cutscene.played) {
+	
+	var level = SaveState.player.level;
+	var pos = SaveState.player.pos;
+	var xscale = SaveState.player.xscale;
+	
+	if (level != -1) {
+		
+		room_goto(level);
+		player_set_position(pos);
+		Player.image_xscale = xscale;
+		
+	} else {
+		room_goto(rmLevel_Cave_Entrance);
+	}
+	
+} else {
+	room_goto(rmBegginingCutscene);
+}
 
 
 tilePos = function(val) {
@@ -188,7 +201,6 @@ checkPlayerTransitions = function(level) {
 			//print($"tx: {tx} px: {px} | ty: {ty} py: {py} | side: {side} tside: {t.side}");
 			
 			if (tx == px && ty == py && side == t.side) {
-				
 				return t;
 			}
 		}
@@ -259,6 +271,8 @@ screenlog = function(str) {
 }
 
 drawScreenlog = function() {
+	if (!Debug.debug) return;
+	
 	var len = array_length(screenlogs);
 	for (var i = 0; i < len; i++) {
 		draw_set_halign(fa_right);
@@ -270,27 +284,4 @@ drawScreenlog = function() {
 	
 	draw_set_halign(fa_center);
 }
-
-
-
-
-
-/*
-var maxHpDisplay = 100;
-var hpPart = (hpDisplay / defaultHp);
-	
-for (var i = 0; i < maxHpDisplay; i++) {
-	var xoffset = (sprite_get_width(sItemDisplay) * guiScale) / 2 + margin;
-	var width = (sprite_get_width(sHealthbar) * guiScale);
-		
-	var color = c_white;
-		
-	var sprite = sHealthbar;
-	if (i == maxHpDisplay - 1) sprite = sHealthbar_end;
-		
-	if (i >= ceil(maxHpDisplay * hpPart)) color = c_dkgray;
-		
-	draw_sprite_ext(sprite, 0, xoffset + i * width, margin, guiScale, guiScale, 0, color, 1);
-}
-*/
 

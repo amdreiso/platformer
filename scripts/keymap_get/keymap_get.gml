@@ -32,6 +32,7 @@ function keymap_get(){
 		},
 		
 		select:								(keyboard_check_pressed(vk_space) || gamepad_button_check_pressed(Gamepad.ID, gp_face1)),
+		selectReleased:				(keyboard_check_released(vk_space) || gamepad_button_check_released(Gamepad.ID, gp_face1)),
 		selectUp:							(keyboard_check_pressed(vk_up) || gamepad_button_check_pressed(Gamepad.ID, gp_padu) || gamepad_axis_value(Gamepad.ID, gp_axislv) < 0),
 		selectLeft:						(keyboard_check_pressed(vk_left) || gamepad_button_check_pressed(Gamepad.ID, gp_padl) || gamepad_axis_value(Gamepad.ID, gp_axislh) < 0),
 		selectDown:						(keyboard_check_pressed(vk_down) || gamepad_button_check_pressed(Gamepad.ID, gp_padd) || gamepad_axis_value(Gamepad.ID, gp_axislv) > 0),

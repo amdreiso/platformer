@@ -1,6 +1,8 @@
 
 event_inherited();
 
+if (Player.busy) return;
+
 x += hsp * GameSpeed;
 y += vsp * GameSpeed;
 

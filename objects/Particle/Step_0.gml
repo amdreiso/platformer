@@ -64,3 +64,7 @@ if (destroy) {
 
 updateCallback.Run(self);
 
+
+if (!camera_in_bounds(x, y)) {
+	instance_destroy();
+}

@@ -1,5 +1,16 @@
 function enums_load(){
 
+enum ACHIEVEMENT_TYPE {
+	Item,
+	Location,
+	Enemy,
+	Blank,
+}
+
+enum ACHIEVEMENT_ID {
+	TheseWallsLookFake,
+	GoldAge,
+}
 
 enum LEVEL_SECTION {
 	Caves,
@@ -39,9 +50,10 @@ enum ITEM_ID {
 	
 	Armor,
 	
-	DoubleJumpModule,
 	HighJumpModule,
 	PortalCasterModule,
+	
+	Dynamite,
 	
 	Count,
 }
@@ -68,6 +80,7 @@ enum SUBITEM_ID {
 enum LANGUAGE_ID {
 	English,
 	Brazilian,
+	Count,
 }
 
 enum SOUL_TYPE {

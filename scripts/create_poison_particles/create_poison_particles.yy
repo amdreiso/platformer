@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"create_poison_particles",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"create_poison_particles",
+  "parent":{
+    "name":"particles",
+    "path":"folders/Scripts/particles.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

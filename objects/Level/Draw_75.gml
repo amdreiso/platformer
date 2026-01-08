@@ -15,9 +15,8 @@ if (Settings.graphics.drawScanlines) {
 }
 
 
+showLevelName = max(0, showLevelName - 1);
 if (showLevelName) {
-	showLevelName = max(0, showLevelName - 1);
-	
 	var level = LEVEL.Get(room).components;
 	var margin = 50;
 	draw_set_halign(fa_left);

@@ -42,6 +42,20 @@ function translation_init(){
 		},
 	};
 	
+	#region Languages
+	
+	TRANSLATION.Add("language_" + string(LANGUAGE_ID.English))
+		.set(LANGUAGE_ID.English, "English")
+		.set(LANGUAGE_ID.Brazilian, "Inglês")
+		.finalize();
+	
+	TRANSLATION.Add("language_" + string(LANGUAGE_ID.Brazilian))
+		.set(LANGUAGE_ID.English, "Brazilian")
+		.set(LANGUAGE_ID.Brazilian, "Brasileiro")
+		.finalize();
+	
+	#endregion
+	
 	#region GUI
 	
 	TRANSLATION.Add("gui_quest_find")
@@ -54,10 +68,38 @@ function translation_init(){
 		.set(LANGUAGE_ID.Brazilian, "você morreu burrao")
 		.finalize();
 	
+	
 	// TODO: Poem
 	TRANSLATION.Add("gui_death_screen_poem")
 		.set(LANGUAGE_ID.English, "cringe")
 		.set(LANGUAGE_ID.Brazilian, "")
+		.finalize();
+		
+		
+	// Inventory
+	TRANSLATION.Add("gui_inventory_name")
+		.set(LANGUAGE_ID.English, "name")
+		.set(LANGUAGE_ID.Brazilian, "nome")
+		.finalize();
+	
+	TRANSLATION.Add("gui_inventory_type")
+		.set(LANGUAGE_ID.English, "type")
+		.set(LANGUAGE_ID.Brazilian, "tipo")
+		.finalize();
+	
+	TRANSLATION.Add("gui_inventory_slot_sword")
+		.set(LANGUAGE_ID.English, "sword")
+		.set(LANGUAGE_ID.Brazilian, "espada")
+		.finalize();
+	
+	TRANSLATION.Add("gui_inventory_slot_armor")
+		.set(LANGUAGE_ID.English, "armor")
+		.set(LANGUAGE_ID.Brazilian, "armadura")
+		.finalize();
+	
+	TRANSLATION.Add("gui_inventory_slot_module")
+		.set(LANGUAGE_ID.English, "mod")
+		.set(LANGUAGE_ID.Brazilian, "mód")
 		.finalize();
 	
 	
@@ -134,9 +176,14 @@ function translation_init(){
 		.set(LANGUAGE_ID.Brazilian, $"[scale=1.55][shake=0.5][color=red][speed=20]SE LIGUE![/speed][/color][/shake][/scale]")
 		.finalize();
 		
-	TRANSLATION.Add("cutscene_junkeeper_nohands")
+	TRANSLATION.Add("cutscene_junkeeper_nohands_0")
 		.set(LANGUAGE_ID.English, $"[scale=1.45][shake=0.5][speed=20]MY HANDS!!![/speed][/shake][/scale]")
 		.set(LANGUAGE_ID.Brazilian, $"[scale=1.45][shake=0.5][speed=20]MINHAS MÃOS!!![/speed][/shake][/scale]")
+		.finalize();
+		
+	TRANSLATION.Add("cutscene_junkeeper_nohands_1")
+		.set(LANGUAGE_ID.English, $"[scale=1][shake=0.5][speed=20]YOU WILL PAY FOR THIS YOU USELESS [color=red]CLANKER[/color]!!![/speed][/shake][/scale]")
+		.set(LANGUAGE_ID.Brazilian, $"[scale=1][shake=0.5][speed=20]VOCÊ VAI PAGAR POR ISSO SUA [color=red]SUCATA[/color] INÚTIL!!![/speed][/shake][/scale]")
 		.finalize();
 	
 	#endregion
@@ -185,75 +232,118 @@ function translation_init(){
 	
 	var prefixItem = "item_";
 	
-	
 	TRANSLATION.Add(prefixItem + string(ITEM_ID.ScrapElectronics))
-		.set(LANGUAGE_ID.English, "scrap electronics")
-		.set(LANGUAGE_ID.Brazilian, "resto de eletrônicos")
+		.set(LANGUAGE_ID.English, "Scrap electronics")
+		.set(LANGUAGE_ID.Brazilian, "Resto de eletrônicos")
 		.finalize();
 	
 	TRANSLATION.Add(prefixItem + string(ITEM_ID.Jetpack))
-		.set(LANGUAGE_ID.English, "jetpack")
-		.set(LANGUAGE_ID.Brazilian, "mochila a jato")
+		.set(LANGUAGE_ID.English, "Jetpack")
+		.set(LANGUAGE_ID.Brazilian, "Mochila a jato")
 		.finalize();
 	
 	TRANSLATION.Add(prefixItem + string(ITEM_ID.BaseballBat))
-		.set(LANGUAGE_ID.English, "baseball bat")
-		.set(LANGUAGE_ID.Brazilian, "taco de beisebol")
-		.finalize();
-	
-	TRANSLATION.Add(prefixItem + string(ITEM_ID.DevStick))
-		.set(LANGUAGE_ID.English, "dev stick")
-		.set(LANGUAGE_ID.Brazilian, "dev stick")
+		.set(LANGUAGE_ID.English, "Baseball bat")
+		.set(LANGUAGE_ID.Brazilian, "Taco de beisebol")
 		.finalize();
 		
 	TRANSLATION.Add(prefixItem + string(ITEM_ID.FlameSpell))
-		.set(LANGUAGE_ID.English, "flame spell")
-		.set(LANGUAGE_ID.Brazilian, "encantamento de chamas")
+		.set(LANGUAGE_ID.English, "Flame spell")
+		.set(LANGUAGE_ID.Brazilian, "Feitiço de chamas")
 		.finalize();
 		
 	TRANSLATION.Add(prefixItem + string(ITEM_ID.FreezeSpell))
-		.set(LANGUAGE_ID.English, "ice spell")
-		.set(LANGUAGE_ID.Brazilian, "encantamento de gelo")
+		.set(LANGUAGE_ID.English, "Ice spell")
+		.set(LANGUAGE_ID.Brazilian, "Feitiço de gelo")
 		.finalize();
 		
 	TRANSLATION.Add(prefixItem + string(ITEM_ID.KnockbackSpell))
-		.set(LANGUAGE_ID.English, "knockback spell")
-		.set(LANGUAGE_ID.Brazilian, "encantamento de impulso")
+		.set(LANGUAGE_ID.English, "Knockback spell")
+		.set(LANGUAGE_ID.Brazilian, "Feitiço de impulso")
 		.finalize();
 		
 	TRANSLATION.Add(prefixItem + string(ITEM_ID.StrengthSpell))
-		.set(LANGUAGE_ID.English, "strength spell")
-		.set(LANGUAGE_ID.Brazilian, "encantamento de força")
+		.set(LANGUAGE_ID.English, "Strength spell")
+		.set(LANGUAGE_ID.Brazilian, "Feitiço de força")
 		.finalize();
 		
 	TRANSLATION.Add(prefixItem + string(ITEM_ID.PoisonSpell))
-		.set(LANGUAGE_ID.English, "poison spell")
-		.set(LANGUAGE_ID.Brazilian, "encantamento de veneno")
+		.set(LANGUAGE_ID.English, "Poison spell")
+		.set(LANGUAGE_ID.Brazilian, "Feitiço de veneno")
 		.finalize();
 		
 	TRANSLATION.Add(prefixItem + string(ITEM_ID.DevStick))
-		.set(LANGUAGE_ID.English, "dev")
-		.set(LANGUAGE_ID.Brazilian, "dev")
+		.set(LANGUAGE_ID.English, "Dev")
+		.set(LANGUAGE_ID.Brazilian, "Dev")
 		.finalize();
 		
 	TRANSLATION.Add(prefixItem + string(ITEM_ID.Armor))
-		.set(LANGUAGE_ID.English, "armor")
-		.set(LANGUAGE_ID.Brazilian, "armadura")
-		.finalize();
-		
-	TRANSLATION.Add(prefixItem + string(ITEM_ID.DoubleJumpModule))
-		.set(LANGUAGE_ID.English, "Double Jump Module")
-		.set(LANGUAGE_ID.Brazilian, "Módulo de Pulo Duplo")
+		.set(LANGUAGE_ID.English, "Armor")
+		.set(LANGUAGE_ID.Brazilian, "Armadura")
 		.finalize();
 		
 	TRANSLATION.Add(prefixItem + string(ITEM_ID.HighJumpModule))
-		.set(LANGUAGE_ID.English, "High Jump Module")
-		.set(LANGUAGE_ID.Brazilian, "Módulo de Pulo Alto")
+		.set(LANGUAGE_ID.English, "High jump module")
+		.set(LANGUAGE_ID.Brazilian, "Módulo de pulo alto")
+		.finalize();
+		
+	TRANSLATION.Add(prefixItem + string(ITEM_ID.PortalCasterModule))
+		.set(LANGUAGE_ID.English, "Portal caster module")
+		.set(LANGUAGE_ID.Brazilian, "Módulo atirador de portal")
+		.finalize();
+		
+	TRANSLATION.Add(prefixItem + string(ITEM_ID.Dynamite))
+		.set(LANGUAGE_ID.English, "Dynamite")
+		.set(LANGUAGE_ID.Brazilian, "Dinamite")
+		.finalize();
+		
+	TRANSLATION.Add(prefixItem + string(ITEM_ID.Gold))
+		.set(LANGUAGE_ID.English, "Gold")
+		.set(LANGUAGE_ID.Brazilian, "Ouro")
 		.finalize();
 		
 		
-		
-		
+	#endregion
+	
+	#region Item Types
+	
+	var pItemType = "item_type_";
+	
+	TRANSLATION.Add(pItemType + string(ITEM_TYPE.Blank))
+		.set(LANGUAGE_ID.English, "Common")
+		.set(LANGUAGE_ID.Brazilian, "Comum")
+		.finalize();
+	
+	TRANSLATION.Add(pItemType + string(ITEM_TYPE.Armor))
+		.set(LANGUAGE_ID.English, "Armor")
+		.set(LANGUAGE_ID.Brazilian, "Armadura")
+		.finalize();
+	
+	TRANSLATION.Add(pItemType + string(ITEM_TYPE.Sword))
+		.set(LANGUAGE_ID.English, "Sword")
+		.set(LANGUAGE_ID.Brazilian, "Espada")
+		.finalize();
+	
+	TRANSLATION.Add(pItemType + string(ITEM_TYPE.Module))
+		.set(LANGUAGE_ID.English, "Module")
+		.set(LANGUAGE_ID.Brazilian, "Módulo")
+		.finalize();
+	
+	TRANSLATION.Add(pItemType + string(ITEM_TYPE.Spell))
+		.set(LANGUAGE_ID.English, "Spell")
+		.set(LANGUAGE_ID.Brazilian, "Feitiço")
+		.finalize();
+	
+	TRANSLATION.Add(pItemType + string(ITEM_TYPE.Key))
+		.set(LANGUAGE_ID.English, "Key")
+		.set(LANGUAGE_ID.Brazilian, "Chave")
+		.finalize();
+	
+	TRANSLATION.Add(pItemType + string(ITEM_TYPE.Ring))
+		.set(LANGUAGE_ID.English, "Ring")
+		.set(LANGUAGE_ID.Brazilian, "Anél")
+		.finalize();
+	
 	#endregion
 	
 	#region Spells

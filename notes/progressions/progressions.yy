@@ -1,0 +1,11 @@
+{
+  "$GMNotes":"v1",
+  "%Name":"progressions",
+  "name":"progressions",
+  "parent":{
+    "name":"platformer",
+    "path":"platformer.yyp",
+  },
+  "resourceType":"GMNotes",
+  "resourceVersion":"2.0",
+}

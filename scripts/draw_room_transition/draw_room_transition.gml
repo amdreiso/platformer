@@ -27,6 +27,9 @@ function draw_room_transition(){
 				Level.newRoom = true;
 				Player.lastPlaceStanding = Player.getLastStandingPosition();
 				
+				Player.x = newPos.x;
+				Player.y = newPos.y;
+				
 				transition = false;
 			}
 			

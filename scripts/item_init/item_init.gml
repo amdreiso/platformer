@@ -29,8 +29,9 @@ function item_init(){
 	
 	defaultComponents = {
 		update : function(){},
-		sprite: -1,
-		canUseSpell: false,
+		sprite : -1,
+		icon : -1,
+		canUseSpell : false,
 	};
 	
 	var swordComponents = function(components={}) {
@@ -111,20 +112,26 @@ function item_init(){
 		return final;
 	}
 	
-	
 	ITEM = new Registry();
 	ITEM.SetDefaultComponents( defaultComponents );
-	
 	
 	#region Blanks
 	
 	// Currency
 	ITEM.Register(ITEM_ID.Gold, {
 		sprite : sItem_Gold,
+		type : ITEM_TYPE.Blank,
 	});
+	
 	
 	ITEM.Register(ITEM_ID.ScrapElectronics, {
 		sprite : sItem_ScrapElectronics,
+		type : ITEM_TYPE.Blank,
+	});
+	
+	ITEM.Register(ITEM_ID.Dynamite, {
+		sprite : sItem_TNT,
+		type : ITEM_TYPE.Blank,
 	});
 	
 	#endregion
@@ -181,6 +188,7 @@ function item_init(){
 	
 	ITEM.Register(ITEM_ID.HighJumpModule, moduleComponents({
 		name : "High Jump Module",
+		sprite : sModule_HighJump,
 		icon : sModule_HighJump,
 		
 		use : function(obj){
@@ -199,10 +207,11 @@ function item_init(){
 	
 	ITEM.Register(ITEM_ID.PortalCasterModule, moduleComponents({
 		name : "Portal Caster Module",
-		icon : sModule_HighJump,
+		sprite : sModule_PortalCaster,
+		icon : sModule_PortalCaster,
 		
 		use : function(obj){
-			obj.modulePortalCasterPrompt = true;
+			obj.modulePortalCasterPrompt = !obj.modulePortalCasterPrompt;
 		},
 		
 		update : function(obj){

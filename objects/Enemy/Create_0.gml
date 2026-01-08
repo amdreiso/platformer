@@ -4,8 +4,8 @@ behavior = 0;
 isSolid = true;
 target = Player;
 lightLevel = 16;
-lightAlpha = 0.25;
-lightColor = c_white;
+lightAlpha = 1;
+lightColor = c_red;
 
 effects = [];
 
@@ -13,8 +13,6 @@ damage = 10;
 
 attackOnContact = true;
 ableToAttack = true;
-
-deathSound = choose(snd_explosion1, snd_explosion3, snd_explosion4);
 
 invincible = false;
 
@@ -117,16 +115,13 @@ collisions = function() {
 		
 		var critical = false;
 		var criticalAmount = 1;
-		//critical = (irandom(10) == 10);
-		
-		if (Player.vsp > 0.2) then critical = true;
+		critical = (irandom(10) == 10);
 		
 		vsp = 0;
 		vsp -= a.dir.y * k;
 		
 		hitByPlayer = true;
 		hit(a.damage * (critical + criticalAmount));
-		
 		
 		// Spawn attack particle
 		var pos = randvec2(x, y, 6);
@@ -139,26 +134,7 @@ collisions = function() {
 		effect_transfer(a.effects, self);
 	});
 	
-	
-	
-	
 	bound_to_room();
-	
-	//if (place_meeting(x, y, PlayerAttack) && !isHit) {
-	//	var a = PlayerAttack;
-		
-	//	if (a.used) return;
-		
-	//	a.used = true;
-		
-	//	var knockback = 2.84 / knockbackResistence;
-	//	force.x = a.initialDirection * (knockback);
-		
-	//	vsp = 0;
-	//	vsp -= a.dir.y * knockback;
-		
-	//	hit(a.damage);
-	//}
 }
 
 
@@ -168,7 +144,8 @@ hp = defaultHp;
 isHit = false;
 hitCooldown = 0;
 hitFog = 0;
-
+destroyOnPlayerContact = false;
+deathSound = choose(snd_explosion1, snd_explosion3, snd_explosion4);
 
 onHit = false;
 onHitCallback = new Callback();
@@ -214,6 +191,8 @@ hit = function(damage) {
 		
 		hitByPlayer = false;
 	}
+	
+	vsp -= 0.5;
 	
 	create_popup_particle(damage);
 	
@@ -261,6 +240,16 @@ weaponDraw = function() {
 	surface_set_target(SurfaceHandler.surface);
 	draw_sprite_ext(weaponSprite, 0, x, y, 1, weaponYscale, weaponAngle, c_white, 1);
 	surface_reset_target();
+}
+
+drawLight = function() {
+	gpu_set_blendmode(bm_add);
+	draw_set_alpha(lightAlpha);
+
+	draw_circle_color(x, y, lightLevel, lightColor, c_black, false);
+
+	draw_set_alpha(1);
+	gpu_set_blendmode(bm_normal);
 }
 
 draw = function() {

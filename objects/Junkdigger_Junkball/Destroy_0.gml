@@ -1,14 +1,16 @@
 
-camera_shake(3);
+camera_shake(5, 2);
+
+sound_play(SOUND_TYPE.SFX, snd_ball_explosion, false, 1);
 
 repeat (15) {
 	with (instance_create_depth(x, y, depth, Particle)) {
 		
 		gravityApply = true;
 		
-		var hdir = 5;
+		var hdir = 3;
 		hsp = random_range(-hdir, hdir);
-		vsp -= random_range(0.5, 7.0);
+		vsp -= random_range(0.5, 4.0);
 		
 		sprite = sParticle_DumpYard;
 		randomSprite = true;
@@ -20,3 +22,5 @@ repeat (15) {
 		
 	}
 }
+
+gamepad_set_vibration(Gamepad.ID, 1, 1);

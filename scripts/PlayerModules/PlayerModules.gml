@@ -1,14 +1,30 @@
 
 function PlayerModules() constructor {
-	self.slots = array_create(4, -1);
+	self.slots = array_create(3, -1);
 	
 	static Set = function(slotID, moduleID){
 		self.slots[slotID] = moduleID;
 		
+		print($"Player Module: slot {slotID} : {TRANSLATION.Get("item_" + string(moduleID))}");
 	}
 	
-	static Has = function(slotID){
-		
+	static Has = function(moduleID){
+		for (var i = 0; i < array_length(self.slots); i++) {
+			if (self.slots[i] == moduleID) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	static Push = function(moduleID){
+		for (var i = 0; i < array_length(self.slots); i++) {
+			if (self.slots[i] == -1) {
+				self.slots[i] = moduleID;
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	static Get = function(slotID){
@@ -39,11 +55,6 @@ function PlayerModules() constructor {
 		var slot2 = self.slots[2];
 		if (Keymap.player.module2 && slot2 != -1) {
 			use(slot2, obj);
-		}
-		
-		var slot3 = self.slots[3];
-		if (Keymap.player.module3 && slot3 != -1) {
-			use(slot3, obj);
 		}
 		
 	}

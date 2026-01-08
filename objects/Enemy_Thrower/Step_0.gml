@@ -10,7 +10,7 @@ thrownCooldown = max(0, thrownCooldown - GameSpeed);
 tick += GameSpeed + distance_to_object(Player) / 10;
 
 var phdir = player_get_hdir();
-var throwTimeArray = [ 10, 30, 40, 50, 70 ];
+var throwTimeArray = [ 30, 60, 60, 120 ];
 
 if (distance_to_object(Player) < radius) {
 	
@@ -19,14 +19,13 @@ if (distance_to_object(Player) < radius) {
 	// Walk away
 	hsp = spd * -phdir;
 	
-	
 	// Throw Projectile
 	if (thrownCooldown == 0) {
 		var p = instance_create_depth(x, y, depth, Enemy_Thrower_Projectile);
 			
 		var hspd = 0.3;
 		p.hsp = phdir * hspd;
-		p.vsp -= 1.48;
+		p.vsp -= 1.48 * throwForce;
 		p.shooter = self;
 		p.damage = projdamage;
 		
@@ -48,8 +47,6 @@ if (distance_to_object(Player) < radius) {
 		hsp = spd / 2.5 * phdir;
 		image_xscale = phdir;
 		
-		print("Thrower is following player");
-		
 	} else {
 		hsp = 0;
 		image_xscale = phdir;
@@ -62,4 +59,3 @@ collisions();
 
 effect_run(self, "update");
 effect_apply();
-

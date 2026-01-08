@@ -145,7 +145,7 @@ function effect_init(){
 			static time = 0;
 			time += GameSpeed;
 			
-			if (floor(time) % 10 == true) {
+			if (floor(time) % 60 == true) {
 				var num = irandom_range(1, 2);
 				repeat (num) {
 					var pos = randvec2(obj.x, obj.y, obj.sprite_width / 2);
@@ -153,15 +153,17 @@ function effect_init(){
 					
 					var angleshift = 20;
 					
-					p.sprite = sParticle_Ice;
-					p.randomSprite = true;
-					p.lifetime = irandom_range(3, 6) * 60;
-					p.gravityApply = false;
-					p.color = choose(c_white, c_ltgray);
-					p.hsp = random_range(-0.05, 0.05);
-					p.vsp = random_range(-0.01, -0.10);
-					p.angle = irandom_range(-angleshift, angleshift);
-					p.scale = random_range(0.50, 1.25);
+					if (instance_exists(p)) {
+						p.sprite = sParticle_Ice;
+						p.randomSprite = true;
+						p.lifetime = irandom_range(3, 6) * 60;
+						p.gravityApply = false;
+						p.color = choose(c_white, c_ltgray);
+						p.hsp = random_range(-0.05, 0.05);
+						p.vsp = random_range(-0.01, -0.10);
+						p.angle = irandom_range(-angleshift, angleshift);
+						p.scale = random_range(0.50, 1.25);
+					}
 				}
 			}
 		},
@@ -224,19 +226,7 @@ function effect_init(){
 				repeat (num) {
 					if (!instance_exists(obj)) break;
 					
-					var pos = randvec2(obj.x, obj.y, obj.sprite_width / 2);
-					var p = instance_create_depth(pos.x, pos.y, obj.depth - 100, Particle_Poison);
-					
-					var angleshift = 30;
-					
-					if (instance_exists(p)) {
-						
-						p.gravityApply = false;
-						p.color = choose(c_white, c_ltgray);
-						p.angle = irandom_range(-angleshift, angleshift);
-						p.scale = random_range(0.325, 1.25);
-						
-					}
+					create_poison_particles(new Vec2(obj.x, obj.y));
 				}
 			}
 			

@@ -12,8 +12,8 @@ var xx = target.x + offset.x;
 var yy = target.y + offset.y;
 
 
-x = lerp(x, xx, followSpeed) + random_range(-shake, shake);
-y = lerp(y, yy, followSpeed) + random_range(-shake, shake);
+x = lerp(x, xx, followSpeed);
+y = lerp(y, yy, followSpeed);
 
 
 camera_set_view_angle(cam, angle);
@@ -26,6 +26,9 @@ var view_h = defaultSize.height * zoomLerp;
 
 pos.x = clamp(x - view_w / 2, 0, room_width - view_w);
 pos.y = clamp(y - view_h / 2, 0, room_height - view_h);
+
+pos.x += random_range(-shake, shake);
+pos.y += random_range(-shake, shake);
 
 camera_set_view_pos(cam, pos.x, pos.y);
 

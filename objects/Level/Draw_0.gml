@@ -72,6 +72,10 @@ with (Player) {
 	
 	
 		with (all) {
+			if (object_index == Collision) {
+				draw_line(bbox_left-1, bbox_top-1, bbox_right-1, bbox_bottom-1);
+			}
+			
 			if (Debug.debug) {
 				draw_rectangle(bbox_left, bbox_top, bbox_right-1, bbox_bottom-1, true);
 	
@@ -84,54 +88,58 @@ with (Player) {
 }
 
 
-if (!surface_exists(surface)) return;
+if (!surface_exists(surface)) {
+	surface = surface_create(room_width, room_height);
+	return;
+}
+
+draw_surface(surface, 0, 0);
 
 surface_set_target(surface);
 
 draw_clear_alpha(c_black, 0);
 
 
-//// Draw darknesss uhhh
-//draw_set_alpha(darkness * !Debug.debug);
-//draw_rectangle_color(0, 0, room_width, room_height, c_black, c_black, c_black, c_black, false);
-//draw_set_alpha(1);
+// Draw darknesss uhhh
+draw_set_alpha(darkness);
+draw_rectangle_color(0, 0, room_width, room_height, c_black, c_black, c_black, c_black, false);
+draw_set_alpha(1);
 
 
-//// Draw Light
-//gpu_set_blendmode(bm_eq_subtract);
+// Draw Light
+gpu_set_blendmode(bm_subtract);
 
 
-//with (Light) {
-//	if (distance_to_object(Player) < Camera.size.width) {
-//		//draw_raycast(x, y, 100, intensity, lightWidth);
+with (Light) {
+	if (distance_to_object(Player) < Camera.size.width) {
+		//draw_raycast(x, y, 100, intensity, lightWidth);
 		
-//		if (is_array(intensity)) {
-//			draw_circle_color(x, y, intensity[intensityIndex], c_white, c_black, false);
+		if (is_array(intensity)) {
+			draw_circle_color(x, y, intensity[intensityIndex], c_white, c_black, false);
 	
-//		} else {
-//			draw_circle_color(x, y, intensity, c_white, c_black, false);
-//		}
-//	}
-//}
+		} else {
+			draw_circle_color(x, y, intensity, c_white, c_black, false);
+		}
+	}
+}
 
-//with (Player) {
-//	//draw_raycast(x, y, raycastCount, viewDistance, 5);
+with (Player) {
+	//draw_raycast(x, y, raycastCount, viewDistance, 5);
 	
-//	draw_circle_color(x, y, viewDistance, c_white, c_black ,false);
-//}
+	draw_circle_color(x, y, viewDistance, c_white, c_black ,false);
+}
 
 
-//with (Enemy) {
-//	//draw_raycast(x, y, raycastCount, viewDistance, 5);
+with (Enemy) {
+	//draw_raycast(x, y, raycastCount, viewDistance, 5);
 	
-//	draw_circle(x, y, lightLevel, false);
-//}
+	draw_circle(x, y, lightLevel, false);
+}
 
 
 gpu_set_blendmode(bm_normal);
 
 surface_reset_target();
-
 
 
 

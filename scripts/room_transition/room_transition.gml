@@ -1,4 +1,4 @@
-function room_transition(roomID, side, onEnter=function(){}, transitionTime = 0.13, transitionPlayerOffset = new Vec2()){
+function room_transition(roomID, side, transitionPlayerOffset = new Vec2(), onEnter=function(){}, transitionTime = 0.13){
 	
 	Main.transitionOutput = roomID;
 	Main.transitionPlayerPosition = new Vec2(Player.x, Player.y);

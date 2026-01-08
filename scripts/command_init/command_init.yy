@@ -5,8 +5,8 @@
   "isDnD":false,
   "name":"command_init",
   "parent":{
-    "name":"init",
-    "path":"folders/Scripts/init.yy",
+    "name":"data",
+    "path":"folders/Scripts/data.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

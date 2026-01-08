@@ -14,8 +14,8 @@
   "exportDir":"",
   "name":"snd_hit3",
   "parent":{
-    "name":"effects",
-    "path":"folders/Sounds/effects.yy",
+    "name":"player",
+    "path":"folders/Sounds/player.yy",
   },
   "preload":false,
   "resourceType":"GMSound",

@@ -1,6 +1,9 @@
 
 event_inherited();
 
+lightAlpha = 0.33;
+lightLevel = 100;
+
 drops.Add(ITEM_ID.Gold, 0.5, 1);
 
 spd = 0.66;
@@ -21,5 +24,5 @@ throwTime = 70;
 thrown = false;
 thrownCooldown = 0;
 throwCount = 0;
-
+throwForce = 1;
 

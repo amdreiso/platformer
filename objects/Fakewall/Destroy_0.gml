@@ -1,4 +1,8 @@
 
+
+ACHIEVEMENT.Unlock(ACHIEVEMENT_ID.TheseWallsLookFake);
+
+
 repeat (100) {
 	if (surface_exists(surface)) {
 		var color = surface_getpixel(surface, irandom(sprite_width), irandom(sprite_height));
