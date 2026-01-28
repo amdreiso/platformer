@@ -17,9 +17,12 @@ function sound_play(type, snd, loop=false, gain=1, pitch=random_range(0.70, 1.00
 			break;
 	}
 	
+	if (is_array(pitch)) {
+		if (array_length(pitch) > 1) then pitch = random_range(pitch[0], pitch[1]);
+	}
 	var g = gain * gainType * Settings.audio.volume;
 	
-	print($"Played audio: {snd}");
+	//print($"Played audio: {snd}");
 	
 	return audio_play_sound(snd, 0, loop, g, 0, pitch);
 	

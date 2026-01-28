@@ -5,17 +5,15 @@ function settings_get() {
 			maxParticlesOnScreen: 500,
 			cameraShakeIntensity: 1.0,
 			guiScale: 2.0,
-			raycastCount: 500,
 			showKey: true,
 		
 			drawScanlines: false,
 			drawUI: true,
 		
 			enableSurfaces: true,
-		
-			physics: {
-				chains: false,
-			},
+			raycastCount: 360,
+			
+			playerTrail: true,
 		},
 	
 		audio: {
@@ -27,16 +25,15 @@ function settings_get() {
 		controls: {
 			gamepadDeadzone: 0.25,
 		},
+		
+		language: LANGUAGE_ID.English,
 	};
-	
-	settings.graphics.playerTrail = true;
-	
-	
 	
 	return settings;
 }
 
 function settings_save(){
+	Settings.language = Language;
 	
 	var con = json_stringify(Settings);
 	var buffer = buffer_create(string_byte_length(con) + 1, buffer_grow, 1);
@@ -45,7 +42,6 @@ function settings_save(){
 	buffer_delete(buffer);
 	
 	show_debug_message("Settings Saved!");
-	
 }
 
 function settings_load(){

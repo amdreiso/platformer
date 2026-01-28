@@ -1,4 +1,6 @@
 
+event_inherited();
+
 sprite_index = sSwitch;
 
 if (active) {

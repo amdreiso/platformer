@@ -118,6 +118,10 @@ COMMAND.register("zoom", 1, function(args) {
 	camera_set_zoom(real(args[0]));
 });
 
+COMMAND.register("cam_pos", 2, function(args) {
+	camera_set_position(real(args[0]), real(args[1]));
+});
+
 COMMAND.register("test", 0, function(args) {
 	room_goto(rmTEST);
 	Debug.debug = true;

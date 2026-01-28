@@ -20,18 +20,11 @@ collisions = function() {
 		var inst = instance_nearest(x, y, Switch);
 		
 		with (inst) {
-			if (!active) {
-				active = false;
-				
-				with (Interactable) {
-					if (ID == other.ID) {
-						active = !active;
-						animation = true;
-					}
-				}
+			if (!self.active) {
+				sound_play(SOUND_TYPE.SFX, snd_switch_on, 0.44, 1);
+				self.active = true;
+				self.onActivation();
 			}
 		}
 	}
 }
-
-

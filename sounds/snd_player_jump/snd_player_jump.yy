@@ -10,7 +10,7 @@
   "compression":0,
   "compressionQuality":4,
   "conversionMode":0,
-  "duration":0.17324263,
+  "duration":0.08387755,
   "exportDir":"",
   "name":"snd_player_jump",
   "parent":{
@@ -22,5 +22,5 @@
   "resourceVersion":"2.0",
   "sampleRate":44100,
   "soundFile":"snd_player_jump.wav",
-  "volume":1.0,
+  "volume":0.79,
 }

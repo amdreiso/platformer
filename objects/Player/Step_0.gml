@@ -61,15 +61,17 @@ applyCarriable();
 audio_listener_position(x, y, 0);
 
 
-if (!instance_exists(Camera)) {
-	var cam = instance_create_depth(x, y, depth, Camera);
-	cam.target = self;
-}
+//if (!instance_exists(Camera)) {
+//	var cam = instance_create_depth(x, y, depth, Camera);
+//	cam.target = self;
+//}
 
 
 // Effects
 effect_run(self, "update");
 effect_apply();
+
+
 
 
 // Modules

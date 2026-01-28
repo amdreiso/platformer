@@ -1,1 +1,2 @@
-ID = -1;
+signalID = -1;
+active = false;

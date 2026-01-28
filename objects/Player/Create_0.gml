@@ -171,6 +171,11 @@ upgrade.register(
 	// Update
 	function(obj){
 		
+		if (distance_to_object(Collision) < sprite_height / 1.5) {
+			obj.flying = 0;
+			return;
+		}
+		
 		static fuelDefault = 200;
 		static fuel = fuelDefault;
 		
@@ -356,6 +361,7 @@ manaDisplay = mana.defaultValue;
 #region HEALTH
 
 hp = new Stat(100);
+hp.value = 50;
 hpDisplay = hp.defaultValue;
 
 hitCooldown = 0;
@@ -391,7 +397,7 @@ hitable = true;
 hit = function(damage, xscale=1, applyKnockback = true, stun = true) {
 	if (isHit || god || isDead || !hitable) return;
 	
-	var cooldown = 50;
+	var cooldown = 25;
 	if (!stun) then cooldown = 1;
 	
 	var defense = 1;
@@ -458,13 +464,17 @@ dieByContact = function() {
 #region MOVEMENT
 
 allowMovement										= true;
-defaultSpd											= 1.75;
+defaultSpd											= 2;
 spd															= defaultSpd;
 hsp															= 0;
 vsp															= 0;
 hspLast													= 0;
 hspFrac													= 0;
 vspFrac													= 0;
+hspf														= 0;
+vspf														= 0;
+hspTotal												= 0;
+vspTotal												= 0;
 force														= new Vec2();
 jumpForce												= 1.66;
 jumpCountDefault								= 1;
@@ -487,6 +497,7 @@ lastChunk												= { roomID: -1, x: 0, y: 0 };
 secondJumpTick									= 0;
 flying													= false;
 tilePosition										= new Vec2();
+currentCollision								= noone;
 
 halt = function() {
 	hsp = 0;
@@ -507,7 +518,7 @@ flip = function() {
 handleBackflip = function() {
 	if (!isFlipping || busy) return;
 	
-	var time = 360 / 45;
+	var time = 360 / 35;
 	angle = (angle + (time * GameSpeed) * -image_xscale);
 	
 	if (abs(angle) >= 355) { 
@@ -529,6 +540,7 @@ getLastStandingPosition = function() {
 movement = function() {
 	if (busy) return;
 	
+	
 	// keymap
 	var map = Keymap.player;
 	
@@ -541,12 +553,24 @@ movement = function() {
 	spd = defaultSpd;
 	
 	var wasOnGround = onGround;
+	var onCollision = place_meeting(x, y + 1, Collision);
+	var onCollisionSlope = place_meeting(x, y + 1, Collision_Slope);
+	var onCollisionJumpThrough = (place_meeting(x, y+1, Collision_JumpThrough) && instance_nearest(x, y, Collision_JumpThrough).bbox_top > y && vsp == 0);
+	
 	onGround = (
-		place_meeting(x, y + 1, Collision) ||
-		place_meeting(x, y + 1, Collision_Slope) || 
-		(place_meeting(x, y+1, Collision_JumpThrough) && instance_nearest(x, y, Collision_JumpThrough).bbox_top > y && vsp == 0) || 
-		place_meeting(x, y + 1, Collision_Rayblock)
+		onCollision ||
+		onCollisionSlope || 
+		onCollisionJumpThrough
+		//place_meeting(x, y + 1, Collision_Rayblock)
 	);
+	
+	if (onCollision) {
+		currentCollision = instance_nearest(x, y, Collision);
+	} else if (onCollisionSlope) {
+		currentCollision = instance_nearest(x, y, Collision_Slope);
+	} else if (onCollisionJumpThrough) {
+		currentCollision = instance_nearest(x, y, Collision_JumpThrough);
+	}
 	
 	onAir = !onGround;
 	
@@ -557,7 +581,6 @@ movement = function() {
 		createDustParticles(10, 5, 0.20);
 		impact = true;
 	}
-	
 	
 	var wasOnSlope = onSlope;
 	if (place_meeting(x, y + 1, Collision_Slope)) {
@@ -595,30 +618,17 @@ movement = function() {
 		hspMultiplier = 0;
 	}
 	
-	
-	hsp += knockback.x;
-	vsp += knockback.y;
-	
-	x += ((hsp) * GameSpeed) * hspMultiplier;
-	y += (vsp) * GameSpeed;
-	
-	
-	// max falling speed
-	vsp = clamp(vsp, -MAX_FALLING_SPEED, MAX_FALLING_SPEED);
+	if (hsp != 0 || vsp != 0) {
+		if (keyboard_check_pressed(ord("B"))) {
+			knockback.x = 2;
+		}
+	}
 	
 	
 	// gravity
 	if (applyGravity) {
 		vsp += Gravity * GameSpeed;
 	}
-	 
-	
-	if (hsp != 0) {
-		if (keyboard_check_pressed(ord("B"))) {
-			knockback.x += 4 * sign(hsp);
-		}
-	}
-	
 	
 	// if on cutscene disable movement
 	var skipMovement = (OnCutscene);
@@ -631,13 +641,14 @@ movement = function() {
 	var dir = point_direction(0, 0, right - left, 0);
 	var len = (right - left != 0);
 	
+	hsp = ((right - left) * spd) * ceil(knockback.x);
+	
 	// Walk horizontally only when not hit
 	if (!isHit) {
-		hsp = lengthdir_x(spd * len, dir);
 		
 	}
 	else if (isHit) {
-		hsp += knockback.x;
+		//hsp += knockback.x;
 		
 	}
 	
@@ -657,10 +668,16 @@ movement = function() {
 	if (map.jump && jumpCondition) {
 		jumpCount --;
 		
+		// First jump
+		if (onGround) {
+			//sound_play(SOUND_TYPE.SFX, snd_player_jump, false, 0.3);
+		}
+		
 		vsp = 0;
 		vsp -= jumpForce;
 		
 		onSlope = false;
+		
 		
 		// Flip on last jump
 		if (jumpCount == 0) {
@@ -684,7 +701,7 @@ movement = function() {
 		
 		isJumping = false;
 		
-		if (!place_meeting(x, y + 1, Collision_JumpThrough)) {
+		if (!onCollisionJumpThrough) {
 			lastPlaceStanding = getLastStandingPosition();
 		}
 	}
@@ -700,10 +717,11 @@ movement = function() {
 	}
 	
 	if (onSlope) {
-		hsp = round(hsp);
+		//hsp = round(hsp);
 	}
 	
-	
+	// max falling speed
+	vsp = clamp(vsp, -MAX_FALLING_SPEED, MAX_FALLING_SPEED) * ceil(knockback.y);
 }
 
 //dash = function() {
@@ -827,11 +845,23 @@ applyCollisions = function() {
 		}
 	}
 	
-	collision_set(Collision, spd);
-	collision_set(Collision_Slope, spd);
-	collision_set(Collision_Rayblock, spd);
-	collision_set(Fakewall, spd);
+	collision_set(Collision);
+	collision_set(Collision_Slope);
+	collision_set(Collision_Rayblock);
+	collision_set(Fakewall);
 	
+	var playWalkSound = function() {
+		if (onGround && isMoving) {
+			var snds = currentCollision.walkSound;
+			var len = array_length(snds) - 1;
+			if (len <= 0) return;
+			var index = irandom(len);
+			var snd = snds[index];
+			
+			sound_play(SOUND_TYPE.SFX, snd, false, random_range(0.05, 0.15), [0.50, 0.70]);
+		}
+	}
+	interval_set(self, 19, playWalkSound);
 	
 	if (instance_exists(DoorSideways)) {
 		var doorside = instance_nearest(x, y, DoorSideways);
@@ -1121,7 +1151,7 @@ playerShadowColor = c_dkgray;
 
 color = c_white;
 
-shadow = ds_list_create();
+shadow = [];
 
 
 //spriteStates = {
@@ -1177,6 +1207,7 @@ draw = function() {
 	// Set sprite speed
 	image_speed = GameSpeed;
 	
+	if (busy) then image_speed = 0;
 	
 	// Angle if hit
 	if (isHit) {
@@ -1195,7 +1226,7 @@ draw = function() {
 	//	sprite = sPlayerOneEye_Impact;
 	//}
 	
-	var sprite = spriteStates.Get();
+	var sprite;
 	
 	if (spriteStates.currentState == "idle" && waitingSprite == -1) {
 		waiting += GameSpeed;
@@ -1208,9 +1239,15 @@ draw = function() {
 		}
 	}
 	
-	if (waitingSprite != -1) { 
+	sprite = spriteStates.Get();
+	
+	if (waitingSprite != -1 && hsp == 0 && vsp == 0) { 
 		sprite = waitingSprite;
+	} else {
+		waitingSprite = -1;
+		waiting = 0;
 	}
+	
 	
 	if (keyboard_check_pressed(ord("P"))) {
 		waitingSprite = sPlayer_Waiting_3;
@@ -1237,6 +1274,11 @@ draw = function() {
 		blink = !blink;
 	}
 	
+	static trail = [];
+	
+	if (levelTransitionCooldown > 0) {
+		trail = [];
+	}
 	
 	// Draw Trail
 	if (Settings.graphics.playerTrail) {
@@ -1245,33 +1287,33 @@ draw = function() {
 		shdTick ++;
 		if (shdTick >= 2) {
 			var shd = {};
-			shd.sprite = sprite;
-			shd.index = image_index;
 			shd.x = x;
 			shd.y = y;
-			shd.xscale = image_xscale;
-			shd.yscale = image_yscale;
-			shd.angle = angle;
-			shd.decrease = 0.075;
-			shd.time = 0.88;
-			shd.color = choose(c_orange);
-			ds_list_add(shadow, shd);
+			shd.width = 6;
+			shd.decrease = 0.095;
+			shd.color = c_white;
+			array_push(trail, shd);
 		
 			shdTick = 0;
 		}
-	
-		for (var i = 0; i < ds_list_size(shadow); i++) {
-			var key = ds_list_find_value(shadow, i);
 		
-			if (key.time <= 0) {
-				ds_list_delete(shadow, i);
+		var len = array_length(trail) - 1;
+		
+		for (var i = 0; i < len - 1; i++) {
+			
+			trail[i].width -= trail[i].decrease;
+			
+			var s0 = trail[i];
+			var s1 = trail[i + 1];
+			
+			if (trail[i].width < 0.02) {
+				array_delete(trail, i, 1);
 			}
-		
-			key.time -= key.decrease * GameSpeed;
-		
-			gpu_set_fog(true, key.color, 0, 1);
-			draw_sprite_ext(key.sprite, key.index, key.x, key.y, key.xscale, key.yscale, key.angle, c_white, key.time);
-			gpu_set_fog(false, c_white, 0, 1);
+			
+			draw_set_alpha(s0.width / 6);
+			draw_line_width_color(s0.x, s0.y, s1.x, s1.y, s0.width, s0.color, s1.color);
+			draw_set_alpha(1);
+			
 		}
 	}
 	
@@ -1451,7 +1493,7 @@ drawDeathScreen = function() {
 	
 	if (isDead) {
 		
-		GameSpeed = lerp(GameSpeed, 0.1, 0.1);
+		GameSpeed = lerp(GameSpeed, 0.4, 0.1);
 		
 	}
 	

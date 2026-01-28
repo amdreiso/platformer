@@ -10,7 +10,7 @@
   "compression":0,
   "compressionQuality":4,
   "conversionMode":0,
-  "duration":176.0,
+  "duration":80.0,
   "exportDir":"",
   "name":"snd_dreamsOfAnElectricMind",
   "parent":{

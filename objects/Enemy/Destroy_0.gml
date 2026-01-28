@@ -7,6 +7,9 @@ camera_shake(1);
 create_explosion_particles(x, y - 10, sprite_width, sprite_get_width(spriteStates.idle) + sprite_get_height(spriteStates.move) / 4, random_range(0.05, 0.15));
 
 
+children.DestroyAll();
+
+
 // Drops
 var drop = drops.Get();
 log(drop);
@@ -18,4 +21,3 @@ repeat (drop.quantity) {
 		self.itemID = drop.itemID;
 	}
 }
-

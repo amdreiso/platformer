@@ -21,12 +21,14 @@ achievement_init();
 save_manager();
 
 
-
 // Game info
 globalvar GameInfo;
 GameInfo = {
-	name: "unnamed robot game",
-	version: [0, 0],
+	name: "CIRCUITA",
+	version: {
+		major: 0,
+		minor: 1,
+	},
 	build: "indev",
 	author: "amdrei",
 }
@@ -42,6 +44,7 @@ globalvar Debug; Debug = {
 	console: false,
 	specs: false,
 	drawAttackCommandInput: false,
+	displayLevelSignals: false,
 };
 
 globalvar Sleep; Sleep = 0;
@@ -49,7 +52,7 @@ globalvar Sleep; Sleep = 0;
 globalvar Settings; Settings = settings_get();
 settings_load();
 
-globalvar Language; Language = LANGUAGE_ID.English;
+globalvar Language; Language = Settings.language;
 globalvar LanguageReset; LanguageReset = true;
 
 globalvar Keymap;
@@ -215,6 +218,11 @@ COLOR = {
 
 if (!instance_exists(Player)) {
 	instance_create_layer(190, 232, "Init", Player);
+	//instance_create_layer(600, 300, "Init", Player);
+}
+
+if (!instance_exists(Camera)) {
+	instance_create_layer(190, 232, "Init", Camera);
 	//instance_create_layer(600, 300, "Init", Player);
 }
 

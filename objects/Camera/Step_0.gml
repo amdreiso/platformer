@@ -8,12 +8,11 @@ if (shakeValue > 0) shakeValue -= GameSpeed / 2; else shakeValue = 0;
 
 var shake = power(shakeValue, shakePower) * Settings.graphics.cameraShakeIntensity;
 
-var xx = target.x + offset.x;
-var yy = target.y + offset.y;
+xTo = target.x + offset.x;
+yTo = target.y + offset.y;
 
-
-x = lerp(x, xx, followSpeed);
-y = lerp(y, yy, followSpeed);
+x = lerp(x, xTo, followSpeed);
+y = lerp(y, yTo, followSpeed);
 
 
 camera_set_view_angle(cam, angle);

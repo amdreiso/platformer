@@ -1,0 +1,26 @@
+{
+  "$GMSound":"v2",
+  "%Name":"snd_march_of_the_robots_1",
+  "audioGroupId":{
+    "name":"audiogroup_songs",
+    "path":"audiogroups/audiogroup_songs",
+  },
+  "bitDepth":1,
+  "channelFormat":1,
+  "compression":0,
+  "compressionQuality":4,
+  "conversionMode":0,
+  "duration":143.98492,
+  "exportDir":"",
+  "name":"snd_march_of_the_robots_1",
+  "parent":{
+    "name":"boss battles",
+    "path":"folders/Sounds/boss battles.yy",
+  },
+  "preload":false,
+  "resourceType":"GMSound",
+  "resourceVersion":"2.0",
+  "sampleRate":44100,
+  "soundFile":"snd_march_of_the_robots_1.wav",
+  "volume":0.5,
+}

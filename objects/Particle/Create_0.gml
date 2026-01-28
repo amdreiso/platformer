@@ -5,8 +5,12 @@ if (instance_number(Particle) >= Settings.graphics.maxParticlesOnScreen) {
 
 hsp = 0;
 vsp = 0;
+hspFactor = 0;
+vspFactor = 0;
+hspTarget = 0;
+vspTarget = 0;
 
-knockback = new Vec2();
+knockback = new Vec2(1, 1);
 
 collisions = [];
 

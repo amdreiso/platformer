@@ -26,7 +26,7 @@
   "origin":4,
   "parent":{
     "name":"Modules",
-    "path":"folders/Sprites/Icons/Modules.yy",
+    "path":"folders/Sprites/Items/Modules.yy",
   },
   "preMultiplyAlpha":false,
   "resourceType":"GMSprite",

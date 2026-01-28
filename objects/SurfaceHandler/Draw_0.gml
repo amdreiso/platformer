@@ -1,7 +1,6 @@
 
 if (!surface_exists(surface)) {
 	surface = surface_create(room_width, room_height);
-	return;
 }
 
 draw_surface(surface, 0, 0);

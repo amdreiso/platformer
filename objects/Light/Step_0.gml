@@ -13,7 +13,3 @@ if (is_array(intensity)) {
 	if (intensity == 0) instance_destroy();
 	
 }
-
-if (keyboard_check_pressed(ord("H"))) {
-	print(self);
-}

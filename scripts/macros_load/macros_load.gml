@@ -14,8 +14,9 @@ function macros_load(){
 	// Player
 	#macro PLAYER_COMMAND_INPUT_TIMER 15
 	#macro PLAYER_BUFFER_ROOM_WIDTH 1
+	#macro PLAYER_ENTER_ROOM_COOLDOWN 15
 	
-	#macro ROOM_TILE_WIDTH 360
+	#macro ROOM_TILE_WIDTH 320
 	#macro ROOM_TILE_HEIGHT 192
 	
 	// save files

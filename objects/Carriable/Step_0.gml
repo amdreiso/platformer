@@ -1,8 +1,11 @@
 
 onPlayer = (place_meeting(x, y, Player));
 
-x += hsp + knockback.x;
-y += vsp + knockback.y;
+hspTotal = hsp * knockback.x;
+vspTotal = vsp * knockback.y;
+
+x += hspTotal;
+y += vspTotal;
 
 knockback_apply();
 

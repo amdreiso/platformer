@@ -1,17 +1,10 @@
 
-
-
-if (active && !is_undefined(timer)) {
-  timer -= GameSpeed;
+if (active && !is_undefined(tick)) {
+  tick -= GameSpeed;
 	
-  if (timer <= 0) {
+  if (tick <= 0) {
     active = false;
-		timer = defaultTimer;
-		
-		interactable_find_link(Switch, function(obj) {
-		  obj.active = !obj.active;
-			obj.animation = true;
-		});
+		tick = time;
   }
 }
 

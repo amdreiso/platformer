@@ -3,8 +3,14 @@ if (Sleep) return;
 
 if (Player.busy) return;
 
+
 movement();
 handleHealth();
+
+children.ForEach(function(e){
+	e.x = x;
+	e.y = y;
+});
 
 thrownCooldown = max(0, thrownCooldown - GameSpeed);
 tick += GameSpeed + distance_to_object(Player) / 10;

@@ -41,6 +41,6 @@ function keymap_get(){
 		selectLeftHold:				(keyboard_check(vk_left) || gamepad_button_check(Gamepad.ID, gp_padl) || gamepad_axis_value(Gamepad.ID, gp_axislh) < 0),
 		selectRightHold:			(keyboard_check(vk_right) || gamepad_button_check(Gamepad.ID, gp_padr) || gamepad_axis_value(Gamepad.ID, gp_axislh) > 0),
 		
-		pause:								(gamepad_button_check_pressed(Gamepad.ID, gp_start)),
+		pause:								(gamepad_button_check_pressed(Gamepad.ID, gp_start) || (keyboard_check_pressed(vk_anykey) && keyboard_lastkey == 27)),
 	}
 }

@@ -8,6 +8,22 @@ enum BUTTON_ORIGIN {
 function fovy(){
 }
 
+function bool_string(val) {
+	if (val == true) return "true" else return "false";
+}
+
+function Signal(signalID, time = 5 * 60) constructor {
+	self.signalID = signalID;
+	self.time = time;
+}
+
+function object_side(obj) {
+	var side = new Vec2();
+	if (obj.x < x) side.x = -1 else side.x = 1;
+	if (obj.y < y) side.y = -1 else side.y = 1;
+	return side;
+}
+
 function Children() constructor {
 	self.list = [];
 	
@@ -17,8 +33,19 @@ function Children() constructor {
 		}
 	}
 	
+	static ForEach = function(func = function(obj){}){
+		var len = array_length(self.list);
+		if (len == 0) then return;
+		for (var i = 0; i < len; i++) {
+			var obj = self.list[i];
+			if (instance_exists(obj)) then func(obj);
+		}
+	}
+	
 	static DestroyAll = function() {
-		for (var i = 0; i < array_length(self.list); i++) {
+		var len = array_length(self.list);
+		if (len == 0) then return;
+		for (var i = 0; i < len; i++) {
 			var obj = self.list[i];
 			if (instance_exists(obj)) then instance_destroy(obj);
 		}
@@ -341,14 +368,11 @@ function on_last_frame(fn) {
 	return false;
 }
 
-function knockback_apply() {
-	var knockbackFallout = 0.01;
+function knockback_apply(threshold = 1) {
+	var knockbackFallout = 0.25;
 	
-	//if (round(knockback.x) != 0) knockback.x += ( -sign(knockback.x) * knockbackFallout * GameSpeed ); else knockback.x = 0;
-	//if (round(knockback.y) != 0) knockback.y += ( -sign(knockback.y) * knockbackFallout * GameSpeed ); else knockback.y = 0;
-	
-	knockback.x = approach(knockback.x, 0, knockbackFallout);
-	knockback.y = approach(knockback.y, 0, knockbackFallout);
+	knockback.x = max(threshold, knockback.x - knockbackFallout * GameSpeed);
+	knockback.y = max(threshold, knockback.y - knockbackFallout * GameSpeed);
 }
 
 //function apply_force() {
@@ -372,38 +396,39 @@ function collision_set(obj, subpixel = 1) {
 	
 	var sp = 1;
 	
-	var fx = knockback.x;
-	var fy = knockback.y;
-	
-	fx = 0; fy = 0;
-	
-	if (place_meeting(x + hsp + fx, y, obj)) {
+	if (place_meeting(x + hsp, y, obj)) {
+		
+		var pixelCheck = subpixel * sign(hsp);
 		
 		// Slope up
 		if (!place_meeting(x + hsp, y - abs(hsp) - 1, obj)) {
 			
-			while (place_meeting(x + hsp, y, obj)) {
+			while (place_meeting(x + pixelCheck, y, obj)) {
 				y -= sp;
 			}
 			
 		} else {
  			
-			while (!place_meeting(x + sign(hsp + fx), y, obj)) {
-				x = x + sign(hsp + fx);
+			var pixelCheck = subpixel * sign(hsp);
+			
+			while (!place_meeting(x + pixelCheck, y, obj)) {
+				x += sign(hsp);
 			}
 			
 			hsp = 0;
-			knockback.x = 0;
+			knockback.x = 1;
 		}
 	}
 	
-	if (place_meeting(x, y + vsp + fy, obj)) {
-		while (!place_meeting(x, y + sign(vsp + fy), obj)) {
-			y = y + sign(vsp + fy);
+	if (place_meeting(x, y + vsp, obj)) {
+		var pixelCheck = subpixel * sign(vsp);
+		
+		while (!place_meeting(x, y + sign(vsp), obj)) {
+			y += sign(vsp);
 		}
 		
 		vsp = 0;
-		knockback.y = 0;
+		knockback.y = 1;
 	}
 	
 }

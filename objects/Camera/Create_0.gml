@@ -28,3 +28,6 @@ zoomSpd = 0.2;
 angle = 0;
 
 pos = new Vec2();
+
+xTo = 0;
+yTo = 0;

@@ -8,6 +8,6 @@ function room_transition(roomID, side, transitionPlayerOffset = new Vec2(), onEn
 	Main.transition = true;
 	Main.transitionSide = side;
 	
-	if (instance_exists(Player)) Player.levelTransitionCooldown = 15;
+	if (instance_exists(Player)) Player.levelTransitionCooldown = PLAYER_ENTER_ROOM_COOLDOWN;
 	
 }

@@ -11,7 +11,10 @@ if (sprite != -1) {
 
 if (place_meeting(x, y, Player)) {
 	// Add item to player's inventory
-	if (!picked) Player.inventory.Add( itemID );
+	if (!picked) {
+		Player.inventory.Add( itemID );
+		sound_play(SOUND_TYPE.SFX, snd_player_pickup_item);
+	}
 
 	picked = true;
 	applyGravity = false;

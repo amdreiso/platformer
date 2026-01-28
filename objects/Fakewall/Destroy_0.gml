@@ -2,6 +2,9 @@
 
 ACHIEVEMENT.Unlock(ACHIEVEMENT_ID.TheseWallsLookFake);
 
+sound_play(SOUND_TYPE.SFX, breakingSound);
+
+camera_shake(8);
 
 repeat (100) {
 	if (surface_exists(surface)) {
@@ -24,13 +27,15 @@ repeat (100) {
 			particle.scale = random_range(1.00, 2.25);
 			particle.angle = irandom(360);
 			particle.roll = true;
-		
-			particle.knockback.x = random_range(-1.00, 1.00) * 2;
+			
+			particle.knockback.x = random(2.00);
+			particle.hsp = random_range(-1.00, 1.00) * 5;
+			particle.hspFactor = random_range(0.05, 0.15) / 2;
 			particle.vsp -= random_range(0.10, 1.00);
-		
+			
 			particle.collisions = [Collision];
 			particle.color = color;
-		
+			
 			particle.fadeout = true;
 			particle.fadeoutSpeed = random_range(0.010, 0.050);
 			particle.fadeoutCooldown = irandom_range(4, 8) * 60;

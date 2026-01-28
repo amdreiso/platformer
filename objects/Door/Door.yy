@@ -35,8 +35,8 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"sDoor1",
-    "path":"sprites/sDoor1/sDoor1.yy",
+    "name":"sRollableDoor_0",
+    "path":"sprites/sRollableDoor_0/sRollableDoor_0.yy",
   },
   "spriteMaskId":null,
   "visible":true,

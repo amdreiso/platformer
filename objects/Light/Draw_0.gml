@@ -16,15 +16,11 @@ if (surface_exists(SurfaceHandler.surface)) surface_reset_target();
 depth = -99999;
 
 gpu_set_blendmode(blendmode);
-draw_set_alpha(lightAlpha);
+draw_set_alpha(lightAlpha * (intensity / 2));
 
-if (is_array(intensity)) {
-	draw_circle_color(x, y, intensity[intensityIndex], lightColor, c_black, false);
-	
-} else if (!is_array(intensity)) {
-	draw_circle_color(x, y, intensity, lightColor, c_black, false);
-}
-
+draw_circle_color(x, y, radius, image_blend, c_black, false);
+//draw_raycast(PlayerCollision, x, y, raycastCount, radius, 2, color, c_black);
 
 draw_set_alpha(1);
+
 gpu_set_blendmode(bm_normal);

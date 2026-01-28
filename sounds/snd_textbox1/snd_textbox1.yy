@@ -10,7 +10,7 @@
   "compression":0,
   "compressionQuality":4,
   "conversionMode":0,
-  "duration":2.0,
+  "duration":0.016666668,
   "exportDir":"",
   "name":"snd_textbox1",
   "parent":{
@@ -22,5 +22,5 @@
   "resourceVersion":"2.0",
   "sampleRate":44100,
   "soundFile":"snd_textbox1.wav",
-  "volume":0.15,
+  "volume":0.45,
 }

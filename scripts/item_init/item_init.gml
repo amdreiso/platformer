@@ -123,6 +123,11 @@ function item_init(){
 		type : ITEM_TYPE.Blank,
 	});
 	
+	ITEM.Register(ITEM_ID.Battery, {
+		sprite : sItem_Battery,
+		type : ITEM_TYPE.Blank,
+	});
+	
 	
 	ITEM.Register(ITEM_ID.ScrapElectronics, {
 		sprite : sItem_ScrapElectronics,
@@ -188,27 +193,14 @@ function item_init(){
 	
 	ITEM.Register(ITEM_ID.HighJumpModule, moduleComponents({
 		name : "High Jump Module",
-		sprite : sModule_HighJump,
-		icon : sModule_HighJump,
-		
-		use : function(obj){
-			
-		},
-		
-		update : function(){
-			
-		},
-		
-		draw : function(){
-			
-		},
-		
+		sprite : sModule,
+		icon : sModule,
 	}));
 	
 	ITEM.Register(ITEM_ID.PortalCasterModule, moduleComponents({
 		name : "Portal Caster Module",
-		sprite : sModule_PortalCaster,
-		icon : sModule_PortalCaster,
+		sprite : sModule,
+		icon : sModule,
 		
 		use : function(obj){
 			obj.modulePortalCasterPrompt = !obj.modulePortalCasterPrompt;

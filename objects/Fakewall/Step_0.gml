@@ -1,10 +1,14 @@
 
-if (place_meeting(x, y, PlayerAttack)) {
-	if (!PlayerAttack.used) {
-		hit();
-		PlayerAttack.used = true;
-	}
-}
+//if (place_meeting(x, y, PlayerAttack)) {
+//	if (!PlayerAttack.used) {
+//		hit();
+//		PlayerAttack.used = true;
+//	}
+//}
+
+player_attack_check(function(a){
+	hit();
+});
 
 
 if (sprite != -1 && surface == -1) {

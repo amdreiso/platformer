@@ -1,5 +1,4 @@
 
-
 enum MENU_PAGE {
 	Resume,
 	Home,
@@ -12,21 +11,7 @@ enum MENU_PAGE {
 active = false;
 
 page = MENU_PAGE.Home;
-menuBackgroundColor = c_black;
-
-c1 = c_black;
-c2 = c_black;
-c3 = c_black;
-c4 = c_black;
-margin = 5;
 alpha = 0;
-
-test = 0;
-
-menuButtonForeground = Style.GUI.light.buttonForeground;
-menuButtonBackground = Style.GUI.light.buttonBackground;
-
-backgroundColor = c_blue;
 
 setPage = function(val) {
 	PauseMenu.buttonIndex = 0;
@@ -38,35 +23,30 @@ enum MENU_BUTTON_TYPE {
 	Slider,
 }
 
-Button = function(name, backgroundColor, textColor, fn, goback = false) {
-	return {
-		type: MENU_BUTTON_TYPE.Method,
-		name: name,
-		fn: fn,
-		backgroundColor: backgroundColor,
-		textColor: textColor,
-		goback: goback,
-	}
+function Button(name, backgroundColor, textColor, fn, goback = false) constructor {
+	self.type = MENU_BUTTON_TYPE.Method;
+	self.name = name;
+	self.fn = fn;
+	self.backgroundColor = backgroundColor;
+	self.textColor = textColor;
+	self.goback = goback;
 }
 
-ButtonSlider = function(name, backgroundColor, textColor, get, set, variabledefault, slope=0.1) {
-	return {
-		type: MENU_BUTTON_TYPE.Slider,
-		name: name,
-		backgroundColor: backgroundColor,
-		textColor: textColor,
-		get: get,
-		set: set,
-		variabledefault: variabledefault,
-		slope: slope,
-	}
+function ButtonSlider(name, backgroundColor, textColor, get, set, variabledefault, slope=0.1) constructor {
+	self.type = MENU_BUTTON_TYPE.Slider;
+	self.name = name;
+	self.backgroundColor = backgroundColor;
+	self.textColor = textColor;
+	self.get = get;
+	self.set = set;
+	self.variabledefault = variabledefault;
+	self.slope = slope;
 }
 
 homeButtons = [];
 optionButtons = [];
 optionAudioButtons = [];
 optionGraphicButtons = [];
-devButtons = [];
 
 #region Menu Translations
 
@@ -130,6 +110,11 @@ TRANSLATION.Add("menu_pause_sfx")
 	.set(LANGUAGE_ID.Brazilian, "Efeitos sonoros")
 	.finalize();
 
+TRANSLATION.Add("menu_pause_particles")
+	.set(LANGUAGE_ID.English, "Max particles on screen")
+	.set(LANGUAGE_ID.Brazilian, "Máx. de partículas na tela")
+	.finalize();
+
 #endregion
 
 setButtons = function() {
@@ -138,30 +123,28 @@ setButtons = function() {
 		return TRANSLATION.Get("menu_pause_" + val);
 	}
 	
+	var c0 = make_color_rgb(35, 35, 35);
+	
 	homeButtons = [
-		Button(t("resume"), c_white, c_black, function(){
+		new Button(t("resume"), c0, c_black, function(){
 			PauseMenu.active = false;
 		}),
 		
-		Button(t("options"), c_green, c_black, function(){
+		new Button(t("options"), c0, c_black, function(){
 			setPage(MENU_PAGE.Options);
 		}),
 		
-		Button(t("about"), c_red, c_black, function(){
-			setPage(MENU_PAGE.Dev);
-		}),
-		
-		Button(t("quit"), c_orange, c_blue, function(){
+		new Button(t("quit"), c0, c_blue, function(){
 			game_end();
 		}),
 	];
 	
 	optionButtons = [
-		Button(t("return"), c_blue, c_white, function(){
+		new Button(t("return"), c0, c_white, function(){
 			setPage(MENU_PAGE.Home);
 		}),
 		
-		Button(TRANSLATION.Get("language_" + string(Language)), c_white, c_white, function(){
+		new Button(TRANSLATION.Get("language_" + string(Language)), c0, c_white, function(){
 			if (Language < LANGUAGE_ID.Count - 1) {
 				Language ++;
 			} else {
@@ -169,73 +152,63 @@ setButtons = function() {
 			}
 		}),
 		
-		Button(t("graphics"), c_fuchsia, c_black, function(){
+		new Button(t("graphics"), c0, c_black, function(){
 			setPage(MENU_PAGE.OptionsGraphics);
 		}),	
 	
-		Button(t("audio"), c_aqua, c_black, function(){
+		new Button(t("audio"), c0, c_black, function(){
 			setPage(MENU_PAGE.OptionsAudio);
 		}),	
 	];
 
 	optionGraphicButtons = [
-		Button(t("return"), c_blue, c_white, function(){
+		new Button(t("return"), c0, c_white, function(){
 			setPage(MENU_PAGE.Options);
 		}),
 	
-		Button(t("scanlines"), make_color_rgb(35, 35, 35), c_white, function(){
+		new Button(t("scanlines"), c0, c_white, function(){
 			Settings.graphics.drawScanlines = !Settings.graphics.drawScanlines;
 		}),
 	
-		Button(t("ui"), make_color_rgb(35, 35, 35), c_white, function(){
+		new Button(t("ui"), c0, c_white, function(){
 			Settings.graphics.drawUI = !Settings.graphics.drawUI;
 		}),
+		
+		new ButtonSlider(t("particles"), c0, Style.sliderBackground, 
+								function(){ return Settings.graphics.maxParticlesOnScreen; },
+								function(v){ Settings.graphics.maxParticlesOnScreen = clamp(v, 0, 1000); },
+								1000.00, 1),
+		
 	];
 
 	optionAudioButtons = [
-		Button(t("return"), c_blue, c_white, function(){
+		new Button(t("return"), c0, c_white, function(){
 			setPage(MENU_PAGE.Options);
 		}),
 	
-		ButtonSlider(t("volume"), $FFCBA646, Style.sliderBackground, 
+		new ButtonSlider(t("volume"), c0, Style.sliderBackground, 
 								function(){ return Settings.audio.volume; },
-								function(v){ Settings.audio.volume = clamp(v, 0, 1); settings_save(); },
+								function(v){ Settings.audio.volume = clamp(v, 0, 1); },
 								1.00, 0.005),
 	
-		ButtonSlider(t("music"), make_color_rgb(200, 200, 80), Style.sliderBackground, 
+		new ButtonSlider(t("music"), c0, Style.sliderBackground, 
 								function(){ return Settings.audio.music; },
-								function(v){ Settings.audio.music = clamp(v, 0, 1); settings_save(); },
+								function(v){ Settings.audio.music = clamp(v, 0, 1); },
 								1.00, 0.005),
 	
-		ButtonSlider(t("sfx"), make_color_rgb(170, 130, 220), Style.sliderBackground, 
+		new ButtonSlider(t("sfx"), c0, Style.sliderBackground, 
 								function(){ return Settings.audio.sfx; },
-								function(v){ Settings.audio.sfx = clamp(v, 0, 1); settings_save(); },
+								function(v){ Settings.audio.sfx = clamp(v, 0, 1); },
 								1.00, 0.005),
-	];
-
-	devButtons = [
-		Button(t("return"), c_blue, c_white, function(){
-			setPage(MENU_PAGE.Home);
-		}),
-	
-		Button("discord", make_color_rgb(100, 100, 255), c_white, function(){
-			url_open("https://discord.gg/hkfcYf8pDS");
-		}),
-	
 	];
 
 }
 
 setButtons();
-
 buttonIndex = 0;
-menuWidth = 100;
-menuHeight = HEIGHT;
-menuPosX = -menuWidth * 3.5;
-menuPosXFinal = menuWidth;
-menuSelectedButtonAngle = 0;
+menuWidth = 550;
 
-drawButtons = function(arr) {
+drawButtons = function(arr = homeButtons) {
 	if (!active) return;
 	
 	var click				= (Keymap.select);
@@ -246,116 +219,73 @@ drawButtons = function(arr) {
 	var lefthold		= (Keymap.selectLeftHold);
 	var righthold		= (Keymap.selectRightHold);
 	
-	var xx = menuPosX;
 	var c0 = c_black;
-	var scale = 0.75;
+	var scale = 1;
 	
 	var buttonPadding = 1.25;
 
 	for (var i = 0; i < array_length(arr); i++) {
 		var b = arr[i];
 		var str = b.name;
-		var height = string_height(str) * buttonPadding * scale;
 		
-		var back = menuButtonBackground;
-		var fore = menuButtonForeground;
+		var shift = 0;
+		
+		if (buttonIndex > 5) {
+			shift = buttonIndex - 5;
+		}
+		
+		var ii = i - shift;
+		
+		var width = string_width(str) * scale;
+		var height = string_height(str) * buttonPadding * scale;
 		
 		str = string_insert(" ", str, 0);
 		str = string_insert(str, " ", 0);
 		
+		var buttonBackground = c_ltgray;
+		var buttonForeground = c_white;
+		
+		var screenMargin = 50;
+		
 		if (buttonIndex == i) {
 			//str = string_insert("> ", str, 0);
 			//str = string_insert(str, " <", 0);
+			draw_rectangle_color(
+				0, screenMargin + ii * height, 
+				menuWidth, screenMargin + ii * height + height, 
+				
+				buttonBackground, buttonBackground, buttonBackground, buttonBackground, false
+			);
+			buttonForeground = c_black;
 		} else {
-			back = color_darkness(back, 50);
+			buttonBackground = color_darkness(buttonBackground, 50);
 		}
 		
-		var heightOffset = 2;
-		
-		var buttonPosX = xx;
+		draw_set_halign(fa_center);
+		draw_set_valign(fa_top);
 		
 		switch (b.type) {
 			case MENU_BUTTON_TYPE.Method:
-			
-				draw_label(
-					(buttonPosX), (margin) + (i + heightOffset) * height, str, scale, 
-					back, fore, 1
+				
+				draw_text_color(
+					menuWidth / 2, screenMargin + ii * height, b.name, 
+					buttonForeground, buttonForeground, buttonForeground, buttonForeground, 1
 				);
 				
 				break;
 				
 			case MENU_BUTTON_TYPE.Slider:
 				
-				var maxwidth									= 100;
-				var widthMultiplier						= 2;
-				var current										= b.get();
-				var step											= (current / b.variabledefault);
-				var width											= maxwidth * step * widthMultiplier;
-				var arrowButtonWidth					= 50;
-				var color											= c_black;
-				var alpha											= 1;
+				var value = b.get();
 				
-				var leftArrowBackgroundColor	= back;
-				var leftArrowTextColor				= fore;
-				
-				var rightArrowBackgroundColor = back;
-				var rightArrowTextColor				= fore;
-				
-				if (buttonIndex == i) {
-					if (lefthold && current > 0) { 
-						leftArrowBackgroundColor = fore;
-						leftArrowTextColor = back;
-						
-						b.set(current - b.slope); 
-					}
-					
-					if (righthold && current < b.variabledefault) { 
-						rightArrowBackgroundColor = fore;
-						rightArrowTextColor = back;
-						
-						b.set(current + b.slope); 
-					}
-				}
-				
-				if (width < 50) {
-					color = c_white;
-				}
-				
-				var x0 = buttonPosX;
-				
-				// Left Button
-				draw_label_width(
-					buttonPosX,
-					margin + (i + heightOffset) * height,
-					"<",
-					arrowButtonWidth, arrowButtonWidth, scale, leftArrowBackgroundColor, leftArrowTextColor, alpha
+				draw_text_color(
+					menuWidth / 2, screenMargin + ii * height, b.name + $": {value}", 
+					buttonForeground, buttonForeground, buttonForeground, buttonForeground, 1
 				);
-				
-				// Progress bar
-				var padding = 5;
-				var pbx = buttonPosX + arrowButtonWidth * scale
-				
-				draw_label_width(
-					pbx,
-					margin + (i + heightOffset) * height,
-					" ", width - padding, maxwidth - padding, scale, b.backgroundColor, b.textColor, alpha
-				);
-				
-				// Right Button
-				draw_label_width(
-					buttonPosX + ((arrowButtonWidth + maxwidth * widthMultiplier) * scale),
-					margin + (i + heightOffset) * height,
-					">",
-					arrowButtonWidth, arrowButtonWidth, scale, rightArrowBackgroundColor, rightArrowTextColor, alpha
-				);
-				
-				draw_set_halign(fa_left);
-				draw_text_transformed_color(pbx, margin + (i + heightOffset) * height, str, scale, scale, 0, color, color, color, color, 1);
-				
-				draw_set_halign(fa_center);
 				
 				break;
 		}
+		
 	}
 	
 	if (Debug.console) return;
@@ -363,39 +293,52 @@ drawButtons = function(arr) {
 	if (click && arr[buttonIndex].type == MENU_BUTTON_TYPE.Method) {
 		arr[buttonIndex].fn();
 		setButtons();
-		if (arr[buttonIndex].goback) buttonIndex = 0;
+		if (arr[buttonIndex].goback) then buttonIndex = 0;
 	}
-			
-	if (up && buttonIndex > 0) {
+	
+	if (lefthold && arr[buttonIndex].type == MENU_BUTTON_TYPE.Slider) {
+		var b = arr[buttonIndex];
+		
+		var current = b.get();
+		b.set( current - b.slope );
+		
+		setButtons();
+	}
+	
+	if (righthold && arr[buttonIndex].type == MENU_BUTTON_TYPE.Slider) {
+		var b = arr[buttonIndex];
+		
+		var current = b.get();
+		b.set( current + b.slope );
+		
+		setButtons();
+	}
+	
+	var len = array_length(arr);
+	if (up && buttonIndex > -1) {
 		buttonIndex --;
 		//audio_stop_sound(snd_select_menu);
 		//audio_play_sound(snd_select_menu, 0, false, 1, 0, random_range(0.87, 1.00));
-	};
+		if (buttonIndex == -1) then buttonIndex = len - 1;
+	}
 	
-	if (down && buttonIndex < array_length(arr) - 1) {
+	if (down && buttonIndex < len) {
 		buttonIndex ++;
 		//audio_stop_sound(snd_select_menu);
 		//audio_play_sound(snd_select_menu, 0, false, 1, 0, random_range(0.87, 1.00));
-	};
+		if (buttonIndex == len) then buttonIndex = 0;
+	}
 }
 
 drawMenu = function() {
+	if (!active) return;
 	
 	draw_set_font(fnt_menu);
 	
-	var c0 = 0x000;
+	var c0 = c_black;
 	
-	draw_set_alpha(0.5 * (menuPosX / menuPosXFinal));
-	
-	draw_rectangle_color(0, 0, WIDTH, HEIGHT, c_black, c_black, c_black, c_black, false);
-	
-	gpu_set_blendmode(bm_add);
-	
-	var offsetx = 200;
-	draw_rectangle_color(-offsetx, 0, WIDTH - offsetx, HEIGHT, backgroundColor, c_black, c_black, backgroundColor, false);
-	
-	gpu_set_blendmode(bm_normal);
-	
+	draw_set_alpha(0.65);
+	draw_rectangle_color(0, 0, menuWidth, HEIGHT, c0, c0, c0, c0, false);
 	draw_set_alpha(1);
 	
 	

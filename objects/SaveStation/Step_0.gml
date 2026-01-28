@@ -42,5 +42,4 @@ if (active) {
 		SaveManager.SavePlayer(x - 1, y - Player.sprite_height / 2);
 		SaveManager.Save();
 	}
-	
 }

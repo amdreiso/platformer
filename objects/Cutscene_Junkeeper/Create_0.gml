@@ -75,7 +75,7 @@ cutscene_append(
 			
 		})
 		.onEnd(function(){
-			Level.setBackgroundSong(snd_boss1, true)
+			Level.setBackgroundSong(snd_march_of_the_robots, true)
 			camera_focus(Player);
 			//camera_set_zoom(CAMERA_ZOOM_DEFAULT);
 		})

@@ -16,13 +16,20 @@ function Inventory() constructor {
 	
 	self.section = INVENTORY_SECTION.Items;
 	self.itemSelected = -1;
+	self.prompt = false;
 	
 	// Equipment, armor, swords, etc
 	self.equipment = {
-		armor: {},
+		armor: new Tool(-1),
 		sword: new Tool(-1),
 		
 	};
+	
+	static CloseGUI = function() {
+		self.Sort();
+		self.prompt = false;
+		self.itemSelected = -1;
+	}
 	
 	static Sort = function() {
 		array_sort(self.content, function(a, b) {
@@ -48,6 +55,9 @@ function Inventory() constructor {
 		for (var i = 0; i < array_length(self.content); i++) {
 			if (self.content[i].itemID == itemID) {
 				array_delete(self.content, i, 1);
+				if (self.slotIndex > 0) {
+					self.slotIndex --;
+				}
 			}
 		}
 		self.Sort();
@@ -60,6 +70,10 @@ function Inventory() constructor {
 		if (itemID == ITEM_ID.Gold) {
 			Player.gold ++;
 			ACHIEVEMENT.Try(ACHIEVEMENT_TYPE.Item);
+			return;
+		}
+		
+		if (itemID == ITEM_ID.Battery) {
 			return;
 		}
 		
@@ -119,6 +133,7 @@ function Inventory() constructor {
 	self.sectionItemLeft = 0;
 	
 	static Draw = function() {
+		print(self.itemSelected);
 		var scale = Style.guiScale;
 		
 		// Draw half transparent black rectangle 
@@ -132,7 +147,6 @@ function Inventory() constructor {
 		var padding = 15;
 		var radius = 10;
 		var alpha = 0.95;
-		static prompt = false;
 		
 		#region STATS
 		
@@ -159,10 +173,22 @@ function Inventory() constructor {
 		draw_set_halign(fa_center);
 		draw_text_color(x0 - plSlotMargin, y0 + plSlotSize - 5, TRANSLATION.Get("gui_inventory_slot_armor"), c_white, c_white, c_white, c_white, 0.75);
 		
+		var armorID = self.equipment.armor.itemID;
+		if (armorID != -1) {
+			var img = ITEM.Get(armorID).components.icon;
+			if (sprite_exists(img)) then draw_sprite_ext(img, 0, x0 - plSlotMargin, y0, 1, 1, 0, c_white, 1);
+		}
+		
 		// Sword slot
 		rect(x0 + plSlotMargin, y0, plSlotSize, plSlotSize, c_white, true);
 		draw_set_halign(fa_center);
 		draw_text_color(x0 + plSlotMargin, y0 + plSlotSize - 5, TRANSLATION.Get("gui_inventory_slot_sword"), c_white, c_white, c_white, c_white, 0.75);
+		
+		var swordID = self.equipment.sword.itemID;
+		if (swordID != -1) {
+			var img = ITEM.Get(swordID).components.icon;
+			if (sprite_exists(img)) then draw_sprite_ext(img, 0, x0 + plSlotMargin, y0, 1, 1, 0, c_white, 1);
+		}
 		
 		// Modules
 		var plSlotBottomY = 190;
@@ -194,7 +220,6 @@ function Inventory() constructor {
 		
 			draw_sprite_ext(icon1, 0, x0, plSlotBottomY, iconScale, iconScale, 0, c_white, 1);
 		}
-		
 		
 		// Module 3
 		rect(x0 + plSlotMargin / plSlotModuleMargin, plSlotBottomY, plSlotSize, plSlotSize, c_white, true);
@@ -261,10 +286,10 @@ function Inventory() constructor {
 			
 			self.DrawSlot(xx - (width * 0.65 - 2 * padding) / 2 + padding, yy, i, slotSize, i - self.slotIndex, color);
 			
-			if (Keymap.select && self.itemSelected == -1 && !prompt) {
+			if (Keymap.select && self.itemSelected == -1 && !self.prompt) {
 				self.itemSelected = i;
 				print($"Inventory: selected item {TRANSLATION.Get("item_" + string(self.content[self.itemSelected].itemID))}");
-				prompt = true;
+				self.prompt = true;
 				Keymap.select = false; // consume
 			}
 		}
@@ -317,7 +342,7 @@ function Inventory() constructor {
 		});
 		
 		var moduleOption = function() {
-			return new Option()
+			return new Option();
 		}
 		
 		if (self.itemSelected != -1) {
@@ -328,7 +353,6 @@ function Inventory() constructor {
 			
 			var type = ITEM.GetType(itemID);
 			static optionIndex = 0;
-			
 			
 			
 			switch (type) {
@@ -465,16 +489,19 @@ function Inventory() constructor {
 				
 			}
 			
-			if (Keymap.select && prompt) {
+			if (Keymap.select && self.prompt) {
 				options[optionIndex].fn(itemID);
 				optionIndex = 0;
-				prompt = false;
+				self.prompt = false;
 					
 				self.itemSelected = -1;
 				Keymap.select = false; // consume
 			}
 		}
 	}
+	
+	
+	
 	
 	
 }

@@ -45,7 +45,6 @@ function SaveSystem() constructor {
 	 */
 	static Restore = function() {
 		self.GetDefaultSaveState();
-		
 		SaveManager.Save();
 	}
 	
@@ -64,26 +63,22 @@ function SaveSystem() constructor {
 		};
 		
 		var progression = {
-		beggining_cutscene: {
-			played: true,
-		},
-		
-		cave_entrance: {
-			hidden_wall_0: {
-				isBroken: false,
+			beggining_cutscene: {
+				played: true,
 			},
-			
-			robot_0: {
-				isFixed: false,
-			},
-		},
 		
-		dump_yard: {
-			boss_0: {
-				defeated: false,
-			}
-		},
-	}
+			cave_entrance: {
+				hidden_wall_0: {
+					isBroken: false,
+				},
+			},
+		
+			dump_yard: {
+				boss_0: {
+					defeated: false,
+				}
+			},
+		}
 		
 		SaveState.player = player;
 		SaveState.progression = progression;
@@ -112,3 +107,8 @@ function save_manager(){
 	SaveManager.Load();
 	
 }
+
+
+
+
+

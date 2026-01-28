@@ -8,6 +8,6 @@ function player_attack_check(fn = function(obj){}, setUsed = true, sound=true){
 	fn(PlayerAttack);
 	
 	if (setUsed) then PlayerAttack.used = true;
-	if (sound) then sound_play(SOUND_TYPE.SFX, snd_hit1, false, 0.2, 1);
+	if (sound) then sound_play(SOUND_TYPE.SFX, snd_player_attack, false, 0.5, [0.60, 0.80]);
 	
 }

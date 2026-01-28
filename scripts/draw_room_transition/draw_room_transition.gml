@@ -21,7 +21,7 @@ function draw_room_transition(){
 				pos.y + sprite_get_height(Player.sprite_index) / 2
 			);
 			
-			if (transitionCooldown > transitionCooldownTime) {
+			if (transitionCooldown > 3) {
 				room_goto(transitionOutput);
 				
 				Level.newRoom = true;
@@ -30,6 +30,8 @@ function draw_room_transition(){
 				Player.x = newPos.x;
 				Player.y = newPos.y;
 				
+				camera_set_position(Player.x, Player.y);
+	
 				transition = false;
 			}
 			

@@ -2,9 +2,50 @@
 surface = surface_create(room_width, room_height);
 
 
+// Signals sent to objects with the same signalID across rooms
+signalSeek				= false;
+signalCallback		= new Callback();
+signals						= {};
+signals.list			= [];
+signals.Send			= function(val = new Signal(0)) {
+	signalSeek = true;
+	array_push(signals.list, val);
+	print($"Signal {val.signalID} sent for {val.time} frames");
+}
+signals.Seek = function() {
+	if (signalSeek) {
+		signalCallback.Run(self);
+		signalSeek = false;
+		print("Signal seek");
+	}
+}
+signals.Update		= function() {
+	// if new signal is sent, interactable objects will reply with a callback
+	signals.Seek();
+	
+	for (var i = 0; i < array_length(signals.list); i++) {
+		var s = signals.list[i];
+		s.time = max(0, s.time - GameSpeed);
+		if (s.time <= 0) {
+			signalSeek = true;
+			signals.Seek();
+			array_delete(signals.list, i, 1);
+		}
+	}
+}
+signals.Has				= function(signalID) {
+	for (var i = 0; i < array_length(signals.list); i++) {
+		var s = signals.list[i];
+		if (s.signalID == signalID) {
+			return true;
+		}
+	}
+	return false;
+}
+
+
 // Room
 roomCode = function(){};
-
 roomInstances = ds_map_create();
 
 // Set every room with an array as room instances
@@ -199,6 +240,8 @@ checkPlayerTransitions = function(level) {
 			var py = Player.y div ROOM_TILE_HEIGHT;
 			
 			//print($"tx: {tx} px: {px} | ty: {ty} py: {py} | side: {side} tside: {t.side}");
+			
+			print($"Level: tx: {tx} ty: {ty} | px: {px} py: {py}");
 			
 			if (tx == px && ty == py && side == t.side) {
 				return t;

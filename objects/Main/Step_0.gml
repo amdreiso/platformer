@@ -120,11 +120,17 @@ if (keyboard_check(vk_control)) {
 
 
 // Debug
-if (keyboard_check_pressed(vk_f3)) {
+if (keyboard_check_released(vk_f3)) {
 	Debug.debug = !Debug.debug;
 	
 	if (keyboard_check(ord("A"))) {
 		Debug.drawAttackCommandInput = !Debug.drawAttackCommandInput;
+		print("DEBUG: Display attack command input");
+	}
+	
+	if (keyboard_check(ord("S"))) {
+		Debug.displayLevelSignals = !Debug.displayLevelSignals;
+		print("DEBUG: Display level signals");
 	}
 }
 

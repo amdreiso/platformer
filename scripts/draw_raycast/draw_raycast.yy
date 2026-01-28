@@ -5,8 +5,8 @@
   "isDnD":false,
   "name":"draw_raycast",
   "parent":{
-    "name":"draw",
-    "path":"folders/Scripts/draw.yy",
+    "name":"raycast",
+    "path":"folders/Scripts/raycast.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

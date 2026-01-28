@@ -1,11 +1,14 @@
 
-x += hsp + knockback.x * GameSpeed;
-y += vsp + knockback.y * GameSpeed;
+x += hsp * knockback.x * GameSpeed;
+y += vsp * knockback.y * GameSpeed;
+
+if (hspFactor != 0) then hsp = lerp(hsp, hspTarget, hspFactor);
+if (vspFactor != 0) then vsp = lerp(vsp, vspTarget, vspFactor);
 
 knockback_apply();
 
 if (roll) {
-	var vel = (hsp + knockback.x);
+	var vel = (hsp * knockback.x);
 	var r = sprite_width / 2;
 	var circumference = r * 2 * pi;
 	var change = (vel / circumference) * 360;

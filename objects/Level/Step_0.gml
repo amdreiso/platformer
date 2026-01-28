@@ -9,6 +9,12 @@ hasBoss = (instance_exists(Boss));
 
 if (newRoom) {
 	
+	// Camera code
+	var zoom = level.components.cameraZoom;
+	camera_set_zoom(zoom);
+	camera_focus(Player);
+	camera_set_position(Player.x, Player.y);
+	
 	screenlog($"Level: entered room {level.components.name}");
 	
 	//SaveManager.Load();
@@ -41,6 +47,8 @@ if (newRoom) {
 	isCutscene = level.components.isCutscene;
 	
 	roomCode = level.components.roomCode;
+	
+	
 	
 	// On load
 	level.components.load();
@@ -114,4 +122,7 @@ roomCode();
 if (!instance_exists(LevelFX)) {
 	instance_create_depth(0, 0, -99999999, LevelFX);
 }
+
+signals.Update();
+
 

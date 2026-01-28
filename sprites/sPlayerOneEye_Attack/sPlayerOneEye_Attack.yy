@@ -19,6 +19,7 @@
     {"$GMSpriteFrame":"v1","%Name":"9c9d9178-a6c7-4187-8362-7a0fc0238629","name":"9c9d9178-a6c7-4187-8362-7a0fc0238629","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
     {"$GMSpriteFrame":"v1","%Name":"a710635f-16a0-439f-9a3f-b29fb23089ea","name":"a710635f-16a0-439f-9a3f-b29fb23089ea","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
     {"$GMSpriteFrame":"v1","%Name":"182cffa1-f463-46e7-8f81-996dc3cb5988","name":"182cffa1-f463-46e7-8f81-996dc3cb5988","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"75b57893-8d70-464a-a4d7-f2278abba9b4","name":"75b57893-8d70-464a-a4d7-f2278abba9b4","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
     {"$GMSpriteFrame":"v1","%Name":"31341b14-be37-4bb5-b216-e950edfe384a","name":"31341b14-be37-4bb5-b216-e950edfe384a","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
     {"$GMSpriteFrame":"v1","%Name":"2c0feb9f-f076-4aea-92e8-dd9e59b20cf5","name":"2c0feb9f-f076-4aea-92e8-dd9e59b20cf5","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
     {"$GMSpriteFrame":"v1","%Name":"bf0ac237-0003-406d-8a85-b8142e512b6e","name":"bf0ac237-0003-406d-8a85-b8142e512b6e","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
@@ -58,7 +59,7 @@
     },
     "eventStubScript":null,
     "eventToFunction":{},
-    "length":10.0,
+    "length":11.0,
     "lockOrigin":false,
     "moments":{
       "$KeyframeStore<MomentsEventKeyframe>":"",
@@ -101,14 +102,17 @@
                 "0":{"$SpriteFrameKeyframe":"","Id":{"name":"182cffa1-f463-46e7-8f81-996dc3cb5988","path":"sprites/sPlayerOneEye_Attack/sPlayerOneEye_Attack.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
               },"Disabled":false,"id":"59bcae1b-bd0b-4a28-ba61-3920ee69ed3f","IsCreationKey":false,"Key":6.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
             {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
+                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"75b57893-8d70-464a-a4d7-f2278abba9b4","path":"sprites/sPlayerOneEye_Attack/sPlayerOneEye_Attack.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
+              },"Disabled":false,"id":"9f333732-f01c-4ff7-8be1-240f0eeb4e75","IsCreationKey":false,"Key":7.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
+            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
                 "0":{"$SpriteFrameKeyframe":"","Id":{"name":"31341b14-be37-4bb5-b216-e950edfe384a","path":"sprites/sPlayerOneEye_Attack/sPlayerOneEye_Attack.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
-              },"Disabled":false,"id":"d2df0125-1e48-4526-b95f-bb23a20646c6","IsCreationKey":false,"Key":7.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
+              },"Disabled":false,"id":"d2df0125-1e48-4526-b95f-bb23a20646c6","IsCreationKey":false,"Key":8.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
             {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
                 "0":{"$SpriteFrameKeyframe":"","Id":{"name":"2c0feb9f-f076-4aea-92e8-dd9e59b20cf5","path":"sprites/sPlayerOneEye_Attack/sPlayerOneEye_Attack.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
-              },"Disabled":false,"id":"b274d17f-4fe6-4f33-a6ca-d05d9ca3a703","IsCreationKey":false,"Key":8.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
+              },"Disabled":false,"id":"b274d17f-4fe6-4f33-a6ca-d05d9ca3a703","IsCreationKey":false,"Key":9.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
             {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
                 "0":{"$SpriteFrameKeyframe":"","Id":{"name":"bf0ac237-0003-406d-8a85-b8142e512b6e","path":"sprites/sPlayerOneEye_Attack/sPlayerOneEye_Attack.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
-              },"Disabled":false,"id":"739b6585-259a-4bec-98f4-74f70f71cb32","IsCreationKey":false,"Key":9.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
+              },"Disabled":false,"id":"739b6585-259a-4bec-98f4-74f70f71cb32","IsCreationKey":false,"Key":10.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
           ],"resourceType":"KeyframeStore<SpriteFrameKeyframe>","resourceVersion":"2.0",},"modifiers":[],"name":"frames","resourceType":"GMSpriteFramesTrack","resourceVersion":"2.0","spriteId":null,"trackColour":0,"tracks":[],"traits":0,},
     ],
     "visibleRange":null,

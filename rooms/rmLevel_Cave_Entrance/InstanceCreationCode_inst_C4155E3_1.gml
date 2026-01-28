@@ -1,4 +1,3 @@
 
-ID = 0;
-
-deactivateTime = 5 * 60;
+signalID = 0;
+time = 5 * 60;

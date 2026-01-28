@@ -15,7 +15,9 @@ function level_init() {
 			roomCode: function(){},
 			transitions: [],
 			section: LEVEL_SECTION.Caves,
-				
+			
+			cameraZoom: CAMERA_ZOOM_DEFAULT,
+			
 			mapOffsetPos: new Vec2(),
 			mapTileColor: c_aqua,
 		};
@@ -23,6 +25,7 @@ function level_init() {
 	
 	LEVEL = new Registry();
 	LEVEL.SetDefaultComponents(defaultComponents());
+	
 	var TransitionSet = function(side, x, y, roomID, playerOffset = new Vec2(), isHidden = false) {
 		var t = {};
 			
@@ -37,16 +40,29 @@ function level_init() {
 	}
 	
 	
+	LEVEL.Register(rmTEST, {
+		name : "TEST",
+		dimension : DIMENSION_ID.Main,
+		
+		transitions : [
+		],
+	});
+	
+	
 	#region CAVE
+	
+	var CAVE_backgroundSong = snd_dreamsOfAnElectricMind;
 	
 	LEVEL.Register(rmLevel_Cave_Entrance, {
 		name : "Cave Entrance",
 		dimension : DIMENSION_ID.Main,
 		
+		backgroundSong : CAVE_backgroundSong,
+		
 		transitions : [
 			TransitionSet("up", 0, 0, rmLevel_Cave_SpikeCorridor),
 			TransitionSet("left", 0, 0, rmLevel_Cave_Hidden_1, new Vec2(0, 0), true),
-			TransitionSet("right", 2, 1, rmLevel_Cave_Corridor0),
+			TransitionSet("right", 3, 1, rmLevel_Cave_Corridor0),
 		],
 		
 		load: function() {
@@ -68,8 +84,10 @@ function level_init() {
 		name : "Cave's Mysterious Portal",
 		dimension : DIMENSION_ID.Main,
 		
+		backgroundSong : CAVE_backgroundSong,
+		
 		transitions : [
-			TransitionSet("right", 0, 0, rmLevel_Cave_Entrance),
+			TransitionSet("right", 1, 0, rmLevel_Cave_Entrance),
 		],
 	});
 	
@@ -77,9 +95,11 @@ function level_init() {
 		name : "Corridor",
 		dimension : DIMENSION_ID.Main,
 		
+		backgroundSong : CAVE_backgroundSong,
+		
 		transitions : [
 			TransitionSet("left", 0, 1, rmLevel_Cave_Entrance),
-			TransitionSet("right", 1, 1, rmLevel_Cave_Elevator),
+			TransitionSet("right", 2, 1, rmLevel_Cave_Elevator),
 			TransitionSet("down", 1, 2, rmLevel_Cave_Junkyard, new Vec2(2, 2)),
 		],
 	});
@@ -87,6 +107,8 @@ function level_init() {
 	LEVEL.Register(rmLevel_Cave_Elevator, {
 		name : "Elevator",
 		dimension : DIMENSION_ID.Main,
+		
+		backgroundSong : CAVE_backgroundSong,
 		
 		transitions : [
 			TransitionSet("left", 0, 1, rmLevel_Cave_Corridor0),
@@ -97,8 +119,10 @@ function level_init() {
 		name : "Palace Entrance",
 		dimension : DIMENSION_ID.Main,
 		
+		backgroundSong : CAVE_backgroundSong,
+		
 		transitions : [
-			TransitionSet("right", 2, 0, rmLevel_Cave_SaveRoom),
+			TransitionSet("right", 3, 0, rmLevel_Cave_SaveRoom),
 			TransitionSet("left", 0, 0, rmLevel_Cave_Village, new Vec2(0, 9)),
 			TransitionSet("down", 0, 1, rmLevel_Cave_Entrance),
 		],
@@ -108,10 +132,12 @@ function level_init() {
 		name : "Village",
 		dimension : DIMENSION_ID.Main,
 		
-		transitions : [
-			TransitionSet("right", 3, 0, rmLevel_Cave_SpikeCorridor),
-		],
+		backgroundSong : CAVE_backgroundSong,
 		
+		transitions : [
+			TransitionSet("right", 4, 1, rmLevel_Cave_SpikeCorridor, new Vec2(0, -9)),
+			TransitionSet("down", 1, 2, rmLevel_Cave_Clock),
+		],
 		
 		roomCode : function() {
 			parallax_set("Parallax_1", 0.5);
@@ -123,11 +149,33 @@ function level_init() {
 		}
 	});
 	
+	LEVEL.Register(rmLevel_Cave_Clock, {
+		name : "Clock",
+		dimension : DIMENSION_ID.Main,
+		
+		backgroundSong : CAVE_backgroundSong,
+		
+		transitions : [
+			TransitionSet("up", 1, 0, rmLevel_Cave_Village),
+		],
+		
+		cameraZoom: 2,
+		
+		load : function() {
+		},
+		
+		roomCode : function() {
+		}
+	});
+	
 	LEVEL.Register(rmLevel_Cave_Junkyard, {
 		name : "Dump Yard",
 		dimension : DIMENSION_ID.Main,
 		
+		backgroundSong : CAVE_backgroundSong,
+		
 		transitions : [
+			TransitionSet("up", 1, 0, rmLevel_Cave_Corridor0),
 		],
 		
 		load : function() {
@@ -153,8 +201,28 @@ function level_init() {
 		name : "Save Room",
 		dimension : DIMENSION_ID.Main,
 		
+		backgroundSong : CAVE_backgroundSong,
+		
 		transitions : [
-			TransitionSet("left", 0, 0, rmLevel_Cave_SpikeCorridor)
+			TransitionSet("left", 0, 0, rmLevel_Cave_SpikeCorridor),
+			TransitionSet("right", 1, 0, rmLevel_Cave_MiningStrip)
+		],
+		
+		load : function() {
+		},
+		
+		roomCode : function() {
+		}
+	});
+	
+	LEVEL.Register(rmLevel_Cave_MiningStrip, {
+		name : "Mining Strip",
+		dimension : DIMENSION_ID.Main,
+		
+		backgroundSong : CAVE_backgroundSong,
+		
+		transitions : [
+			TransitionSet("left", 0, 0, rmLevel_Cave_SaveRoom)
 		],
 		
 		load : function() {
@@ -177,6 +245,10 @@ function level_init() {
 		],
 	});
 	
+	#endregion
+	
+	
+	
 	LEVEL.Register(rmLevel_Skartobreke, {
 		name : "Skartobreke",
 		dimension : DIMENSION_ID.Main,
@@ -184,9 +256,6 @@ function level_init() {
 		transitions : [
 		],
 	});
-	
-	
-	#endregion
 	
 }
 

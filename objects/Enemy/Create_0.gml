@@ -3,9 +3,13 @@
 behavior = 0;
 isSolid = true;
 target = Player;
-lightLevel = 16;
-lightAlpha = 1;
-lightColor = c_red;
+
+
+var light = instance_create_depth(x, y, depth, Light);
+light.intensity = 5.0;
+
+children = new Children();
+children.Append(light);
 
 effects = [];
 
@@ -26,6 +30,8 @@ spd = defaultSpd;
 hsp = 0;
 hspLast = 0;
 vsp = 0;
+hspTotal = 0;
+vspTotal = 0;
 knockback = new Vec2();
 applyGravity = true;
 applyGroundCollisions = true;
@@ -49,8 +55,11 @@ movement = function() {
 	// Knockback
 	knockback_apply();
 	
-	x += (hsp + knockback.x) * GameSpeed;
-	y += (vsp + knockback.y) * GameSpeed;
+	hspTotal = hsp * knockback.x;
+	vspTotal = vsp * knockback.y;
+	
+	x += (hspTotal) * GameSpeed;
+	y += (vspTotal) * GameSpeed;
 	
 	if (applyGravity) vsp += Gravity;
 	

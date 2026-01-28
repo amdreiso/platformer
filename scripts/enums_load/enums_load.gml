@@ -35,6 +35,7 @@ enum ITEM_TYPE {
 
 enum ITEM_ID {
 	Gold,
+	Battery,
 	
 	ScrapElectronics,
 	Jetpack,
